@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
-  entry: ["./src/front/js/index.js"],
+  entry: ["./src/js/index.js"],
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "public"),
