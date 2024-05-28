@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Context } from "../../store/appContext";
 import PropTypes from "prop-types";
 import "../../../styles/dashboard.css";
-import { ModifyClient } from "./ModifyClient";
+import { ModifyClient } from "./modifyClient";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { RegisterActivity } from "./RegisterActivity";
