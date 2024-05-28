@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
-import { CourseCard } from "../components/Courses/courseCard";
+import { CourseCard } from "../components/courses/courseCard";
 import { Pricing } from "./pricing";
 import { useNavigate } from "react-router-dom";
 

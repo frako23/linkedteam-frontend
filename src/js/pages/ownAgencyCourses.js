@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
-import { OwnCourseCard } from "../components/Courses/ownCourseCard";
-import CreateCourse from "../components/Courses/createCourse";
+import { OwnCourseCard } from "../components/courses/ownCourseCard";
+import CreateCourse from "../components/courses/createCourse";
 import { Pricing } from "./pricing";
 import { useNavigate } from "react-router-dom";
 import { NoCourses } from "./NoCourses";

@@ -7,7 +7,7 @@ import { Pricing } from "./pricing";
 import { ExportToExcel } from "../components/crm/exportToExcel";
 import SortCRM from "../components/crm/sortCRM";
 import { ImportFromExcel } from "../components/crm/importFromExcel";
-import { Kanban } from "../components/CRM/kanban";
+import { Kanban } from "../components/crm/kanban";
 import { useNavigate } from "react-router-dom";
 
 export const SalesFunnel = () => {

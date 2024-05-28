@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
 import { Pricing } from "./pricing";
-import { TutorialVideoCard } from "../components/Courses/tutorialVideoCard";
+import { TutorialVideoCard } from "../components/courses/tutorialVideoCard";
 
 export const TutorialVideos = () => {
   const { store, actions } = useContext(Context);
