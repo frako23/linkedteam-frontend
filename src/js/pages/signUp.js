@@ -51,7 +51,7 @@ export const SignUp = () => {
   return (
     <div
       className="px-4 py-5 m-0  px-md-5 text-center text-lg-start  background-linkedin"
-      // style={{ height: "100vh", width: "100vw" }}
+      style={{ height: "100vh" }}
     >
       <Toaster />
       <div className="row gx-lg-5 align-items-center mb-5">
