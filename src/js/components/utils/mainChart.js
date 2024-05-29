@@ -17,7 +17,7 @@ export const MainChart = () => {
         marginRight: "1rem",
       }}
     >
-      <h3 className="text-white fw-bold">Tabla de usuarios</h3>
+      <h3 className="fw-bold">Tabla de usuarios</h3>
       <table className="table table-dark table-bordered mb-0">
         <thead>
           <tr>

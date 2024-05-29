@@ -110,10 +110,10 @@ export const Navbar = () => {
             <Link to="/pricing">
               <li className="ps-0">
                 <i
-                  className={`fa-regular fa-money-bill-1 icon-fa ${store.header === "Registra tu pago" ? "active" : "unactive"}`}
+                  className={`fa-regular fa-money-bill-1 icon-fa ${store.header === "Donaciones" ? "active" : "unactive"}`}
                 ></i>
-                <span className="text nav-text">Registra tu pago</span>
-                <span className="tooltip">Registra tu pago</span>
+                <span className="text nav-text">Donaciones</span>
+                <span className="tooltip">Donaciones</span>
               </li>
             </Link>
             <Link to="/tutorialVideos">
