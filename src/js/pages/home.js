@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -15,9 +15,16 @@ import four from "../../img/4.webp";
 export const Home = () => {
   const [menuBar, setMenuBar] = useState(false);
   const { actions } = useContext(Context);
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   useEffect(() => {
     actions.setNotNav(true);
+    if (token) {
+      navigate("/perfil");
+    }
   }, []);
+
+  console.log(token);
   return (
     <>
       {/* comienza la seccion del header */}
