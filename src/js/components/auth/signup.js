@@ -1,12 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/appContext";
-import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import { FormGroup } from "react-bootstrap";
-import Alert from "react-bootstrap/Alert";
 import "../../styles/index.css";
 
 export const Signup = () => {

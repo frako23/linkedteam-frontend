@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 /* eslint-disable no-undef */
 const getState = ({ getStore, getActions, setStore }) => {
   return {
@@ -51,12 +53,12 @@ const getState = ({ getStore, getActions, setStore }) => {
           const resp = await fetch(`${process.env.BACKEND_URL}/token`, opts);
           if (resp.status !== 200) {
             const mensaje = await resp.json();
-            alert(mensaje.msg);
+            toast.error(mensaje.msg);
             return false;
           }
           const data = await resp.json();
           // console.log("Esto vino del backend", data);
-          sessionStorage.setItem("token", data.access_token);
+          localStorage.setItem("token", data.access_token);
 
           // console.log(data);
           setStore({ token: data.access_token });
@@ -68,7 +70,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       syncTokenFromSessionStore: () => {
         const actions = getActions();
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("token");
         // console.log(
         //   "La aplicacion acaba de cargar, sincronizando el token de session storage"
         // );
@@ -101,7 +103,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           if (!response.ok) {
             let danger = await response.json();
-            alert(danger);
+            toast.error(danger);
             return false;
           }
 
@@ -642,14 +644,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       logout: () => {
         const store = getStore();
-        sessionStorage.removeItem("token");
+        localStorage.removeItem("token");
         // console.log("Se han borrado todos los tokens", store.token);
         setStore({ token: null });
       },
 
       setNotification: (mensaje) => {
         // console.log(mensaje);
-        alert(mensaje);
+        toast.success(mensaje);
         setStore({ notification: mensaje });
         setTimeout(() => {
           setStore({ notification: undefined });
