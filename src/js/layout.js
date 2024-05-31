@@ -24,6 +24,7 @@ import { SalesFunnel } from "./pages/SalesFunnel";
 import { Clients } from "./pages/Clients";
 import { Toaster } from "react-hot-toast";
 import { AssociateSalesFunnel } from "./pages/AssociateSalesFunnel";
+import { Bugs } from "./pages/Bugs";
 
 //create your first component
 const Layout = () => {
@@ -61,6 +62,7 @@ const Layout = () => {
             <Route element={<VideoTutorial />} path="/videoTutorial/:theid" />
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<SingleManager />} path="/singleManager/:theid" />
+            <Route element={<Bugs />} path="/bugs" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />

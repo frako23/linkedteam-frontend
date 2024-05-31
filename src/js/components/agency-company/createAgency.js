@@ -22,10 +22,6 @@ function CreateAgency() {
     setAgency({ ...agency, [target.name]: target.value });
   };
 
-  useEffect(() => {
-    actions.getCompany();
-  }, []);
-
   // console.log(store.company);
 
   const handleSubmit = (e) => {

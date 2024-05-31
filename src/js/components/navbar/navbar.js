@@ -125,6 +125,15 @@ export const Navbar = () => {
                 <span className="tooltip">Videos tutoriales</span>
               </li>
             </Link>
+            <Link to="/bugs">
+              <li className="ps-0">
+                <i
+                  className={`bx bx-bug icon ${store.header === "Reportar errores" ? "active" : "unactive"}`}
+                ></i>
+                <span className="text nav-text">Reportar errores</span>
+                <span className="tooltip">Reportar errores</span>
+              </li>
+            </Link>
             <a href="#">
               <i
                 className={`${toggle} toggle bx bx-chevron-right`}

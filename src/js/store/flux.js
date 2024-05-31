@@ -322,7 +322,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
-          actions.getUsuario();
+          // actions.getUsuario();
           // console.log("This came from the backend", data);
           return true;
         } catch (error) {

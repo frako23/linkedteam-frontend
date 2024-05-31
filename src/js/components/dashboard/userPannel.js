@@ -14,9 +14,9 @@ export const UserPannel = () => {
   const idDeUsuario = sessionStorage.getItem("usuario.id");
   let diasDeUso = actions.calcularDiasDeUso(creacionUsuario);
 
-  useEffect(() => {
-    actions.getUsuario();
-  }, [salesGoal]);
+  // useEffect(() => {
+  //   actions.getUsuario();
+  // }, [salesGoal]);
 
   const id = idDeUsuario;
   if (salesGoal !== 0) {

@@ -25,10 +25,6 @@ function SetRoleManager({ userId }) {
     id: "",
   });
 
-  useEffect(() => {
-    actions.getCompany();
-  }, []);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(userRole);

@@ -20,8 +20,6 @@ function SetCompany() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  useEffect(() => actions.getCompany(), []);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(agency);

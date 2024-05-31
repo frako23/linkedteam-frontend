@@ -24,10 +24,6 @@ function postPayment() {
     setPayment({ ...payment, [target.name]: target.value });
   };
 
-  useEffect(() => {
-    actions.getCompany();
-  }, []);
-
   const paymentType = [
     {
       type: "Zelle",
