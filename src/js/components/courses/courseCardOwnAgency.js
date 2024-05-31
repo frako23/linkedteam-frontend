@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 export function CourseCardOwnAgency() {
   const { store, actions } = useContext(Context);
-  useEffect(() => actions.getUsuario(), []);
+  // useEffect(() => actions.getUsuario(), []);
 
   useEffect(() => actions.getCourses(store.usuario.own_agency.id), []);
 

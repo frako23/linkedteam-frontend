@@ -60,11 +60,11 @@ const getState = ({ getStore, getActions, setStore }) => {
           // console.log("Esto vino del backend", data);
           localStorage.setItem("token", data.access_token);
 
-          // console.log(data);
+          console.log(data);
           setStore({ token: data.access_token });
           return true;
         } catch (error) {
-          console.error("Hubo un error al hacer login in");
+          toast.error("Hubo un error al hacer login in");
         }
       },
 
@@ -116,10 +116,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       getUsuario: () => {
-        const store = getStore();
+        const token = localStorage.getItem("token");
         const opts = {
           headers: {
-            Authorization: `Bearer ${store.token} `,
+            Authorization: `Bearer ${token} `,
           },
         };
         const apiURL = `${process.env.BACKEND_URL}/user`;
@@ -138,8 +138,9 @@ const getState = ({ getStore, getActions, setStore }) => {
             sessionStorage.setItem("usuario.lastname", body.lastname);
             sessionStorage.setItem("usuario.role", body.role);
             setStore({ usuario: body });
+            toast.success(`Bienvenid@ a LinkedTeam ${body.name}`);
           })
-          .catch((error) => console.log(error));
+          .catch((error) => toast.error(error.message));
       },
 
       putUserCompany: async (company, id) => {
@@ -168,9 +169,9 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
-          console.error(
+          toast.error(
             "Ha habido un error al colocar la propiedad company del usuario",
-            error
+            error.message
           );
         }
       },

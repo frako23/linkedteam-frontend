@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 export function CourseCard() {
   const { store, actions } = useContext(Context);
 
-  useEffect(() => {
-    actions.getUsuario();
-  }, []);
+  // useEffect(() => {
+  //   actions.getUsuario();
+  // }, []);
 
   useEffect(() => actions.getCourses(store.usuario.manager_id), []);
 

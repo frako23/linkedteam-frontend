@@ -28,7 +28,7 @@ export const Navbar = () => {
     }
   }, [store.usuario.manager_id]);
 
-  console.log(store.courses);
+  // console.log(store.courses);
 
   return (
     <nav

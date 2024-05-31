@@ -6,7 +6,7 @@ import img2 from "../../../img/nohayvideos.jpg";
 
 export function OwnCourseCard() {
   const { store, actions } = useContext(Context);
-  useEffect(() => actions.getUsuario(), []);
+  // useEffect(() => actions.getUsuario(), []);
 
   // useEffect(() => actions.getCourses(store.usuario.own_agency.id), []);
 
