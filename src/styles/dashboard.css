@@ -250,3 +250,11 @@ scroll-container {
   gap: 3vw;
   cursor: pointer;
 }
+
+/* -------------------------- FORMULARIO DE ERRORES ------------------------- */
+.bug-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
