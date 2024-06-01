@@ -6,7 +6,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
+  // Legend,
   LabelList,
 } from "recharts";
 
@@ -92,7 +92,7 @@ export default function DashboardSalesGraphic() {
       <XAxis dataKey="name" />
       <YAxis />
       <Tooltip />
-      <Legend />
+      {/* <Legend /> */}
       <Bar dataKey="pv" fill="#8884d8" minPointSize={5}>
         <LabelList dataKey="name" content={renderCustomizedLabel} />
       </Bar>

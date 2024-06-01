@@ -15,8 +15,9 @@ export const AdminPannel = () => {
           Panel de Administrador
         </h1>
       </div>
-
-      <MainChart />
+      <div className="main-chart">
+        <MainChart />
+      </div>
     </>
   );
 };

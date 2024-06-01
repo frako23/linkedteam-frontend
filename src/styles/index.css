@@ -26,11 +26,6 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
-@media (min-width: 450px) {
-  h1.heading {
-    font-size: 3.55em;
-  }
-}
 
 .login {
   background-color: white;
@@ -72,18 +67,6 @@
   backdrop-filter: saturate(200%) blur(25px);
 }
 
-@media (min-width: 760px) {
-  h1.heading {
-    font-size: 3.05em;
-  }
-}
-
-@media (min-width: 900px) {
-  h1.heading {
-    font-size: 3.25em;
-    margin: 0 0 0.3em;
-  }
-}
 .cardBody {
   width: auto;
   height: auto;
@@ -289,26 +272,6 @@ body {
   /* display: none; */
 }
 
-@media (max-width: 1200px) {
-}
-
-@media (max-width: 991px) {
-}
-
-@media (max-width: 768px) {
-  .password-show {
-    top: 66.5%;
-    /* display: none; */
-  }
-  .password-show-login {
-    top: 41.5%;
-    /* display: none; */
-  }
-}
-
-@media (max-width: 450px) {
-}
-
 /* Espaciado de botones en Componente Main Chart */
 .single-btn {
   display: flex;
@@ -346,4 +309,45 @@ body {
 }
 .toaster {
   margin-top: 5rem;
+}
+
+/* ------------------------- GENERAL MEDIAS QUERIES ------------------------- */
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 991px) {
+  h1.heading {
+    font-size: 3.25em;
+    margin: 0 0 0.3em;
+  }
+  .admin-pannel-header {
+    padding-left: 5rem;
+  }
+  .admin-pannel-header div {
+    padding-left: 5rem;
+  }
+
+  .main-chart {
+    padding-left: 5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  h1.heading {
+    font-size: 3.05em;
+  }
+  .password-show {
+    top: 66.5%;
+    /* display: none; */
+  }
+  .password-show-login {
+    top: 41.5%;
+    /* display: none; */
+  }
+}
+
+@media (max-width: 450px) {
+  h1.heading {
+    font-size: 3.55em;
+  }
 }

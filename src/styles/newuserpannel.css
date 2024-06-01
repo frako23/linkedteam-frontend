@@ -13,3 +13,11 @@
 .n-container {
   background-color: #e4e9f7;
 }
+
+/* ------------------------------ MEDIA QUERIES ----------------------------- */
+
+@media (max-width: 991px) {
+  .d-container {
+    padding-left: 5rem;
+  }
+}
