@@ -36,9 +36,11 @@ export const NewUserPannel = () => {
             </button>
           </div>
         </div>
-        <div className="d-flex justify-content-around">
-          <DashboardSalesGraphic />
-          <div>
+        <div>
+          <div className="graphic">
+            <DashboardSalesGraphic />
+          </div>
+          <div className="justify-content-around graphic-cards">
             <TotalSales />
             <TotalSales />
           </div>

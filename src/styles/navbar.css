@@ -424,3 +424,22 @@ li:hover .tooltip {
 .unactive {
   color: var(--text-color);
 }
+
+/* ------------------------- GENERAL MEDIAS QUERIES ------------------------- */
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 991px) {
+}
+
+@media (max-width: 768px) {
+  .tb-name {
+    display: none;
+  }
+  .lt-name.me-2 {
+    display: none;
+  }
+}
+
+@media (max-width: 450px) {
+}

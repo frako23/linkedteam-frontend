@@ -1,8 +1,8 @@
 /*Contenedor*/
 
 .contenedor {
-  width: 60%;
-  margin: 0 auto;
+  width: 90%;
+  padding-left: 14rem;
   margin-top: 3rem;
 }
 
@@ -16,4 +16,21 @@
   position: absolute;
   top: 0;
   left: 0;
+}
+
+@media (max-width: 768px) {
+  .contenedor {
+    padding-left: 10rem;
+  }
+  .graphic {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 450px) {
+  .contenedor {
+    padding-left: 7rem;
+    width: 95%;
+  }
 }

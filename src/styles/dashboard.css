@@ -38,6 +38,8 @@
   margin-bottom: 2rem;
   margin-left: 3rem;
   /* width: fit-content; */
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .tabla:first-child {
@@ -66,7 +68,7 @@
   margin: 0.5rem;
   width: 17vw;
   height: 67vh;
-  min-width: 13rem;
+  min-width: 17rem;
   min-height: 6.5rem;
   border-radius: 0.3rem;
   box-shadow: 2px 2px 2px 4px rgba(255, 255, 255, 0.1);
@@ -257,4 +259,18 @@ scroll-container {
   align-items: center;
   justify-content: center;
   min-height: 50vh;
+}
+
+/* ------------------------------ MEDIA QUERIES ----------------------------- */
+
+@media (max-width: 768px) {
+  .donation-header {
+    padding-left: 5rem;
+  }
+  .bug-header {
+    padding-left: 5rem;
+  }
+  .n-container > h3 {
+    padding-left: 5rem;
+  }
 }

@@ -8,10 +8,18 @@
   background-color: #e4e9f7;
   /* padding: 6rem, 2rem, 2rem, 0; */
   height: 100vh;
+  padding-left: 7rem;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .n-container {
   background-color: #e4e9f7;
+  padding-left: 3rem;
+}
+
+.graphic-cards {
+  display: flex;
 }
 
 /* ------------------------------ MEDIA QUERIES ----------------------------- */
@@ -19,5 +27,11 @@
 @media (max-width: 991px) {
   .d-container {
     padding-left: 5rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .graphic-cards {
+    display: block;
   }
 }

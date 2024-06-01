@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
-
 import { PricingCard } from "../components/payment/pricingCard";
 
 export const Pricing = () => {
@@ -11,15 +10,17 @@ export const Pricing = () => {
   }, []);
   return (
     <div className="n-container">
-      <h1 className="text-black  text-center pt-6 kanban-head-title">
-        Si <span style={{ color: "#695cfe" }}>LinkedTeam</span> te ha parecido
-        de utilidad
-      </h1>
-      <h3 style={{ paddingBottom: "2rem" }} className="text-center">
-        Aquí puedes{" "}
-        <span style={{ color: "#0d571d", fontWeight: "bolder" }}>apoyar</span>{" "}
-        este proyecto
-      </h3>
+      <div className="donation-header">
+        <h1 className="text-black  text-center pt-6 kanban-head-title">
+          Si <span style={{ color: "#695cfe" }}>LinkedTeam</span> te ha parecido
+          de utilidad
+        </h1>
+        <h3 style={{ paddingBottom: "2rem" }} className="text-center">
+          Aquí puedes{" "}
+          <span style={{ color: "#0d571d", fontWeight: "bolder" }}>apoyar</span>{" "}
+          este proyecto
+        </h3>
+      </div>
 
       <div style={{ paddingLeft: "7rem", paddingRight: "3rem" }}>
         <h5>¡Apoya el futuro de LinkedTeam!</h5>

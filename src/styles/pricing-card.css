@@ -198,3 +198,27 @@ p.aj-des {
 .donation-card {
   width: 100%;
 }
+
+/* ------------------------------ MEDIA QUERIES ----------------------------- */
+
+@media (max-width: 1200px) {
+}
+
+@media (max-width: 991px) {
+  .pricing-body {
+    margin-left: 0px;
+  }
+  .wrapper-pricing-card {
+    display: block;
+    width: fit-content;
+  }
+  .table-pricing-card {
+    min-width: 20rem;
+  }
+}
+
+@media (max-width: 768px) {
+}
+
+@media (max-width: 450px) {
+}

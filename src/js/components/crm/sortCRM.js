@@ -165,6 +165,7 @@ export default function SortCRM() {
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
+          style={{ minWidth: "fit-content" }}
         >
           {filter.trust}
         </button>

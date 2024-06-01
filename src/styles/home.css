@@ -409,3 +409,19 @@ section {
       transparent 100%
     );
 }
+
+/* ------------------------------ MEDIA QUERIES ----------------------------- */
+@media (max-width: 991px) {
+  .courses__container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .container.courses__container {
+    padding-left: 5rem;
+  }
+  .courses__container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

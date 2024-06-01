@@ -32,7 +32,7 @@ export const Bugs = () => {
   }
   return (
     <div className="n-container">
-      <h1 className="text-black  text-center pt-6 kanban-head-title">
+      <h1 className="text-black  text-center pt-6 kanban-head-title bug-header">
         ¿Viste algún error dentro de{" "}
         <span style={{ color: "#695cfe" }}>LinkedTeam</span>?
       </h1>
