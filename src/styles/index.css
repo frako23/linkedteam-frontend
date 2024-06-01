@@ -330,7 +330,7 @@ body {
   }
 
   .main-chart {
-    padding-left: 5rem;
+    padding-left: 3rem;
     overflow-x: auto;
     white-space: nowrap;
   }

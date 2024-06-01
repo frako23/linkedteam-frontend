@@ -361,6 +361,9 @@ li:hover .tooltip {
   .about {
     margin-left: 12rem;
   }
+  .tooltip {
+    display: none;
+  }
 
   .about .image img {
     margin-left: 0;
