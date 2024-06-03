@@ -10,7 +10,7 @@ export const Perfil = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
   useEffect(() => {
-    // actions.getUsuario();
+    actions.getUsuario();
     actions.setHeader("Tablero de control");
     actions.setNotNav(false);
     // actions.closedArray();

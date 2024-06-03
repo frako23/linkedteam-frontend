@@ -24,7 +24,7 @@ export const Home = () => {
     }
   }, []);
 
-  console.log(token);
+  // console.log(token);
   return (
     <>
       {/* comienza la seccion del header */}

@@ -17,9 +17,9 @@ export const Navbar = () => {
     }
   };
 
-  useEffect(() => {
-    actions.getUsuario();
-  }, []);
+  // useEffect(() => {
+  //   actions.getUsuario();
+  // }, []);
   console.log(store.usuario.manager_id);
 
   useEffect(() => {
