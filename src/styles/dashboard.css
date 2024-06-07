@@ -261,8 +261,21 @@ scroll-container {
   min-height: 50vh;
 }
 
+.bugs-response {
+  padding-left: 26rem;
+  padding-right: 21rem;
+}
 /* ------------------------------ MEDIA QUERIES ----------------------------- */
 
+@media (max-width: 1200px) {
+  .bugs-response {
+    padding-left: 14rem;
+    padding-right: 10rem;
+  }
+}
+
+@media (max-width: 991px) {
+}
 @media (max-width: 768px) {
   .donation-header {
     padding-left: 5rem;
@@ -272,5 +285,16 @@ scroll-container {
   }
   .n-container > h3 {
     padding-left: 5rem;
+  }
+  .bugs-response {
+    padding-left: 11rem;
+    padding-right: 7rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .bugs-response {
+    padding-left: 9rem;
+    padding-right: 4rem;
   }
 }

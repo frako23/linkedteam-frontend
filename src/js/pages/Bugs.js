@@ -13,12 +13,7 @@ export const Bugs = () => {
   const [state, handleSubmit] = useForm("xjvnqkdv");
   if (state.succeeded) {
     return (
-      <div
-        style={{
-          paddingLeft: "26rem",
-          paddingRight: "21rem",
-        }}
-      >
+      <div className="bugs-response">
         <img src={logo} style={{ height: "14rem" }} alt="Logo de LinkedTeam" />
         <h3>¡Gracias por tu ayuda!</h3>
         <p>
