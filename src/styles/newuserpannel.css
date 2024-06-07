@@ -19,19 +19,41 @@
 }
 
 .graphic-cards {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
 }
 
 /* ------------------------------ MEDIA QUERIES ----------------------------- */
+
+@media (max-width: 1200px) {
+  .graphic-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+}
 
 @media (max-width: 991px) {
   .d-container {
     padding-left: 5rem;
   }
+  .graphic-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
 }
 
+@media (max-width: 768px) {
+}
 @media (max-width: 450px) {
   .graphic-cards {
     display: block;
+  }
+  .graphic-cards {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 0.5rem;
   }
 }

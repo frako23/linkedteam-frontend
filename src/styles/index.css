@@ -313,6 +313,9 @@ body {
   margin-top: 5rem;
 }
 
+.card-body.py-4 {
+  padding-inline: 2rem;
+}
 /* ------------------------- GENERAL MEDIAS QUERIES ------------------------- */
 @media (max-width: 1200px) {
 }

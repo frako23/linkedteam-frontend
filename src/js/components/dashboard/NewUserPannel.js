@@ -1,9 +1,12 @@
 import React from "react";
 import "../../../styles/newuserpannel.css";
-import DashboardSalesGraphic from "./DashboardSalesGraphic";
+// import DashboardSalesGraphic from "./DashboardSalesGraphic";
 import { TotalSales } from "./TotalSales";
 import { Box } from "../../components/dashboard/box";
 import { TodoBox } from "./TodoBox";
+import { ConversionRate } from "./ConversionRate";
+import { AverageSale } from "./AverageSale";
+import { SalesCycle } from "./SalesCycle";
 
 export const NewUserPannel = () => {
   return (
@@ -12,8 +15,8 @@ export const NewUserPannel = () => {
         <h1 className="h4 pt-3">Resumen del embudo de ventas</h1>
         <Box />
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 className="h2">Reporte de ventas</h1>
-          <div className="btn-toolbar mb-2 mb-md-0">
+          <h1 className="h2">Métricas de ventas</h1>
+          {/* <div className="btn-toolbar mb-2 mb-md-0">
             <div className="btn-group me-2">
               <button
                 type="button"
@@ -34,15 +37,17 @@ export const NewUserPannel = () => {
             >
               This week
             </button>
-          </div>
+          </div> */}
         </div>
         <div>
-          <div className="graphic">
+          {/* <div className="graphic">
             <DashboardSalesGraphic />
-          </div>
+          </div> */}
           <div className="justify-content-around graphic-cards">
             <TotalSales />
-            <TotalSales />
+            <ConversionRate />
+            <AverageSale />
+            <SalesCycle />
           </div>
         </div>
         <h1 className="h4 pt-1">Resumen de tareas pendientes</h1>
