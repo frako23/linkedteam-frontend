@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ export const Home = () => {
   const { actions } = useContext(Context);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+
   useEffect(() => {
     actions.setNotNav(true);
     if (token) {

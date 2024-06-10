@@ -6,8 +6,8 @@ import "../../../styles/navbar.css";
 
 export const TopBar = () => {
   const { store, actions } = useContext(Context);
-  const name = sessionStorage.getItem("usuario.name");
-  const lastName = sessionStorage.getItem("usuario.lastname");
+  const name = localStorage.getItem("usuario.name");
+  const lastName = localStorage.getItem("usuario.lastname");
   const navigate = useNavigate();
   function handleLogOut() {
     actions.logout();

@@ -26,7 +26,7 @@ function CreateProductClient({ clientId }) {
     user_id: 0,
   });
   console.log(clientId);
-  // const id = sessionStorage.getItem("usuario.id");
+  // const id = localStorage.getItem("usuario.id");
   const handleForm = ({ target }) => {
     setClienteProducto({ ...clienteProducto, [target.name]: target.value });
   };

@@ -38,6 +38,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     actions: {
       // Use getActions to call a function within a fuction
       login: async (email, password) => {
+        const actions = getActions();
         const opts = {
           method: "POST",
           headers: {
@@ -62,6 +63,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           console.log(data);
           setStore({ token: data.access_token });
+          actions.getUsuario();
           return true;
         } catch (error) {
           toast.error("Hubo un error al hacer login in");
@@ -132,11 +134,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Ha ocurrido un error");
           })
           .then((body) => {
-            sessionStorage.setItem("usuario.created_at", body.created_at);
-            sessionStorage.setItem("usuario.id", body.id);
-            sessionStorage.setItem("usuario.name", body.name);
-            sessionStorage.setItem("usuario.lastname", body.lastname);
-            sessionStorage.setItem("usuario.role", body.role);
+            localStorage.setItem("usuario.created_at", body.created_at);
+            localStorage.setItem("usuario.id", body.id);
+            localStorage.setItem("usuario.name", body.name);
+            localStorage.setItem("usuario.lastname", body.lastname);
+            localStorage.setItem("usuario.role", body.role);
             setStore({ usuario: body });
             toast.success(`Bienvenid@ a LinkedTeam ${body.name}`);
           })

@@ -14,7 +14,7 @@ export const OwnAgencyCourses = () => {
     actions.setHeader("Cursos para tu equipo");
   }, []);
 
-  const id = sessionStorage.getItem("usuario.id");
+  const id = localStorage.getItem("usuario.id");
   useEffect(() => {
     if (store.usuario.status === "inactive") {
       navigate("/pricing");

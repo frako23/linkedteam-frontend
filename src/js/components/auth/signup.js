@@ -14,7 +14,7 @@ export const Signup = () => {
   const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
   const [agency, setAgency] = useState("");
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);

@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import SetRoleManager from "../admin/setRoleManager";
 // import UserPaymentInformation from "../payment/userPaymentInformation";
 
 export const MainChart = () => {
   const { store, actions } = useContext(Context);
-  actions.getTotalUsuarios();
+  useEffect(() => {
+    actions.getTotalUsuarios();
+  }, []);
 
   return (
     <div

@@ -10,7 +10,7 @@ export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  // const token = sessionStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   const [passwordShowHide, setPasswordShowHide] = useState(true);
   // console.log("Este es tu token", store.token);
 
@@ -19,9 +19,8 @@ export const Login = () => {
     actions.login(email, password);
     // success && navigate("/");
   };
-  useEffect(() => {
-    actions.setNotNav(true);
-  }, []);
+  useEffect(() => actions.setNotNav(true), []);
+
   useEffect(() => {
     if (store.token && store.token != "" && store.token != undefined) {
       // console.log("entrando al use effect");

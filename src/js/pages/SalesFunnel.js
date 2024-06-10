@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 export const SalesFunnel = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-  const role = sessionStorage.getItem("usuario.role");
+  const role = localStorage.getItem("usuario.role");
   useEffect(() => {
     actions.setHeader("Embudo de ventas");
   }, []);

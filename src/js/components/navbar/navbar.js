@@ -6,7 +6,7 @@ import "../../../styles/navbar.css";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
-  const role = sessionStorage.getItem("usuario.role");
+  const role = localStorage.getItem("usuario.role");
   const [toggle, setToggle] = useState("close");
 
   const toggleFunc = () => {
@@ -20,7 +20,6 @@ export const Navbar = () => {
   // useEffect(() => {
   //   actions.getUsuario();
   // }, []);
-  console.log(store.usuario.manager_id);
 
   useEffect(() => {
     if (store.usuario.manager_id) {

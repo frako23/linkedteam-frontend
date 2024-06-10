@@ -10,8 +10,8 @@ import toast from "react-hot-toast";
 export const UserPannel = () => {
   const { store, actions } = useContext(Context);
   const [salesGoal, setSalesGoal] = useState(0);
-  const creacionUsuario = sessionStorage.getItem("usuario.created_at");
-  const idDeUsuario = sessionStorage.getItem("usuario.id");
+  const creacionUsuario = localStorage.getItem("usuario.created_at");
+  const idDeUsuario = localStorage.getItem("usuario.id");
   let diasDeUso = actions.calcularDiasDeUso(creacionUsuario);
 
   // useEffect(() => {

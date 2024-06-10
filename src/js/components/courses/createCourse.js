@@ -19,7 +19,7 @@ function CreateCourse() {
     img_url: "",
     link_url: "",
   });
-  const id = sessionStorage.getItem("usuario.id");
+  const id = localStorage.getItem("usuario.id");
   const handleForm = ({ target }) => {
     setCourses({ ...courses, [target.name]: target.value });
   };

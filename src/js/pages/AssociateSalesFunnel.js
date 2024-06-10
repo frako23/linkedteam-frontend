@@ -14,7 +14,7 @@ export const AssociateSalesFunnel = () => {
   const { store, actions } = useContext(Context);
   const [selected, setSelected] = useState("");
   const [asociadoId, setAsociadoId] = useState("");
-  const id = sessionStorage.getItem("usuario.id");
+  const id = localStorage.getItem("usuario.id");
   useEffect(() => {
     actions.setHeader("CRM Asociados");
   }, []);

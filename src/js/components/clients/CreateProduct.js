@@ -17,7 +17,7 @@ function CreateProduct() {
     product_type: "",
     product_description: "",
   });
-  const id = sessionStorage.getItem("usuario.id");
+  const id = localStorage.getItem("usuario.id");
   const handleForm = ({ target }) => {
     setProducts({ ...products, [target.name]: target.value });
   };
