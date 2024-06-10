@@ -238,25 +238,25 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
-      getAgenciesId: () => {
-        const store = getStore();
-        const opts = {
-          headers: {
-            Authorization: `Bearer ${store.token} `,
-          },
-        };
-        const apiURL = `${process.env.BACKEND_URL}/own_agencies/`;
+      // getAgenciesId: () => {
+      //   const store = getStore();
+      //   const opts = {
+      //     headers: {
+      //       Authorization: `Bearer ${store.token} `,
+      //     },
+      //   };
+      //   const apiURL = `${process.env.BACKEND_URL}/own_agencies/`;
 
-        fetch(apiURL, opts)
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            }
-            throw new Error("Ha ocurrido un error");
-          })
-          .then((body) => setStore({ own_agencies: body }))
-          .catch((error) => console.log(error));
-      },
+      //   fetch(apiURL, opts)
+      //     .then((response) => {
+      //       if (response.ok) {
+      //         return response.json();
+      //       }
+      //       throw new Error("Ha ocurrido un error");
+      //     })
+      //     .then((body) => setStore({ own_agencies: body }))
+      //     .catch((error) => console.log(error));
+      // },
 
       getUsersByManager: (manager_id) => {
         const store = getStore();
@@ -298,40 +298,40 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
-      selectAgency: async (agency) => {
-        const store = getStore();
-        const actions = getActions();
-        const options = {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${store.token}`,
-          },
-          body: JSON.stringify(agency),
-        };
-        // console.log(agency);
-        try {
-          const response = await fetch(
-            `${process.env.BACKEND_URL}/user/agency_ybt/${agency}`,
-            options
-          );
+      // selectAgency: async (agency) => {
+      //   const store = getStore();
+      //   const actions = getActions();
+      //   const options = {
+      //     method: "PUT",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Authorization: `Bearer ${store.token}`,
+      //     },
+      //     body: JSON.stringify(agency),
+      //   };
+      //   // console.log(agency);
+      //   try {
+      //     const response = await fetch(
+      //       `${process.env.BACKEND_URL}/user/agency_ybt/${agency}`,
+      //       options
+      //     );
 
-          if (!response.ok) {
-            let danger = await response.json();
-            throw new Error(danger);
-          }
+      //     if (!response.ok) {
+      //       let danger = await response.json();
+      //       throw new Error(danger);
+      //     }
 
-          const data = await response.json();
-          // actions.getUsuario();
-          // console.log("This came from the backend", data);
-          return true;
-        } catch (error) {
-          console.error(
-            "Ha habido un error al cambiar es estatus del cliente desde el backend",
-            error
-          );
-        }
-      },
+      //     const data = await response.json();
+      //     // actions.getUsuario();
+      //     // console.log("This came from the backend", data);
+      //     return true;
+      //   } catch (error) {
+      //     console.error(
+      //       "Ha habido un error al cambiar es estatus del cliente desde el backend",
+      //       error
+      //     );
+      //   }
+      // },
 
       selectRole: async (userRole) => {
         const store = getStore();
@@ -359,7 +359,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
 
           // console.log("This came from the backend", data);
-          actions.setNotification(`Cambiaste el role a ${role}`);
+          toast.success("Cambiaste el rol del usuario a gerente!!! 🙌");
           actions.getTotalUsuarios();
           return true;
         } catch (error) {

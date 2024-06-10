@@ -1,14 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Context } from "../../store/appContext";
 import SetRoleManager from "../admin/setRoleManager";
-import UserPaymentInformation from "../payment/userPaymentInformation";
+// import UserPaymentInformation from "../payment/userPaymentInformation";
 
 export const MainChart = () => {
   const { store, actions } = useContext(Context);
-
-  useEffect(() => {
-    actions.getTotalUsuarios();
-  }, []);
+  actions.getTotalUsuarios();
 
   return (
     <div
@@ -22,13 +19,13 @@ export const MainChart = () => {
         <thead>
           <tr>
             <th className="text-center">ID</th>
-            <th className="text-center">Pagos</th>
-            <th className="text-center">Días</th>
+            {/* <th className="text-center">Pagos</th> */}
             <th className="text-center">Nombre</th>
-            <th className="text-center">Agencia</th>
-            <th className="text-center">Resetear Agencia</th>
-            <th className="text-center">Rol</th>
+            <th className="text-center">Gerente</th>
             <th className="text-center">Asignar rol</th>
+            <th className="text-center">Rol</th>
+            <th className="text-center">Resetear Gerente</th>
+            <th className="text-center">Días</th>
             <th className="text-center">Estatus</th>
             <th className="text-center">Activación</th>
           </tr>
@@ -40,16 +37,17 @@ export const MainChart = () => {
                 <td scope="row text-center" style={{ textAlign: "center" }}>
                   {usuario.id}
                 </td>
-                <td scope="fw-bolder single-btn">
+                {/* <td scope="fw-bolder single-btn">
                   <UserPaymentInformation id={usuario.id} />
-                </td>
-                <td scope="row text-center" style={{ textAlign: "center" }}>
-                  {actions.calcularUso(usuario.created_at)}
-                </td>
+                </td> */}
                 <td className="fw-bolder text-center">
                   {usuario.name + " " + usuario.lastname}
                 </td>
-                <td className="fw-bolder text-center">{usuario.agency}</td>
+                <td className="fw-bolder text-center">{usuario.manager}</td>
+                <td className="fw-bolde single-btn">
+                  <SetRoleManager userId={usuario.id} userName={usuario.name} />
+                </td>
+                <td className="fw-bolder text-center">{usuario.role}</td>
                 <td className="fw-bolder single-btn">
                   <button
                     className="btn btn-warning"
@@ -64,9 +62,8 @@ export const MainChart = () => {
                     Resetear
                   </button>
                 </td>
-                <td className="fw-bolder text-center">{usuario.role}</td>
-                <td className="fw-bolde single-btn">
-                  <SetRoleManager userId={usuario.id} />
+                <td scope="row text-center" style={{ textAlign: "center" }}>
+                  {actions.calcularUso(usuario.created_at)}
                 </td>
                 <td className="fw-bolder text-center">{usuario.status}</td>
                 <td className="fw-bolde not-single-btn">
