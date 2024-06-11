@@ -30,7 +30,7 @@ function SetRoleManager({ userId, userName }) {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Asignar Role Generente a {userName}</Modal.Title>
+          <Modal.Title>Asignar Role de Gerente a {userName}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           ¿Estas seguro que quieres asignar role gerente a {userName} ?

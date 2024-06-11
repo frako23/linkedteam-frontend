@@ -1487,6 +1487,47 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
         // actions.getAgencies(id);
       },
+
+      /* ----------------------- Asignar gerente al usuario ----------------------- */
+      putManager: async (manager) => {
+        const store = getStore();
+        const actions = getActions();
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            manager: manager.name,
+            manager_id: manager.id,
+          }),
+        };
+        // console.log(agency);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/management_assignment/${manager.userId}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          actions.getTotalUsuarios();
+          console.log("This came from the backend", data);
+          toast.success("se ha cambiado el manager correctamente");
+          return true;
+        } catch (error) {
+          console.error(
+            "Ha habido un error al asigar gerente al usuario",
+            error
+          );
+          toast.error("Ha habido un error al asigar gerente al usuario");
+        }
+      },
     },
   };
 };

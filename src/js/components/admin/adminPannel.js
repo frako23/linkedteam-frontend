@@ -1,7 +1,7 @@
 import React from "react";
 import "../../../styles/dashboard.css";
 import { Navbar } from "../navbar/navbar";
-import { MainChart } from "../utils/mainChart";
+import { MainChart } from "./mainChart";
 
 export const AdminPannel = () => {
   return (

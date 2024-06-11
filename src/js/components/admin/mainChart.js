@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
-import SetRoleManager from "../admin/setRoleManager";
+import SetRoleManager from "./setRoleManager";
+import SetManager from "./setManager";
 // import UserPaymentInformation from "../payment/userPaymentInformation";
 
 export const MainChart = () => {
@@ -45,19 +46,36 @@ export const MainChart = () => {
                 <td className="fw-bolder text-center">
                   {usuario.name + " " + usuario.lastname}
                 </td>
-                <td className="fw-bolder text-center">{usuario.manager}</td>
-                <td className="fw-bolde single-btn">
-                  <SetRoleManager userId={usuario.id} userName={usuario.name} />
+                <td className="fw-bolder text-center">
+                  {usuario.manager ?? (
+                    <SetManager userId={usuario.id} userName={usuario.name} />
+                  )}
+                </td>
+                <td
+                  className={
+                    usuario.role == "associated"
+                      ? "single-btn"
+                      : "fw-bold text-center"
+                  }
+                >
+                  {usuario.role == "associated" ? (
+                    <SetRoleManager
+                      userId={usuario.id}
+                      userName={usuario.name}
+                    />
+                  ) : (
+                    usuario.role
+                  )}
                 </td>
                 <td className="fw-bolder text-center">{usuario.role}</td>
                 <td className="fw-bolder single-btn">
                   <button
                     className="btn btn-warning"
                     onClick={() =>
-                      actions.resetAgency({
-                        agency: null,
-                        agency_id: null,
-                        user_id: usuario.id,
+                      actions.putManager({
+                        name: null,
+                        id: null,
+                        userId: usuario.id,
                       })
                     }
                   >
