@@ -5,10 +5,21 @@
   position: relative;
 }
 
-.nc-container div {
+.nc-container > div {
   align-self: center;
+  min-width: 20rem;
 }
 
 .nc-container img {
   width: 50rem;
+}
+
+@media (max-width: 768px) {
+  .nc-container {
+    margin-left: 2rem;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 450px) {
 }

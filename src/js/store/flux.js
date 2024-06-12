@@ -1485,7 +1485,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           })
           .then((body) => setStore({ clienteProductos: body }))
           .catch((error) => console.log(error));
-        // actions.getAgencies(id);
       },
 
       /* ----------------------- Asignar gerente al usuario ----------------------- */

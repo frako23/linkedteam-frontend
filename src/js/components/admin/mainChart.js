@@ -6,10 +6,14 @@ import SetManager from "./setManager";
 
 export const MainChart = () => {
   const { store, actions } = useContext(Context);
+
+  window.onload = () => {
+    actions.getTotalUsuarios();
+  };
   useEffect(() => {
     actions.getTotalUsuarios();
   }, []);
-
+  console.log(store.totalUsuarios);
   return (
     <div
       style={{
