@@ -9,7 +9,7 @@
   /* padding: 6rem, 2rem, 2rem, 0; */
   height: 100vh;
   padding-left: 7rem;
-  overflow-x: auto;
+  /* overflow-x: auto; */
   white-space: nowrap;
 }
 
