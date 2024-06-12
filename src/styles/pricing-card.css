@@ -16,16 +16,18 @@
   max-width: 1090px;
   width: 100%;
   margin: auto;
-  display: flex;
+  display: grid;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
   /* gap: 1rem;
     margin-left: 4rem; */
 }
 
 .wrapper-pricing-card .table-pricing-card {
   background-color: #fff;
-  width: calc(33% - 55px);
+  width: fit-content;
   padding: 30px 30px;
   position: relative;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
@@ -209,8 +211,7 @@ p.aj-des {
     margin-left: 0px;
   }
   .wrapper-pricing-card {
-    display: block;
-    width: fit-content;
+    grid-template-columns: repeat(2, 1fr);
   }
   .table-pricing-card {
     min-width: 20rem;
@@ -218,6 +219,9 @@ p.aj-des {
 }
 
 @media (max-width: 768px) {
+  .wrapper-pricing-card {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 @media (max-width: 450px) {
