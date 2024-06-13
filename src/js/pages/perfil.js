@@ -7,6 +7,9 @@ import { useNavigate } from "react-router-dom";
 
 export const Perfil = () => {
   const { store, actions } = useContext(Context);
+  window.onload = () => {
+    actions.syncTokenFromSessionStore();
+  };
   const navigate = useNavigate();
   useEffect(() => {
     // actions.closedArray();
