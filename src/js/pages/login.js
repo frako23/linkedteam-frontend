@@ -101,27 +101,25 @@ export const Login = () => {
 
                 {/* < />!-- Password input --> */}
                 <div className="form-outline mb-4">
-                  <input
-                    type={passwordShowHide ? "password" : "text"}
-                    id="form2Example2"
-                    value={password}
-                    required
-                    className="form-control"
-                    placeholder="contraseña1234..."
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  <span
-                    className="password-show-login"
-                    onClick={() => setPasswordShowHide(!passwordShowHide)}
-                  >
+                  <div>
+                    <input
+                      type={passwordShowHide ? "password" : "text"}
+                      id="form2Example2"
+                      value={password}
+                      required
+                      className="form-control"
+                      placeholder="contraseña1234..."
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                     <i
-                      className={
+                      className={`password-show-login ${
                         passwordShowHide
                           ? "fa-solid fa-eye"
                           : "fa-solid fa-eye-slash"
-                      }
+                      }`}
+                      onClick={() => setPasswordShowHide(!passwordShowHide)}
                     ></i>
-                  </span>
+                  </div>
                   <label className="form-label" htmlFor="form3Example4">
                     Coloca tu contraseña
                   </label>

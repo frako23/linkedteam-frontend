@@ -253,25 +253,29 @@ body {
 }
 
 .password-show {
-  position: absolute;
-  right: 15%;
-  top: 61.5%;
-  transform: translateY(-50%);
+  position: relative;
+  /* right: 15%;
+  top: 42.5%;
+  transform: translateY(-50%); */
   font-size: 20px;
   color: #a1a2a5;
   cursor: pointer;
   /* display: none; */
+  top: -1.8rem;
+  left: 19rem;
 }
 
 .password-show-login {
-  position: absolute;
-  right: 15%;
+  position: relative;
+  /* right: 15%;
   top: 42.5%;
-  transform: translateY(-50%);
+  transform: translateY(-50%); */
   font-size: 20px;
   color: #a1a2a5;
   cursor: pointer;
   /* display: none; */
+  top: -1.8rem;
+  left: 16rem;
 }
 
 /* Espaciado de botones en Componente Main Chart */
@@ -338,18 +342,22 @@ body {
     white-space: nowrap;
     padding-bottom: 5rem;
   }
+  .password-show-login {
+    top: -2rem;
+    left: 8rem;
+  }
+  .password-show {
+    top: -2rem;
+    left: 8rem;
+  }
 }
 
 @media (max-width: 768px) {
   h1.heading {
     font-size: 3.05em;
   }
-  .password-show {
-    top: 66.5%;
-    /* display: none; */
-  }
   .password-show-login {
-    top: 41.5%;
+    /* top: 41.5%; */
     /* display: none; */
   }
   .create-course-heading {

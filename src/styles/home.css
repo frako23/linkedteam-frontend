@@ -410,6 +410,10 @@ section {
     );
 }
 
+.password-eye {
+  position: absolute;
+}
+
 /* ------------------------------ MEDIA QUERIES ----------------------------- */
 @media (max-width: 991px) {
   .courses__container {

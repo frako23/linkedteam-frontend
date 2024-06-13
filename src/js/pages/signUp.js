@@ -191,28 +191,26 @@ export const SignUp = () => {
 
                 {/* <!-- Confirm Password input --> */}
                 <div className="form-outline mb-4">
-                  <input
-                    type={passwordShowHide ? "password" : "text"}
-                    id="confirmPassword"
-                    className="form-control"
-                    placeholder="Aquí tu contraseña"
-                    value={confirmPassword}
-                    onChange={(e) => {
-                      setConfirmPassword(e.target.value);
-                    }}
-                  />
-                  <span
-                    className="password-show"
-                    onClick={() => setPasswordShowHide(!passwordShowHide)}
-                  >
+                  <div>
+                    <input
+                      type={passwordShowHide ? "password" : "text"}
+                      id="confirmPassword"
+                      className="form-control"
+                      placeholder="Aquí tu contraseña"
+                      value={confirmPassword}
+                      onChange={(e) => {
+                        setConfirmPassword(e.target.value);
+                      }}
+                    />
                     <i
-                      className={
+                      className={`password-show ${
                         passwordShowHide
                           ? "fa-solid fa-eye"
                           : "fa-solid fa-eye-slash"
-                      }
+                      }`}
+                      onClick={() => setPasswordShowHide(!passwordShowHide)}
                     ></i>
-                  </span>
+                  </div>
                   <label className="form-label" htmlFor="confirmPassword">
                     Confirma tú contraseña
                   </label>
