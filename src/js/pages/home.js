@@ -47,6 +47,9 @@ export const Home = () => {
           <Link to="/login" className="">
             Ingresa
           </Link>
+          <Link to="/demo" className="">
+            Prueba la app
+          </Link>
         </nav>
 
         <div

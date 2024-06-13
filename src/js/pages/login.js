@@ -64,7 +64,7 @@ export const Login = () => {
           </p>
         </div>
 
-        <div className="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div className="col-lg-6 mb-5 mb-lg-0 d-flex justify-content-center position-relative">
           {/* <div
             id="radius-shape-1"
             className="position-absolute rounded-circle shadow-5-strong"
@@ -160,6 +160,19 @@ export const Login = () => {
                       }}
                     >
                       REGISTRATE
+                    </Link>
+                  </p>
+                  <p>
+                    ¿Quieres probar la app?
+                    <Link
+                      to="/demo"
+                      style={{
+                        color: "rgb(167, 100, 255)",
+                        fontWeight: "bold",
+                        marginLeft: "1rem",
+                      }}
+                    >
+                      ACCESA A LA DEMO
                     </Link>
                   </p>
                 </div>
