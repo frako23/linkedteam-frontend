@@ -34,6 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       notnav: false,
       productos: [],
       clienteProductos: [],
+      loader: false,
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -1376,6 +1377,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
       setNotNav: (param) => {
         setStore({ notnav: param });
+      },
+      setLoader: (param) => {
+        setStore({ loader: param });
       },
 
       /* ----------------------------- CREAR PRODUCTOS ---------------------------- */

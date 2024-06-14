@@ -6,6 +6,7 @@ import "../../styles/home.css";
 import "../../styles/index.css";
 import toast, { Toaster } from "react-hot-toast";
 import Swal from "sweetalert2";
+import { ModalLoader } from "../components/utils/ModalLoader";
 
 export const SignUp = () => {
   const { actions } = useContext(Context);
@@ -31,12 +32,11 @@ export const SignUp = () => {
     e.preventDefault();
     // console.log(password, confirmPassword);
     if (password !== confirmPassword) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops... hubo un error",
-        text: "¡La contraseña y la confirmación de contraseña no coinciden!",
-      });
+      toast.error(
+        "¡La contraseña y la confirmación de contraseña no coinciden!"
+      );
     } else if (name != "" && lastname != "" && email != "" && password != "") {
+      actions.setLoader(true);
       const response = await actions.signup(name, lastname, email, password);
       if (response) {
         notify();
@@ -231,7 +231,7 @@ export const SignUp = () => {
                 >
                   !Regístrate Ya!
                 </button>
-
+                <ModalLoader />
                 {/* <!-- Register buttons --> */}
                 {/* <div className="text-center">
                   <p>o regístrate con:</p>

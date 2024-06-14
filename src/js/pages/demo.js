@@ -4,6 +4,7 @@ import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import "../../styles/home.css";
 import "../../styles/index.css";
+import { ModalLoader } from "../components/utils/ModalLoader";
 
 export const Demo = () => {
   const { store, actions } = useContext(Context);
@@ -75,19 +76,21 @@ export const Demo = () => {
                   <button
                     type="button"
                     className="btn btn-primary btn-block mb-4"
-                    onClick={() =>
-                      actions.login("gerente@correo.com", "gerente")
-                    }
+                    onClick={() => {
+                      actions.login("gerente@correo.com", "gerente");
+                      actions.setLoader(true);
+                    }}
                   >
                     Prueba la app como <b>GERENTE</b>
                   </button>
-
+                  <ModalLoader />
                   <button
                     type="button"
                     className="btn btn-primary btn-block mb-4"
-                    onClick={() =>
-                      actions.login("asociado1@correo.com", "asociado1")
-                    }
+                    onClick={() => {
+                      actions.login("asociado1@correo.com", "asociado1");
+                      actions.setLoader(true);
+                    }}
                   >
                     Prueba la app como <b>ASOCIADO</b>
                   </button>

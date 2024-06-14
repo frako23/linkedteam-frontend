@@ -4,6 +4,7 @@ import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 import "../../styles/home.css";
 import "../../styles/index.css";
+import { ModalLoader } from "../components/utils/ModalLoader";
 
 export const Login = () => {
   const { store, actions } = useContext(Context);
@@ -17,6 +18,7 @@ export const Login = () => {
   const handleClick = () => {
     // const success = await
     actions.login(email, password);
+    actions.setLoader(true);
     // success && navigate("/");
   };
   useEffect(() => actions.setNotNav(true), []);
@@ -63,7 +65,7 @@ export const Login = () => {
             ventas
           </p>
         </div>
-
+        <ModalLoader />
         <div className="col-lg-6 mb-5 mb-lg-0 d-flex justify-content-center position-relative">
           {/* <div
             id="radius-shape-1"
