@@ -462,7 +462,6 @@ const getState = ({ getStore, getActions, setStore }) => {
           },
           body: JSON.stringify(datosCliente),
         };
-        // console.log(datosCliente);
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/clientes`,
@@ -547,7 +546,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${store.token}`,
+            Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
             status: status,
