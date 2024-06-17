@@ -4,10 +4,6 @@ import * as XLSX from "xlsx";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import InputGroup from "react-bootstrap/InputGroup";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import Swal from "sweetalert2";
 
 export const ImportFromExcel = () => {
   const { store, actions } = useContext(Context);
@@ -31,23 +27,18 @@ export const ImportFromExcel = () => {
       setData(parsedData);
     };
   };
-  const uploadData = (clientes) => {
-    Object.freeze(clientes);
-    const dataCopy = [...clientes];
-    console.log(dataCopy);
-    for (let i = 0; i < dataCopy.length; i++) {
-      delete dataCopy[i].__rowNum__;
+  const uploadData = (data) => {
+    const dataCopy = {};
+    for (let i = 0; i < data.length; i++) {
+      dataCopy[i] = data[i];
     }
     console.log(dataCopy);
-    // actions.postClientes(clientes);
+    actions.postClientes(dataCopy);
   };
 
-  // const remove__RowNum__ = (data) => {
-  //   for (let i = 0; i < data.length; i++) {
-  //     delete data[i].__rowNum__;
-  //   }
-  //   return data;
-  // };
+  // const dataCopy = data.forEach((obj) => {
+  //   delete obj.__rowNum__;
+  // });
 
   return (
     <>
@@ -59,7 +50,7 @@ export const ImportFromExcel = () => {
         Importar <i className="fa-solid fa-file-excel"></i>
       </button>
 
-      <Modal show={show} onHide={handleClose} size="lg">
+      <Modal show={show} onHide={handleClose} size="xl">
         <Form>
           <Modal.Header closeButton>
             <Modal.Title>
@@ -74,34 +65,56 @@ export const ImportFromExcel = () => {
             />
             {console.log(data)}
             {data.length > 0 && (
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th style={{ color: "black" }}>Nombre</th>
-                    <th style={{ color: "black" }}>Monto</th>
-                    <th style={{ color: "black" }}>Fecha de Nacimiento</th>
-                    <th style={{ color: "black" }}>Confianza</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((row, index) => (
-                    <tr key={index}>
-                      <td key={index} style={{ color: "black" }}>
-                        {row.name}
-                      </td>
-                      <td key={index} style={{ color: "black" }}>
-                        {row.amount}
-                      </td>
-                      <td key={index} style={{ color: "black" }}>
-                        {row.birthdate}
-                      </td>
-                      <td key={index} style={{ color: "black" }}>
-                        {row.trust}
-                      </td>
+              <div style={{ overflowX: "auto" }}>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th style={{ color: "black" }}>Nombre y Apellido</th>
+                      <th style={{ color: "black" }}>Celular</th>
+                      <th style={{ color: "black" }}>Email</th>
+                      <th style={{ color: "black" }}>Fecha de Nacimiento</th>
+                      <th style={{ color: "black" }}>Monto</th>
+                      <th style={{ color: "black" }}>Etiqueta</th>
+                      <th style={{ color: "black" }}>Estatus</th>
+                      <th style={{ color: "black" }}>Nivel de Confianza</th>
+                      <th style={{ color: "black" }}>Notas</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {data.map((row, index) => (
+                      <tr key={index}>
+                        <td key={index} style={{ color: "black" }}>
+                          {row.name}
+                        </td>
+                        <td key={index} style={{ color: "black" }}>
+                          {row.birthdate}
+                        </td>
+                        <td key={index} style={{ color: "black" }}>
+                          {row.email}
+                        </td>
+                        <td key={index} style={{ color: "black" }}>
+                          {row.cellphone}
+                        </td>
+                        <td key={index} style={{ color: "black" }}>
+                          {row.amount}
+                        </td>
+                        <td key={index} style={{ color: "black" }}>
+                          {row.status}
+                        </td>
+                        <td key={index} style={{ color: "black" }}>
+                          {row.trust}
+                        </td>
+                        <td key={index} style={{ color: "black" }}>
+                          {row.tag}
+                        </td>
+                        <td key={index} style={{ color: "black" }}>
+                          {row.notes}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             )}
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
@@ -111,10 +124,9 @@ export const ImportFromExcel = () => {
                 variant="success"
                 onClick={() => {
                   // console.log(data);
-                  uploadData(data);
+                  // uploadData(data);
+                  actions.postClientes(data);
                 }}
-                // uploadData(data)
-                // style={{ width: "12rem", marginInline: "0.5rem" }}
               >
                 {" "}
                 Cargar la data <i className="fa-solid fa-file-excel"></i>
