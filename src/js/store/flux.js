@@ -584,7 +584,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${store.token}`,
+            Authorization: `Bearer ${store.token}`,
           },
         };
         try {

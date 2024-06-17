@@ -4,6 +4,7 @@ import * as XLSX from "xlsx";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import { ModalLoader } from "../utils/ModalLoader";
 
 export const ImportFromExcel = () => {
   const { store, actions } = useContext(Context);
@@ -28,12 +29,9 @@ export const ImportFromExcel = () => {
     };
   };
   const uploadData = (data) => {
-    const dataCopy = {};
     for (let i = 0; i < data.length; i++) {
-      dataCopy[i] = data[i];
+      actions.postClientes(data[i]);
     }
-    console.log(dataCopy);
-    actions.postClientes(dataCopy);
   };
 
   // const dataCopy = data.forEach((obj) => {
@@ -49,7 +47,7 @@ export const ImportFromExcel = () => {
       >
         Importar <i className="fa-solid fa-file-excel"></i>
       </button>
-
+      <ModalLoader />
       <Modal show={show} onHide={handleClose} size="xl">
         <Form>
           <Modal.Header closeButton>
@@ -123,9 +121,10 @@ export const ImportFromExcel = () => {
               <Button
                 variant="success"
                 onClick={() => {
-                  // console.log(data);
-                  // uploadData(data);
-                  actions.postClientes(data);
+                  actions.setLoader(true);
+                  uploadData(data);
+                  handleClose();
+                  actions.setLoader(false);
                 }}
               >
                 {" "}
