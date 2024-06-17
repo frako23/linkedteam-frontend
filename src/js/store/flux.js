@@ -172,10 +172,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.log("This came from the backend", data);
           return true;
         } catch (error) {
-          toast.error(
-            "Ha habido un error al colocar la propiedad company del usuario",
-            error.message
-          );
+          toast.error(error.message);
         }
       },
 
@@ -482,6 +479,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           // console.log("This came from the backend", data);
           return true;
         } catch (error) {
+          toast.error(error.message);
           console.error("Ha habido un error al registrar al cliente", error);
         }
       },
@@ -518,6 +516,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Ha habido un error al modificar la data del cliente",
             error
           );
+          toast.error(error.message);
         }
       },
 
@@ -538,7 +537,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error("Ha ocurrido un error");
           })
           .then((body) => setStore({ clientes: body }))
-          .catch((error) => console.log(error));
+          .catch((error) => toast.error(error.message));
       },
 
       putCliente: async ({ status, cliente_id }) => {
@@ -1528,7 +1527,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             "Ha habido un error al asigar gerente al usuario",
             error
           );
-          toast.error("Ha habido un error al asigar gerente al usuario");
+          toast.error(error.message);
         }
       },
     },
