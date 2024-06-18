@@ -91,7 +91,7 @@ export const ImportFromExcel = () => {
                 onChange={handleFileUpload}
               />
               <a
-                href="./LinkedTeam-template.xlsx"
+                href="https://github.com/frako23/linkedteam-frontend/raw/main/public/LinkedTeam-template.xlsx"
                 download="LinkedTeam-template"
                 className="btn btn-primary"
               >
