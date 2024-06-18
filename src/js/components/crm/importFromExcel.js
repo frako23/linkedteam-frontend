@@ -77,12 +77,27 @@ export const ImportFromExcel = () => {
               Importar Data <i className="fa-solid fa-file-excel"></i>
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{ display: "inline-grid" }}>
-            <input
-              type="file"
-              accept=".xlsx, .xls"
-              onChange={handleFileUpload}
-            />
+          <Modal.Body style={{ display: "inline-grid", width: "100%" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "2rem",
+              }}
+            >
+              <input
+                type="file"
+                accept=".xlsx, .xls"
+                onChange={handleFileUpload}
+              />
+              <a
+                href="./LinkedTeam-template.xlsx"
+                download="LinkedTeam-template"
+                className="btn btn-primary"
+              >
+                Descargar plantilla
+              </a>
+            </div>
             {console.log(data)}
             {data.length > 0 && (
               <div style={{ overflowX: "auto" }}>
