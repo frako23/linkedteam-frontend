@@ -16,6 +16,14 @@ export const ImportFromExcel = () => {
   const handleShow = () => setShow(true);
   const [show, setShow] = useState(false);
 
+  // function excelSerialDateToJSDate(serialDate) {
+  //   const excelStartDate = new Date(Date.UTC(2039, 12, 2));
+  //   const utc_days = Math.floor(
+  //     serialDate - excelStartDate.getTime() / 86400000
+  //   );
+  //   const utc_value = utc_days * 86400;
+  //   return new Date(utc_value * 1000);
+  // }
   const handleFileUpload = (e) => {
     const reader = new FileReader();
     reader.readAsBinaryString(e.target.files[0]);
@@ -25,9 +33,23 @@ export const ImportFromExcel = () => {
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
       const parsedData = XLSX.utils.sheet_to_json(sheet);
+      // let parsedData = XLSX.utils.sheet_to_json(sheet);
+
+      // Convertir las fechas del formato de Excel al formato de JavaScript
+      // parsedData = parsedData.map((item) => {
+      //   if (item.birthdate_) {
+      //     // Verifica que la propiedad 'birthdate_' exista
+      //     console.log(item.birthdate_); // Debería mostrar el valor original en formato de Excel
+      //     item.birthdate = excelSerialDateToJSDate(Number(item.birthdate_)); // Convierte y asigna a 'birthdate'
+      //     console.log(item.birthdate); // Debería mostrar la fecha convertida
+      //   }
+      //   return item;
+      // });
+      // console.log(parsedData);
       setData(parsedData);
     };
   };
+
   const uploadData = (data) => {
     for (let i = 0; i < data.length; i++) {
       actions.postClientes(data[i]);
@@ -68,9 +90,9 @@ export const ImportFromExcel = () => {
                   <thead>
                     <tr>
                       <th style={{ color: "black" }}>Nombre y Apellido</th>
-                      <th style={{ color: "black" }}>Celular</th>
-                      <th style={{ color: "black" }}>Email</th>
                       <th style={{ color: "black" }}>Fecha de Nacimiento</th>
+                      <th style={{ color: "black" }}>Email</th>
+                      <th style={{ color: "black" }}>Celular</th>
                       <th style={{ color: "black" }}>Monto</th>
                       <th style={{ color: "black" }}>Etiqueta</th>
                       <th style={{ color: "black" }}>Estatus</th>

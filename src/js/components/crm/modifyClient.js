@@ -32,7 +32,7 @@ export const ModifyClient = ({ prospecto }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log(cliente);
-    actions.putClientes(cliente, params.theid);
+    actions.putClientes(cliente, prospecto.id);
     setCliente({
       name: "",
       birthdate: "",
