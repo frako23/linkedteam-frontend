@@ -7,12 +7,8 @@ export const SalesCycle = () => {
         <div className="card-body py-4">
           <div className="d-flex align-items-start">
             <div className="flex-grow-1">
-              <h4 className="mb-2">$ 78.00</h4>
-              <p className="mb-2"> Ciclo de Venta</p>
-              <div className="mb-0">
-                <span className="badge text-success me-2">+9.0%</span>
-                <span className="text-muted">Since Last Month</span>
-              </div>
+              <h4 className="mb-2">2 Meses</h4>
+              <span className="mb-2"> Ciclo de Venta</span>
             </div>
           </div>
         </div>
