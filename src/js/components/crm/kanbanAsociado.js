@@ -68,6 +68,13 @@ export const KanbanAsociado = ({ asociadoId }) => {
                     }
                   </span>
                 </strong>
+                <span className="text-white">
+                  {" "}
+                  $
+                  {store.userClients
+                    .filter((cliente) => cliente.status === "Prospecto")
+                    .reduce((acum, index) => acum + parseInt(index.amount), 0)}
+                </span>
                 <scroll-container>
                   {store.userClients
                     .filter((cliente) => cliente.status === "Prospecto")
@@ -180,6 +187,13 @@ export const KanbanAsociado = ({ asociadoId }) => {
                     }
                   </span>
                 </strong>
+                <span className="text-white">
+                  {" "}
+                  $
+                  {store.userClients
+                    .filter((cliente) => cliente.status === "Contactado")
+                    .reduce((acum, index) => acum + parseInt(index.amount), 0)}
+                </span>
                 <scroll-container>
                   {store.userClients
                     .filter((cliente) => cliente.status === "Contactado")
@@ -287,6 +301,13 @@ export const KanbanAsociado = ({ asociadoId }) => {
                     }
                   </span>
                 </strong>
+                <span className="text-white">
+                  {" "}
+                  $
+                  {store.userClients
+                    .filter((cliente) => cliente.status === "Primera Cita")
+                    .reduce((acum, index) => acum + parseInt(index.amount), 0)}
+                </span>
                 <scroll-container>
                   {store.userClients
                     .filter((cliente) => cliente.status === "Primera Cita")
@@ -397,6 +418,13 @@ export const KanbanAsociado = ({ asociadoId }) => {
                     }
                   </span>
                 </strong>
+                <span className="text-white">
+                  {" "}
+                  $
+                  {store.userClients
+                    .filter((cliente) => cliente.status === "Negociación")
+                    .reduce((acum, index) => acum + parseInt(index.amount), 0)}
+                </span>
                 <scroll-container>
                   {store.userClients
                     .filter((cliente) => cliente.status === "Negociación")
@@ -504,6 +532,13 @@ export const KanbanAsociado = ({ asociadoId }) => {
                     }
                   </span>
                 </strong>
+                <span className="text-white">
+                  {" "}
+                  $
+                  {store.userClients
+                    .filter((cliente) => cliente.status === "Cerrado")
+                    .reduce((acum, index) => acum + parseInt(index.amount), 0)}
+                </span>
                 <scroll-container>
                   {store.userClients
                     .filter((cliente) => cliente.status === "Cerrado")
