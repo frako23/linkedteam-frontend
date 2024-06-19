@@ -68,6 +68,13 @@ export const Kanban = () => {
                     }
                   </span>
                 </strong>
+                <span className="text-white">
+                  {" "}
+                  $
+                  {store.clientes
+                    .filter((cliente) => cliente.status === "Prospecto")
+                    .reduce((acum, index) => acum + parseInt(index.amount), 0)}
+                </span>
                 <scroll-container>
                   {store.clientes
                     .filter((cliente) => cliente.status === "Prospecto")
@@ -199,6 +206,13 @@ export const Kanban = () => {
                     }
                   </span>
                 </strong>
+                <span className="text-white">
+                  {" "}
+                  $
+                  {store.clientes
+                    .filter((cliente) => cliente.status === "Contactado")
+                    .reduce((acum, index) => acum + parseInt(index.amount), 0)}
+                </span>
                 <scroll-container>
                   {store.clientes
                     .filter((cliente) => cliente.status === "Contactado")
@@ -325,6 +339,13 @@ export const Kanban = () => {
                     }
                   </span>
                 </strong>
+                <span className="text-white">
+                  {" "}
+                  $
+                  {store.clientes
+                    .filter((cliente) => cliente.status === "Primera Cita")
+                    .reduce((acum, index) => acum + parseInt(index.amount), 0)}
+                </span>
                 <scroll-container>
                   {store.clientes
                     .filter((cliente) => cliente.status === "Primera Cita")
@@ -454,6 +475,13 @@ export const Kanban = () => {
                     }
                   </span>
                 </strong>
+                <span className="text-white">
+                  {" "}
+                  $
+                  {store.clientes
+                    .filter((cliente) => cliente.status === "Negociación")
+                    .reduce((acum, index) => acum + parseInt(index.amount), 0)}
+                </span>
                 <scroll-container>
                   {store.clientes
                     .filter((cliente) => cliente.status === "Negociación")
@@ -580,6 +608,13 @@ export const Kanban = () => {
                     }
                   </span>
                 </strong>
+                <span className="text-white">
+                  {" "}
+                  $
+                  {store.clientes
+                    .filter((cliente) => cliente.status === "Cerrado")
+                    .reduce((acum, index) => acum + parseInt(index.amount), 0)}
+                </span>
                 <scroll-container>
                   {store.clientes
                     .filter((cliente) => cliente.status === "Cerrado")

@@ -57,7 +57,6 @@
 .swim-lane {
   display: flex;
   flex-direction: column;
-  gap: 12px;
   background: #424242;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
   padding: 12px;

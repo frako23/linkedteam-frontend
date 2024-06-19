@@ -19,7 +19,7 @@ export const AverageSale = () => {
             <div className="d-flex justify-content-between w-100">
               <span className="mb-2">Venta Promedio</span>
               <h4 className="mb-2">
-                $ {totalVentas / clientesCerrados.length}
+                $ {Math.floor(totalVentas / clientesCerrados.length)}
               </h4>
             </div>
           </div>
