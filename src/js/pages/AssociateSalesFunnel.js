@@ -3,11 +3,8 @@ import { Context } from "../store/appContext";
 import "../../styles/dashboard.css";
 import { KanbanAsociado } from "../components/crm/kanbanAsociado";
 import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import { ExportToExcel } from "../components/crm/exportToExcel";
 import { Pricing } from "./pricing";
-import { ImportFromExcel } from "../components/crm/importFromExcel";
-import { Link } from "react-router-dom";
 import SortCRM from "../components/crm/sortCRM";
 
 export const AssociateSalesFunnel = () => {
@@ -61,7 +58,6 @@ export const AssociateSalesFunnel = () => {
           <div className="ms-2 d-flex justify-content-between pt-2">
             <div className="btn-group me-2 ms-5">
               <ExportToExcel excelData={store.clientes} />
-              <ImportFromExcel />
               <Dropdown>
                 <Dropdown.Toggle
                   className="btn btn-sm btn-outline-secondary"
