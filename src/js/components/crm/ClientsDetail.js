@@ -7,8 +7,6 @@ import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-import toast from "react-hot-toast";
-
 export const ClientsDetail = () => {
   const { actions } = useContext(Context);
   const [cliente, setCliente] = useState({
@@ -20,7 +18,7 @@ export const ClientsDetail = () => {
     status: "",
     trust: "",
     notes: "",
-    tag: "",
+    tag: "white",
   });
   const [show, setShow] = useState(false);
 
@@ -41,9 +39,8 @@ export const ClientsDetail = () => {
       status: "",
       trust: "",
       notes: "",
-      tag: "",
+      tag: "white",
     });
-    toast.success("Tu prospecto fue registrado correctamente");
   };
 
   const handleForm = ({ target }) => {

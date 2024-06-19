@@ -20,7 +20,7 @@ export const CreateClient = () => {
     status: "Cliente",
     trust: "Alta",
     notes: "",
-    tag: "",
+    tag: "white",
   });
 
   const [show, setShow] = useState(false);
@@ -42,9 +42,8 @@ export const CreateClient = () => {
       status: "Cliente",
       trust: "Alta",
       notes: "",
-      tag: "",
+      tag: "white",
     });
-    toast.success("Tu cliente fue registrado correctamente");
   };
 
   const handleForm = ({ target }) => {

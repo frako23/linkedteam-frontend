@@ -475,6 +475,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           const data = await response.json();
           actions.getClientes();
+          toast.success("Tu prospecto fue registrado correctamente");
           // console.log("This came from the backend", data);
           return true;
         } catch (error) {

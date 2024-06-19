@@ -20,7 +20,7 @@ export const Nuevonegocio = () => {
     status: "",
     trust: "",
     notes: "",
-    tag: "",
+    tag: "white",
   });
   const [show, setShow] = useState(false);
 
@@ -41,9 +41,8 @@ export const Nuevonegocio = () => {
       status: "",
       trust: "",
       notes: "",
-      tag: "",
+      tag: "white",
     });
-    toast.success("Tu prospecto fue registrado correctamente");
   };
 
   const handleForm = ({ target }) => {
@@ -133,6 +132,7 @@ export const Nuevonegocio = () => {
                   <Form.Select
                     aria-label="Default select example"
                     name="tag"
+                    defaultValue="white"
                     value={cliente.tag}
                     onChange={handleForm}
                   >
