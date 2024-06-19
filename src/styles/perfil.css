@@ -338,6 +338,9 @@ table td {
   .main__card {
     grid-template-columns: repeat(2, 1fr);
   }
+  .todo__main__card {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 660px) {
@@ -356,6 +359,9 @@ table td {
     margin-left: 9rem;
   }
   .main__card {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .todo__main__card {
     grid-template-columns: repeat(1, 1fr);
   }
 }
