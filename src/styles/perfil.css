@@ -32,9 +32,7 @@
 }
 
 .card__profile {
-  display: flex;
   flex-direction: colum;
-  justify-content: space-between;
   padding: 15px;
   background-color: #ffffff;
   box-sizing: border-box;
