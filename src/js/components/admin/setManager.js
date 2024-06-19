@@ -43,7 +43,7 @@ function SetManager({ userId, userName }) {
         <Modal.Body>
           Asignar <strong>{newManager.name}</strong> como su Gerente
           <div className="d-flex justify-content-center pt-5">
-            <DropdownButton id="dropdown-basic-button" title="Dropdown button">
+            <DropdownButton id="dropdown-basic-button" title="Gerentes">
               {managers.length > 0 &&
                 managers.map((usuario) => {
                   return (
