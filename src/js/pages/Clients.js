@@ -72,7 +72,7 @@ export const Clients = () => {
                         birthdate={cliente.birthdate}
                         id={cliente.id}
                       />
-                      <button
+                      {/* <button
                         data-toggle="tooltip"
                         title="Eliminar Cliente"
                         className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
@@ -80,7 +80,7 @@ export const Clients = () => {
                         // onClick={handleShow}
                       >
                         <i className="fa-solid fa-user-slash"></i>
-                      </button>
+                      </button> */}
                     </td>
                   </tr>
                 ))
