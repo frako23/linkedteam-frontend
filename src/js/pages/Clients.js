@@ -18,7 +18,6 @@ export const Clients = () => {
     }
   }, [store.usuario.status]);
 
-  console.log(store.clientes);
   return (
     <>
       <div className="create-course-heading">
@@ -55,34 +54,36 @@ export const Clients = () => {
           </thead>
           <tbody>
             {store.clientes?.length > 0 ? (
-              store.clientes.map((cliente, index) => (
-                <tr key={cliente.id}>
-                  <th scope="row">{index + 1}</th>
-                  <td>{cliente.name}</td>
-                  <td>{cliente.cellphone}</td>
-                  <td>{cliente.email}</td>
-                  <td>{cliente.birthdate}</td>
-                  <td className="d-flex justify-content-center gap-3 ">
-                    <CreateProductClient clientId={cliente.id} />
-                    <EditClient
-                      name={cliente.name}
-                      email={cliente.email}
-                      cellphone={cliente.cellphone}
-                      birthdate={cliente.birthdate}
-                      id={cliente.id}
-                    />
-                    <button
-                      data-toggle="tooltip"
-                      title="Eliminar Cliente"
-                      className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
-                      style={{ background: "#695cfe" }}
-                      // onClick={handleShow}
-                    >
-                      <i className="fa-solid fa-user-slash"></i>
-                    </button>
-                  </td>
-                </tr>
-              ))
+              store.clientes
+                .filter((cliente) => cliente.status == "Cliente")
+                .map((cliente, index) => (
+                  <tr key={cliente.id}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{cliente.name}</td>
+                    <td>{cliente.cellphone}</td>
+                    <td>{cliente.email}</td>
+                    <td>{cliente.birthdate}</td>
+                    <td className="d-flex justify-content-center gap-3 ">
+                      <CreateProductClient clientId={cliente.id} />
+                      <EditClient
+                        name={cliente.name}
+                        email={cliente.email}
+                        cellphone={cliente.cellphone}
+                        birthdate={cliente.birthdate}
+                        id={cliente.id}
+                      />
+                      <button
+                        data-toggle="tooltip"
+                        title="Eliminar Cliente"
+                        className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
+                        style={{ background: "#695cfe" }}
+                        // onClick={handleShow}
+                      >
+                        <i className="fa-solid fa-user-slash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))
             ) : (
               <div className="d-flex justify-content-center ">
                 <h4>Aún no tienes clientes cargados</h4>

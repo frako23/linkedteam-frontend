@@ -319,6 +319,9 @@ body {
 
 .card-body.py-4 {
   padding-inline: 2rem;
+  color: white;
+  background-color: #575656;
+  border-radius: 20px;
 }
 /* ------------------------- GENERAL MEDIAS QUERIES ------------------------- */
 @media (max-width: 1200px) {

@@ -1,9 +1,7 @@
 {
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.python"
-  },
+  "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+  "eslint.format.enable": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   }

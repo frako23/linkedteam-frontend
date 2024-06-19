@@ -16,9 +16,9 @@ export const TotalSales = () => {
       <div className="card flex-fill border-0">
         <div className="card-body py-4">
           <div className="d-flex align-items-start">
-            <div className="flex-grow-1">
+            <div className="d-flex justify-content-between w-100">
+              <span className="mb-2">Ventas Totales</span>
               <h4 className="mb-2">$ {totalVentas}</h4>
-              <span className="mb-2"> Ventas Totales</span>
             </div>
           </div>
         </div>

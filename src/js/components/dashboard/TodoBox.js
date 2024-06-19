@@ -10,8 +10,11 @@ export const TodoBox = () => {
     }
   }, [store.token]);
   return (
-    <div className="main__card">
-      <div className="new__card__profile">
+    <div className="todo__main__card">
+      <div
+        className="new__card__profile"
+        style={{ backgroundColor: "#FFFF00" }}
+      >
         <div className="card__inner ">
           <p className="text-black">POR HACER</p>
         </div>
@@ -20,11 +23,14 @@ export const TodoBox = () => {
         </p>
       </div>
 
-      <div className="new__card__profile">
+      <div
+        className="new__card__profile"
+        style={{ backgroundColor: "#0000FF" }}
+      >
         <div className="card__inner">
-          <p className="text-black">EN PROCESO</p>
+          <p className="text-white">EN PROCESO</p>
         </div>
-        <span className="text-black font-weight-bold numero">
+        <span className="text-white font-weight-bold numero">
           {
             store.clientes.filter((index) => index.status == "Contactado")
               .length
@@ -32,7 +38,10 @@ export const TodoBox = () => {
         </span>
       </div>
 
-      <div className="new__card__profile">
+      <div
+        className="new__card__profile"
+        style={{ backgroundColor: "#00FF00" }}
+      >
         <div className="card__inner">
           <p className="text-black">REALIZADO</p>
         </div>
