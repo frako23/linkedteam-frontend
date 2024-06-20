@@ -323,6 +323,12 @@ body {
   background-color: #575656;
   border-radius: 20px;
 }
+
+.form-control {
+  box-shadow:
+    0 8px 17px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 /* ------------------------- GENERAL MEDIAS QUERIES ------------------------- */
 @media (max-width: 1200px) {
 }
