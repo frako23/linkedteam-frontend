@@ -214,10 +214,11 @@
 
 scroll-container {
   display: block;
-  height: 22rem;
+  min-height: 22rem;
   overflow-y: scroll;
   scroll-behavior: smooth;
   scrollbar-width: none;
+  border-radius: 10px;
 }
 
 /* Extra small devices (phones, 600px and down) */

@@ -774,7 +774,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${store.token}`,
+            Authorization: `Bearer ${store.token}`,
           },
         };
         try {
@@ -791,8 +791,10 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
           actions.getTareas();
           // console.log("This came from the backend", data);
+          toast.success("Has eliminado la tarea correctamente");
           return true;
         } catch (error) {
+          toast.error(error.message);
           console.error(
             "Ha habido un error al cambiar es estatus del cliente desde el backend",
             error

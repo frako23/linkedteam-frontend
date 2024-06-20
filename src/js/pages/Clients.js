@@ -28,7 +28,7 @@ export const Clients = () => {
         <h3>Haz click aqui para añadir un cliente</h3>
       </div>
 
-      <section className="clients">
+      <section className="clients" style={{ overflowX: "auto" }}>
         <table className="table table-hover clients-table">
           <thead>
             <tr>

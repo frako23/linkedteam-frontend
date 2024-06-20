@@ -99,7 +99,7 @@ export function Todo() {
                   <Droppable droppableId="por realizar">
                     {(droppableProvided) => (
                       <div
-                        className="swim-lane"
+                        className="swim-lane gap-2"
                         {...droppableProvided.droppableProps}
                         ref={droppableProvided.innerRef}
                       >
@@ -174,7 +174,7 @@ export function Todo() {
                   <Droppable droppableId="en ejecución">
                     {(droppableProvided) => (
                       <div
-                        className="swim-lane"
+                        className="swim-lane gap-2"
                         {...droppableProvided.droppableProps}
                         ref={droppableProvided.innerRef}
                       >
@@ -249,7 +249,7 @@ export function Todo() {
                   <Droppable droppableId="realizado">
                     {(droppableProvided) => (
                       <div
-                        className="swim-lane"
+                        className="swim-lane gap-2"
                         {...droppableProvided.droppableProps}
                         ref={droppableProvided.innerRef}
                       >
