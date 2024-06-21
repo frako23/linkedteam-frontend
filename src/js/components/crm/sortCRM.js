@@ -43,6 +43,20 @@ export default function SortCRM() {
             <button
               className="dropdown-item"
               onClick={() => {
+                actions.getClientes();
+                setName("");
+                setFilter({
+                  amount: "Monto",
+                  age: "Edad",
+                  trust: "Confianza",
+                });
+              }}
+            >
+              Reiniciar
+            </button>
+            <button
+              className="dropdown-item"
+              onClick={() => {
                 actions.filterByAmount(300, 1499);
                 setFilter({ ...filter, amount: "$300 a $1499" });
               }}
@@ -94,6 +108,20 @@ export default function SortCRM() {
         </button>
         <ul className="dropdown-menu w-25">
           <li>
+            <button
+              className="dropdown-item"
+              onClick={() => {
+                actions.getClientes();
+                setName("");
+                setFilter({
+                  amount: "Monto",
+                  age: "Edad",
+                  trust: "Confianza",
+                });
+              }}
+            >
+              Reiniciar
+            </button>
             <button
               className="dropdown-item"
               onClick={() => {
@@ -171,6 +199,20 @@ export default function SortCRM() {
         </button>
         <ul className="dropdown-menu w-25">
           <li>
+            <button
+              className="dropdown-item"
+              onClick={() => {
+                actions.getClientes();
+                setName("");
+                setFilter({
+                  amount: "Monto",
+                  age: "Edad",
+                  trust: "Confianza",
+                });
+              }}
+            >
+              Reiniciar
+            </button>
             <button
               className="dropdown-item"
               onClick={() => {
