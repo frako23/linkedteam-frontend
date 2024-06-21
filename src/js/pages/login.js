@@ -86,6 +86,9 @@ export const Login = () => {
 
                 {/* < />!-- Email input --> */}
                 <div className="form-outline mb-4">
+                  <label className="form-label" htmlFor="form3Example3">
+                    Coloca tu correo
+                  </label>
                   <input
                     type="email"
                     id="form2Example1"
@@ -96,14 +99,14 @@ export const Login = () => {
                     placeholder="tucorreo@correo.com"
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <label className="form-label" htmlFor="form3Example3">
-                    Coloca tu correo
-                  </label>
                 </div>
 
                 {/* < />!-- Password input --> */}
                 <div className="form-outline mb-4">
                   <div>
+                    <label className="form-label" htmlFor="form3Example4">
+                      Coloca tu contraseña
+                    </label>
                     <input
                       type={passwordShowHide ? "password" : "text"}
                       id="form2Example2"
@@ -122,9 +125,6 @@ export const Login = () => {
                       onClick={() => setPasswordShowHide(!passwordShowHide)}
                     ></i>
                   </div>
-                  <label className="form-label" htmlFor="form3Example4">
-                    Coloca tu contraseña
-                  </label>
                 </div>
 
                 {/* < />!-- Checkbox --> */}

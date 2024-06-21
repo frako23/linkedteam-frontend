@@ -109,9 +109,15 @@ export const SignUp = () => {
                 }}
               >
                 {/* <!-- 2 column grid layout with text inputs for the first and last names --> */}
-                <div className="row" style={{ margin: "0px" }}>
+                <div className="row">
                   <div className="col-md-6 mb-2">
                     <div className="form-outline">
+                      <label
+                        className="form-label"
+                        htmlFor="validationCustom01"
+                      >
+                        Nombre
+                      </label>
                       <input
                         type="text"
                         id="validationCustom01"
@@ -121,17 +127,13 @@ export const SignUp = () => {
                         required
                         onChange={(e) => setName(e.target.value)}
                       />
-                      <label
-                        className="form-label"
-                        htmlFor="validationCustom01"
-                        style={{ paddingLeft: "3rem" }}
-                      >
-                        Nombre
-                      </label>
                     </div>
                   </div>
                   <div className="col-md-6 mb-2">
                     <div className="form-outline">
+                      <label className="form-label" htmlFor="form3Example2">
+                        Apellido
+                      </label>
                       <input
                         type="text"
                         id="form3Example2"
@@ -145,19 +147,15 @@ export const SignUp = () => {
                       <div className="invalid-feedback">
                         Please choose a username.
                       </div>
-                      <label
-                        className="form-label"
-                        htmlFor="form3Example2"
-                        style={{ paddingLeft: "3rem" }}
-                      >
-                        Apellido
-                      </label>
                     </div>
                   </div>
                 </div>
 
                 {/* <!-- Email input --> */}
                 <div className="form-outline mb-4">
+                  <label className="form-label" htmlFor="form3Example3">
+                    Correo Electrónico
+                  </label>
                   <input
                     type="email"
                     id="form3Example3"
@@ -168,13 +166,13 @@ export const SignUp = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <label className="form-label" htmlFor="form3Example3">
-                    Correo Electrónico
-                  </label>
                 </div>
 
                 {/* <!-- Password input --> */}
                 <div className="form-outline mb-4">
+                  <label className="form-label" htmlFor="form3Example4">
+                    Contraseña
+                  </label>
                   <input
                     type={passwordShowHide ? "password" : "text"}
                     id="form3Example4"
@@ -184,14 +182,14 @@ export const SignUp = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
-                  <label className="form-label" htmlFor="form3Example4">
-                    Contraseña
-                  </label>
                 </div>
 
                 {/* <!-- Confirm Password input --> */}
                 <div className="form-outline mb-4">
                   <div>
+                    <label className="form-label" htmlFor="confirmPassword">
+                      Confirma tú contraseña
+                    </label>
                     <input
                       type={passwordShowHide ? "password" : "text"}
                       id="confirmPassword"
@@ -211,9 +209,6 @@ export const SignUp = () => {
                       onClick={() => setPasswordShowHide(!passwordShowHide)}
                     ></i>
                   </div>
-                  <label className="form-label" htmlFor="confirmPassword">
-                    Confirma tú contraseña
-                  </label>
                 </div>
                 {/* <!-- Checkbox --> */}
                 {/* <div className="form-check d-flex justify-content-center mb-4">
