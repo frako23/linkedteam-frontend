@@ -262,7 +262,7 @@ body {
   cursor: pointer;
   /* display: none; */
   top: -1.8rem;
-  left: 19rem;
+  left: 32dvw;
 }
 
 .password-show-login {
@@ -275,7 +275,7 @@ body {
   cursor: pointer;
   /* display: none; */
   top: -1.8rem;
-  left: 16rem;
+  left: 20dvw;
 }
 
 /* Espaciado de botones en Componente Main Chart */
@@ -343,7 +343,13 @@ select {
     0 6px 4px 0 rgba(0, 0, 0, 0.19);
 }
 /* ------------------------- GENERAL MEDIAS QUERIES ------------------------- */
-@media (max-width: 1200px) {
+@media (max-width: 1280px) {
+  .password-show-login {
+    left: 22dvw;
+  }
+  .password-show {
+    left: 28dvw;
+  }
 }
 
 @media (max-width: 991px) {
@@ -366,11 +372,11 @@ select {
   }
   .password-show-login {
     top: -2rem;
-    left: 8rem;
+    left: 12dvw;
   }
   .password-show {
     top: -2rem;
-    left: 8rem;
+    left: 32dvw;
   }
 }
 
