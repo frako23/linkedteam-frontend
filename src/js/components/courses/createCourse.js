@@ -48,8 +48,10 @@ function CreateCourse() {
   return (
     <>
       <button
-        className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
-        style={{ background: "#695cfe" }}
+        className="btn btn-light border w-25-dark fw-bold text-white"
+        style={{
+          background: "#695cfe",
+        }}
         onClick={handleShow}
       >
         Crear Curso

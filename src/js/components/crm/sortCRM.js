@@ -31,7 +31,7 @@ export default function SortCRM() {
       </div>
       <div className="input-group mb-3 sort-search w-100">
         <button
-          className="btn btn-dark dropdown-toggle rounded-pill border w-25"
+          className="btn btn-dark dropdown-toggle border w-25"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
@@ -85,7 +85,7 @@ export default function SortCRM() {
           </li>
         </ul>
         <button
-          className="btn btn-dark dropdown-toggle rounded-pill border w-25"
+          className="btn btn-dark dropdown-toggle border w-25"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
@@ -161,7 +161,7 @@ export default function SortCRM() {
           </li>
         </ul>
         <button
-          className="btn btn-dark dropdown-toggle rounded-pill border w-25"
+          className="btn btn-dark dropdown-toggle border w-25"
           type="button"
           data-bs-toggle="dropdown"
           aria-expanded="false"
@@ -205,7 +205,7 @@ export default function SortCRM() {
           </li>
         </ul>
         <button
-          className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
+          className="btn btn-light border w-25-dark fw-bold text-white"
           style={{ background: "#695cfe" }}
           type="button"
           aria-expanded="false"

@@ -39,8 +39,8 @@
   border: 1px solid #d2d2d3;
   border-radius: 5px;
   box-shadow:
-    0 8px 17px 0 rgba(0, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    0 8px 5px 0 rgba(0, 0, 0, 0.2),
+    0 6px 4px 0 rgba(0, 0, 0, 0.19);
 }
 
 .card__profile:first-child {
@@ -311,8 +311,8 @@ table td {
   border: 1px solid #d2d2d3;
   border-radius: 5px;
   box-shadow:
-    0 8px 17px 0 rgba(0, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    0 8px 5px 0 rgba(0, 0, 0, 0.2),
+    0 6px 4px 0 rgba(0, 0, 0, 0.19);
 }
 
 /* ------------------------------ MEDIA QUERIES ----------------------------- */

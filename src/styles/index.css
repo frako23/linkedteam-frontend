@@ -321,7 +321,16 @@ body {
   padding-inline: 2rem;
   color: white;
   background-color: #575656;
-  border-radius: 20px;
+  border-radius: 0.25rem;
+  box-shadow:
+    0 8px 5px 0 rgba(0, 0, 0, 0.2),
+    0 6px 4px 0 rgba(0, 0, 0, 0.19);
+}
+
+select {
+  box-shadow:
+    0 8px 5px 0 rgba(0, 0, 0, 0.2),
+    0 6px 4px 0 rgba(0, 0, 0, 0.19);
 }
 
 .form-control {

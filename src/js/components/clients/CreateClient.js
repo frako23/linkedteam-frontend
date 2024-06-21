@@ -54,7 +54,7 @@ export const CreateClient = () => {
     <>
       <button
         onClick={handleShow}
-        className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
+        className="btn btn-light border w-25-dark fw-bold text-white"
         style={{ background: "#695cfe" }}
       >
         Nuevo Cliente

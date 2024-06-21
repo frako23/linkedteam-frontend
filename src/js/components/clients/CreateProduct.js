@@ -44,7 +44,7 @@ function CreateProduct() {
   return (
     <>
       <button
-        className="btn btn-light rounded-pill ms-2 border w-25-dark fw-bold text-white"
+        className="btn btn-light ms-2 border w-25-dark fw-bold text-white"
         style={{ background: "#695cfe" }}
         onClick={handleShow}
       >
