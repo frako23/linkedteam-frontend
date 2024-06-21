@@ -19,6 +19,7 @@ export const MainChart = () => {
       style={{
         marginLeft: "5rem",
         marginRight: "1rem",
+        overflowX: "auto",
       }}
     >
       <h3 className="fw-bold">Tabla de usuarios</h3>
