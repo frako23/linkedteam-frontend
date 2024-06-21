@@ -55,6 +55,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const resp = await fetch(`${process.env.BACKEND_URL}/token`, opts);
           if (resp.status !== 200) {
             const mensaje = await resp.json();
+            actions.setLoader(false);
             toast.error(mensaje.msg);
             return false;
           }
