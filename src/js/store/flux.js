@@ -61,12 +61,13 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await resp.json();
           // console.log("Esto vino del backend", data);
           localStorage.setItem("token", data.access_token);
-
+          actions.setLoader(false);
           console.log(data);
           setStore({ token: data.access_token });
           actions.getUsuario();
           return true;
         } catch (error) {
+          actions.setLoader(false);
           toast.error("Hubo un error al hacer login in");
         }
       },
