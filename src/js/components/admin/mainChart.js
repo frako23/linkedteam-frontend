@@ -28,6 +28,7 @@ export const MainChart = () => {
             <th className="text-center">ID</th>
             {/* <th className="text-center">Pagos</th> */}
             <th className="text-center">Nombre</th>
+            <th className="text-center">Correo</th>
             <th className="text-center">Gerente</th>
             <th className="text-center">Asignar rol</th>
             <th className="text-center">Rol</th>
@@ -50,6 +51,7 @@ export const MainChart = () => {
                 <td className="fw-bolder text-center">
                   {usuario.name + " " + usuario.lastname}
                 </td>
+                <td className="fw-bolder text-center">{usuario.email}</td>
                 <td className="fw-bolder text-center">
                   {usuario.manager ?? (
                     <SetManager userId={usuario.id} userName={usuario.name} />
