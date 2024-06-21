@@ -232,7 +232,7 @@
 
 scroll-container {
   display: block;
-  min-height: 22rem;
+  min-height: 61dvh;
   overflow-y: scroll;
   scroll-behavior: smooth;
   scrollbar-width: none;
