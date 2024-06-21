@@ -17,8 +17,8 @@ export const Login = () => {
 
   const handleClick = () => {
     // const success = await
-    actions.login(email, password);
     actions.setLoader(true);
+    actions.login(email, password);
     // success && navigate("/");
   };
   useEffect(() => actions.setNotNav(true), []);
