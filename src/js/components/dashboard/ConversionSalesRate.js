@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../../store/appContext";
 
-export const TotalSales = () => {
+export const ConversionSalesRate = () => {
   const { store } = useContext(Context);
   const clientesCerrados = store.clientes.filter(
     (index) => index.status == "Cerrado"
@@ -10,15 +10,19 @@ export const TotalSales = () => {
     (acum, index) => acum + parseInt(index.amount),
     0
   );
-  console.log(totalVentas);
   return (
     <div className="d-flex my-2">
       <div className="card flex-fill border-0">
         <div className="card-body py-4">
           <div className="d-flex align-items-start">
             <div className="d-flex justify-content-between w-100">
-              <span className="mb-2">Ventas Logradas</span>
-              <h4 className="mb-2">$ {totalVentas}</h4>
+              <span className="mb-2">% logrado</span>
+              <h4 className="mb-2">
+                {store.usuario.sales_goal
+                  ? ((totalVentas / store.usuario.sales_goal) * 100).toFixed(2)
+                  : ""}
+                %
+              </h4>
             </div>
           </div>
         </div>

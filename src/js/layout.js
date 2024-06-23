@@ -30,7 +30,6 @@ import { Bugs } from "./pages/Bugs";
 const Layout = () => {
   //the basename is used when your project is published in a subdirectory and not in the root of the domain
   // you can set the basename on the .env file located at the root of this project, E.g: BASENAME=/react-hello-webapp/
-  // eslint-disable-next-line no-undef
   const basename = process.env.BASENAME || "";
 
   return (

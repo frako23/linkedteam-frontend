@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../../store/appContext";
 
-export const TotalSales = () => {
+export const SalesToGet = () => {
   const { store } = useContext(Context);
   const clientesCerrados = store.clientes.filter(
     (index) => index.status == "Cerrado"
@@ -17,8 +17,13 @@ export const TotalSales = () => {
         <div className="card-body py-4">
           <div className="d-flex align-items-start">
             <div className="d-flex justify-content-between w-100">
-              <span className="mb-2">Ventas Logradas</span>
-              <h4 className="mb-2">$ {totalVentas}</h4>
+              <span className="mb-2">Por lograr</span>
+              <h4 className="mb-2">
+                ${" "}
+                {store.usuario.sales_goal
+                  ? store.usuario.sales_goal - totalVentas
+                  : ""}
+              </h4>
             </div>
           </div>
         </div>

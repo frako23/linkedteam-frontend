@@ -1,6 +1,5 @@
 import toast from "react-hot-toast";
 
-/* eslint-disable no-undef */
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
@@ -178,7 +177,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      putUserSalesGoal: async (salesGoal, id) => {
+      putUserSalesGoal: async (salesGoal) => {
         const store = getStore();
 
         const options = {
@@ -193,7 +192,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         // console.log(id);
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/user_sales_goal/${id}`,
+            `${process.env.BACKEND_URL}/user_sales_goal`,
             options
           );
 

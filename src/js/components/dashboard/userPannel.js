@@ -17,7 +17,7 @@ export const UserPannel = () => {
   // useEffect(() => {
   //   actions.getUsuario();
   // }, [salesGoal]);
-
+  asdfasdfasdfadsfasdfsa;
   const id = idDeUsuario;
   if (salesGoal !== 0) {
     // console.log(salesGoal, id);
