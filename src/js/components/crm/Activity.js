@@ -5,18 +5,12 @@ import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import PropTypes from "prop-types";
 
-export const Activity = ({ show, actividad }) => {
+export const Activity = ({ show, onClose, actividad }) => {
   console.log(actividad);
-  console.log(show);
-  const [newShow, setNewShow] = useState(show);
-  useEffect(() => {
-    setNewShow(show);
-  }, [show]);
-  console.log(newShow);
 
   return (
     <>
-      <Modal show={newShow} onHide={() => setNewShow(false)} size="xl">
+      <Modal show={show} onHide={onClose} size="xl">
         <Modal.Header closeButton>
           <Modal.Title>Interacciones</Modal.Title>
         </Modal.Header>
@@ -54,4 +48,5 @@ export const Activity = ({ show, actividad }) => {
 Activity.propTypes = {
   show: PropTypes.bool,
   actividad: PropTypes.object,
+  onCLose: PropTypes.func,
 };

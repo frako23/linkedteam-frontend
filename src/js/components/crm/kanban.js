@@ -44,6 +44,7 @@ export const Kanban = () => {
 
   // const Element = Scroll.Element;
   const [show, setShow] = useState(false);
+  const handleCloseModal = () => setShow(false);
   const [indexToSet, setIndexToSet] = useState();
   console.log(indexToSet);
   return (
@@ -114,7 +115,7 @@ export const Kanban = () => {
                                   data-bs-placement="top"
                                   title="Llamadas"
                                   onClick={() => {
-                                    setShow(!show);
+                                    setShow(true);
                                     setIndexToSet(cliente.id);
                                   }}
                                 >
@@ -252,7 +253,7 @@ export const Kanban = () => {
                                   data-bs-placement="top"
                                   title="Llamadas"
                                   onClick={() => {
-                                    setShow(!show);
+                                    setShow(true);
                                     setIndexToSet(cliente.id);
                                   }}
                                 >
@@ -385,7 +386,7 @@ export const Kanban = () => {
                                   data-bs-placement="top"
                                   title="Llamadas"
                                   onClick={() => {
-                                    setShow(!show);
+                                    setShow(true);
                                     setIndexToSet(cliente.id);
                                   }}
                                 >
@@ -521,7 +522,7 @@ export const Kanban = () => {
                                   data-bs-placement="top"
                                   title="Llamadas"
                                   onClick={() => {
-                                    setShow(!show);
+                                    setShow(true);
                                     setIndexToSet(cliente.id);
                                   }}
                                 >
@@ -654,7 +655,7 @@ export const Kanban = () => {
                                   data-bs-placement="top"
                                   title="Llamadas"
                                   onClick={() => {
-                                    setShow(!show);
+                                    setShow(true);
                                     setIndexToSet(cliente.id);
                                   }}
                                 >
@@ -727,7 +728,7 @@ export const Kanban = () => {
         </div>
       </DragDropContext>
       <Activity
-        setShow={setShow}
+        onClose={handleCloseModal}
         show={show}
         actividad={store.clientActivity.filter(
           (elem) => elem.client_id === indexToSet

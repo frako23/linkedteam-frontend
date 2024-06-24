@@ -34,6 +34,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       productos: [],
       clienteProductos: [],
       loader: false,
+      allClienteProductos: [],
     },
     actions: {
       // Use getActions to call a function within a fuction
@@ -1471,7 +1472,32 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      /* --------------------- LEER PRODUCTOS DE LOS CLIENTES --------------------- */
+      /* --------------------- LEER TODOS LOS PRODUCTOS DEL CLIENTE --------------------- */
+      getAllClienteProductos: (clienteId) => {
+        // console.log(id);
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.token} `,
+          },
+        };
+        const apiURL = `${process.env.BACKEND_URL}/get_all_client_products/${clienteId}/`;
+
+        fetch(apiURL, opts)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+            throw new Error("Ha ocurrido un error");
+          })
+          .then((body) => {
+            setStore({ allClienteProductos: body });
+            console.log(body);
+          })
+          .catch((error) => console.log(error));
+      },
+
+      /* --------------------- LEER PRODUCTOS DEL CLIENTE --------------------- */
       getClienteProductos: (clienteId, productId) => {
         // console.log(id);
         const store = getStore();

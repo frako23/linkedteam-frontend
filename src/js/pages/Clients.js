@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/newuserpannel.css";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { CreateClient } from "../components/clients/CreateClient";
 import CreateProduct from "../components/clients/CreateProduct";
 import CreateProductClient from "../components/clients/CreateProductClient";
 import { EditClient } from "../components/clients/EditClient";
+import { ClientProducts } from "../components/clients/ClientProducts";
 export const Clients = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
@@ -17,7 +18,10 @@ export const Clients = () => {
       navigate("/pricing");
     }
   }, [store.usuario.status]);
-
+  const [show, setShow] = useState(false);
+  const [selectedClient, setSelectedClient] = useState({});
+  const handleCloseModal = () => setShow(false);
+  console.log(store.clientes.find((cliente) => cliente.status == "Cliente"));
   return (
     <>
       <div className="create-course-heading">
@@ -72,6 +76,18 @@ export const Clients = () => {
                         birthdate={cliente.birthdate}
                         id={cliente.id}
                       />
+                      <button
+                        data-toggle="tooltip"
+                        title="Ver productos"
+                        className="btn btn-light rounded-pill border w-25-dark fw-bold text-white"
+                        style={{ background: "#695cfe" }}
+                        onClick={() => {
+                          setSelectedClient(cliente);
+                          setShow(true);
+                        }}
+                      >
+                        <i className="fa-solid fa-folder-tree"></i>
+                      </button>
                       {/* <button
                         data-toggle="tooltip"
                         title="Eliminar Cliente"
@@ -91,6 +107,11 @@ export const Clients = () => {
             )}
           </tbody>
         </table>
+        <ClientProducts
+          show={show}
+          onClose={handleCloseModal}
+          client={selectedClient}
+        />
       </section>
     </>
   );

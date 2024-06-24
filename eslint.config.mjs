@@ -40,9 +40,9 @@ export default [
       "no-debugger": 0,
       semi: ["error", "always"],
       allowImportExportEverywhere: false,
-      indent: "off",
-      "react/jsx-indent": "off",
-      "react/jsx-indent-props": "off",
+      indent: "on",
+      "react/jsx-indent": "on",
+      "react/jsx-indent-props": "on",
 
       "comma-dangle": [
         1,
