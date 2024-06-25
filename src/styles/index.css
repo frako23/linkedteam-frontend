@@ -278,6 +278,12 @@ body {
   left: 20dvw;
 }
 
+.table {
+  box-shadow:
+    0 8px 5px 0 rgba(0, 0, 0, 0.2),
+    0 6px 4px 0 rgba(0, 0, 0, 0.19);
+}
+
 /* Espaciado de botones en Componente Main Chart */
 .single-btn {
   display: flex;
