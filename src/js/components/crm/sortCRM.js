@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "../../store/appContext";
 
 export default function SortCRM() {
-  const { actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const [name, setName] = useState("");
   const [filter, setFilter] = useState({
     amount: "Monto",
@@ -17,13 +17,16 @@ export default function SortCRM() {
         <input
           value={name}
           onChange={(e) => {
+            if (e.target.value == "") {
+              actions.getClientes();
+            }
             setName(e.target.value);
             actions.findByName(name);
           }}
-          type="email"
+          type="text"
           className="form-control"
           id="floatingInput"
-          placeholder="name@example.com"
+          placeholder="Pedro Perez"
         />
         <label htmlFor="floatingInput" className="text-secondary">
           Buscar cliente

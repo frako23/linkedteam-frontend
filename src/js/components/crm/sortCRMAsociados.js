@@ -29,6 +29,9 @@ export default function SortCRMAsociados({ id }) {
           aria-describedby="button-addon2"
           value={name}
           onChange={(e) => {
+            if (e.target.value == "") {
+              actions.getUserClients(id);
+            }
             setName(e.target.value);
             actions.findByNameAsociados(name);
           }}

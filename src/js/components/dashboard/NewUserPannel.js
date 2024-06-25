@@ -5,7 +5,7 @@ import { Box } from "../../components/dashboard/box";
 import { TodoBox } from "./TodoBox";
 import { ConversionRate } from "./ConversionRate";
 import { AverageSale } from "./AverageSale";
-import { SalesCycle, SalesGoal } from "./SalesGoal";
+import { SalesGoal } from "./SalesGoal";
 import Swal from "sweetalert2";
 import { Context } from "../../store/appContext";
 import { SalesToGet } from "./SalesToGet";
@@ -15,12 +15,11 @@ export const NewUserPannel = () => {
   const { store, actions } = useContext(Context);
   const addSalesGoal = () => {
     Swal.fire({
-      title: "Para comenzar coloca tu meta de ventas 💰",
+      title: "Coloca tu meta de ventas 💰",
       input: "number",
-      confirmButtonText: "Registra tu meta 🙌",
+      confirmButtonText: "Registra tu meta",
       showLoaderOnConfirm: true,
       preConfirm: (salesGoal) => {
-        sdasdsdasdasd;
         actions.putUserSalesGoal(salesGoal);
       },
       allowOutsideClick: () => !Swal.isLoading(),

@@ -440,9 +440,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const data = await response.json();
 
           // console.log("This came from the backend", data);
-          actions.setNotification(
-            `Cambiaste el estatus del usuario a ${status}`
-          );
+          toast.success(`Cambiaste el estatus del usuario a ${status}`);
           actions.getTotalUsuarios();
           return true;
         } catch (error) {
@@ -510,6 +508,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
+          toast.success("Modificaste la data del cliente correctamente");
           actions.getClientes();
           // console.log("This came from the backend", data);
           return true;
@@ -568,6 +567,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
 
           const data = await response.json();
+          toast.success("Modificaste la data del cliente correctamente");
           actions.getClientes();
           // console.log("This came from the backend", data);
           return true;
