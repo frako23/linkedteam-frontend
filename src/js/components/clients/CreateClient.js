@@ -90,7 +90,6 @@ export const CreateClient = () => {
                     placeholder="nombre@correo.com"
                     onChange={handleForm}
                     value={cliente.email}
-                    autoFocus
                   />
                 </Col>
               </Row>
@@ -115,7 +114,6 @@ export const CreateClient = () => {
                     name="birthdate"
                     onChange={handleForm}
                     value={cliente.birthdate}
-                    autoFocus
                   />
                 </Col>
                 {/* <Col>

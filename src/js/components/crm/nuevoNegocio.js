@@ -101,7 +101,6 @@ export const Nuevonegocio = () => {
                     placeholder="nombre@correo.com"
                     onChange={handleForm}
                     value={cliente.email}
-                    autoFocus
                   />
                 </Col>
                 <Col>
@@ -111,7 +110,6 @@ export const Nuevonegocio = () => {
                     name="birthdate"
                     onChange={handleForm}
                     value={cliente.birthdate}
-                    autoFocus
                   />
                 </Col>
               </Row>
@@ -127,7 +125,6 @@ export const Nuevonegocio = () => {
                     name="amount"
                     value={cliente.amount}
                     onChange={handleForm}
-                    autoFocus
                   />
                 </Col>
                 <Col>

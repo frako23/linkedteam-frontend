@@ -126,6 +126,7 @@ export const SignUp = () => {
                         value={name}
                         required
                         onChange={(e) => setName(e.target.value)}
+                        autoFocus
                       />
                     </div>
                   </div>

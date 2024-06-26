@@ -98,6 +98,7 @@ export const Login = () => {
                     className="form-control"
                     placeholder="tucorreo@correo.com"
                     onChange={(e) => setEmail(e.target.value)}
+                    autoFocus
                   />
                 </div>
 
