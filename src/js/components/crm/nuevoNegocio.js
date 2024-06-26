@@ -17,8 +17,8 @@ export const Nuevonegocio = () => {
     email: "",
     cellphone: "",
     amount: "",
-    status: "",
-    trust: "",
+    status: "Prospecto",
+    trust: "Alta",
     notes: "",
     tag: "white",
   });
@@ -38,8 +38,8 @@ export const Nuevonegocio = () => {
       email: "",
       cellphone: "",
       amount: "",
-      status: "",
-      trust: "",
+      status: "Prospecto",
+      trust: "Alta",
       notes: "",
       tag: "white",
     });
@@ -78,6 +78,9 @@ export const Nuevonegocio = () => {
                     value={cliente.name}
                     autoFocus
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Please ingresa Nombre y Apellido del prospecto
+                  </Form.Control.Feedback>
                 </Col>
                 <Col>
                   <Form.Label>Celular</Form.Label>
@@ -215,6 +218,7 @@ export const Nuevonegocio = () => {
                     required
                     name="status"
                     value={cliente.status}
+                    defaultValue="Prospecto"
                     onChange={handleForm}
                   >
                     <option value=""></option>
@@ -233,6 +237,7 @@ export const Nuevonegocio = () => {
                     name="trust"
                     value={cliente.trust}
                     onChange={handleForm}
+                    defaultValue="Alta"
                   >
                     <option value=""></option>
                     <option value="Alta">Alta</option>
