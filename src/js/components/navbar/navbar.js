@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { Context } from "../../store/appContext";
 import "../../../styles/navbar.css";
 
 export const Navbar = () => {
+  let { pathname } = useLocation();
   const { store, actions } = useContext(Context);
   const role = localStorage.getItem("usuario.role");
   const [toggle, setToggle] = useState("close");
@@ -31,7 +32,7 @@ export const Navbar = () => {
 
   return (
     <nav
-      className={`sidebar shadow ${toggle == "close" ? "close" : "open"} ${store.notnav && "d-none"}`}
+      className={`sidebar shadow ${toggle == "close" ? "close" : "open"} ${pathname == "/signup" || pathname == "/login" || pathname == "/" || pathname == "/demo" ? "d-none" : ""}`}
       id="body"
     >
       <div className="menu-bar">

@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/appContext";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../../img/logoNavBar.png";
 import "../../../styles/navbar.css";
 
 export const TopBar = () => {
+  let { pathname } = useLocation();
   const { store, actions } = useContext(Context);
   const name = localStorage.getItem("usuario.name");
   const lastName = localStorage.getItem("usuario.lastname");
@@ -15,7 +16,7 @@ export const TopBar = () => {
   }
   return (
     <nav
-      className={`navbar sticky-top flex-md-nowrap p-0 shadow tb ${store.notnav && "d-none"}`}
+      className={`navbar sticky-top flex-md-nowrap p-0 shadow tb ${pathname == "/signup" || pathname == "/login" || pathname == "/" || pathname == "/demo" ? "d-none" : ""}`}
       data-bs-theme="dark"
       style={{ backgroundColor: "#e4e9f7" }}
     >

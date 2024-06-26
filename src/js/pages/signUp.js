@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import "../../styles/home.css";
 import "../../styles/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import Swal from "sweetalert2";
 import { ModalLoader } from "../components/utils/ModalLoader";
 
 export const SignUp = () => {
@@ -23,10 +22,6 @@ export const SignUp = () => {
       // Custom Icon
       icon: "👏",
     });
-
-  useEffect(() => {
-    actions.setNotNav(true);
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

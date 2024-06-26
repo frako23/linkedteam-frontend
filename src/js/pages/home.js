@@ -19,7 +19,6 @@ export const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    actions.setNotNav(true);
     if (token) {
       navigate("/perfil");
     }

@@ -9,7 +9,6 @@ import { ModalLoader } from "../components/utils/ModalLoader";
 export const Demo = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
-  useEffect(() => actions.setNotNav(true), []);
 
   useEffect(() => {
     if (store.token && store.token != "" && store.token != undefined) {
