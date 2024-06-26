@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../../store/appContext";
 
-export const ConversionSalesRate = () => {
+export const ConversionSalesRate = ({ salesGoal }) => {
   const { store } = useContext(Context);
   const clientesCerrados = store.clientes.filter(
     (index) => index.status == "Cerrado"
@@ -19,7 +19,7 @@ export const ConversionSalesRate = () => {
               <span className="mb-2">% logrado</span>
               <h4 className="mb-2">
                 {store.usuario.sales_goal
-                  ? ((totalVentas / store.usuario.sales_goal) * 100).toFixed(2)
+                  ? ((totalVentas / salesGoal) * 100).toFixed(2)
                   : ""}
                 %
               </h4>

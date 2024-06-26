@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../../../styles/newuserpannel.css";
 import { TotalSales } from "./TotalSales";
 import { Box } from "../../components/dashboard/box";
@@ -13,6 +13,7 @@ import { ConversionSalesRate } from "./ConversionSalesRate";
 
 export const NewUserPannel = () => {
   const { store, actions } = useContext(Context);
+  const [salesGoal, setSalesGoal] = useState();
   const addSalesGoal = () => {
     Swal.fire({
       title: "Coloca tu meta de ventas 💰",
@@ -21,10 +22,18 @@ export const NewUserPannel = () => {
       showLoaderOnConfirm: true,
       preConfirm: (salesGoal) => {
         actions.putUserSalesGoal(salesGoal);
+        setSalesGoal(salesGoal);
       },
       allowOutsideClick: () => !Swal.isLoading(),
     });
   };
+
+  useEffect(() => {
+    if (store.usuario.sales_goal) {
+      setSalesGoal(store.usuario.sales_goal);
+    }
+  }, [store.usuario.sales_goal]);
+
   return (
     <>
       <main className="ms-5 d-container">
@@ -40,10 +49,10 @@ export const NewUserPannel = () => {
         </div>
         <div>
           <div className="justify-content-around graphic-cards">
-            <SalesGoal />
+            <SalesGoal salesGoal={salesGoal} />
             <TotalSales />
-            <SalesToGet />
-            <ConversionSalesRate />
+            <SalesToGet salesGoal={salesGoal} />
+            <ConversionSalesRate salesGoal={salesGoal} />
           </div>
           <div className="justify-content-around graphic-cards">
             {/* <SalesGoal />

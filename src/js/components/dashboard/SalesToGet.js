@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../../store/appContext";
 
-export const SalesToGet = () => {
+export const SalesToGet = ({ salesGoal }) => {
   const { store } = useContext(Context);
   const clientesCerrados = store.clientes.filter(
     (index) => index.status == "Cerrado"
@@ -19,10 +19,7 @@ export const SalesToGet = () => {
             <div className="d-flex justify-content-between w-100">
               <span className="mb-2">Por lograr</span>
               <h4 className="mb-2">
-                ${" "}
-                {store.usuario.sales_goal
-                  ? store.usuario.sales_goal - totalVentas
-                  : ""}
+                $ {store.usuario.sales_goal ? salesGoal - totalVentas : ""}
               </h4>
             </div>
           </div>
