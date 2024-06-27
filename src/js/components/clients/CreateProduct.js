@@ -92,7 +92,6 @@ function CreateProduct() {
                   <Form.Control
                     type="text"
                     placeholder="Fredom 20"
-                    autoFocus
                     name="product_name"
                     value={products.product_name}
                     onChange={handleForm}
@@ -104,7 +103,6 @@ function CreateProduct() {
                   <Form.Control
                     type="text"
                     placeholder="Seguro de Vida"
-                    autoFocus
                     name="product_type"
                     value={products.product_type}
                     onChange={handleForm}
