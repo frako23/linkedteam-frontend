@@ -13,6 +13,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
   console.log(asociadoId);
   useEffect(() => {
     actions.getUserClients(asociadoId);
+    actions.getManagerClientActivity(asociadoId);
   }, [asociadoId]);
   console.log(store.clientActivity.filter((item) => item.client_id === 1));
   console.log(store.userClients);
@@ -108,7 +109,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "llamada"
@@ -128,7 +129,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "mensaje"
@@ -148,7 +149,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "cita"
@@ -227,7 +228,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "llamada"
@@ -247,7 +248,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "mensaje"
@@ -267,7 +268,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "cita"
@@ -341,7 +342,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "llamada"
@@ -361,7 +362,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "mensaje"
@@ -381,7 +382,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "cita"
@@ -458,7 +459,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "llamada"
@@ -478,7 +479,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "mensaje"
@@ -498,7 +499,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "cita"
@@ -572,7 +573,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "llamada"
@@ -592,7 +593,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "mensaje"
@@ -612,7 +613,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
                                 className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                               >
                                 {
-                                  store.clientActivity.filter(
+                                  store.managerClientActivity.filter(
                                     (elem) =>
                                       elem.client_id === cliente.id &&
                                       elem.contact_type === "cita"
@@ -634,7 +635,7 @@ export const KanbanAsociado = ({ asociadoId }) => {
       <ActivityManager
         setShow={setShow}
         show={show}
-        actividad={store.clientActivity.filter(
+        actividad={store.managerClientActivity.filter(
           (elem) => elem.client_id === indexToSet
         )}
       />

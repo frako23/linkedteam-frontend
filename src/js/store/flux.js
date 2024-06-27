@@ -976,7 +976,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       // obtener la actividad de cliente para manager
-      getManagerClientActivity: (user_id, client_id) => {
+      getManagerClientActivity: (user_id) => {
         // console.log(client_id);
         const store = getStore();
         const opts = {
@@ -984,7 +984,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: `Bearer ${store.token} `,
           },
         };
-        const apiURL = `${process.env.BACKEND_URL}/manager_client_activity/${user_id}/${client_id}`;
+        const apiURL = `${process.env.BACKEND_URL}/manager_client_activity/${user_id}`;
 
         fetch(apiURL, opts)
           .then((response) => {
