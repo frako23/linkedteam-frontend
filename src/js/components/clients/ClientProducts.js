@@ -17,7 +17,7 @@ export const ClientProducts = ({ show, onClose, client }) => {
     <>
       <Modal show={show} onHide={onClose} size="xl">
         <Modal.Header closeButton>
-          <Modal.Title>Productos asociados a </Modal.Title>
+          <Modal.Title>Productos asociados a {client.name} </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -32,6 +32,7 @@ export const ClientProducts = ({ show, onClose, client }) => {
                       <th style={{ width: "5rem" }}>Producto</th>
                       <th style={{ width: "5rem" }}>Monto</th>
                       <th style={{ width: "5rem" }}>Modalidad de pago</th>
+                      <th>Notas</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -43,6 +44,9 @@ export const ClientProducts = ({ show, onClose, client }) => {
                         <td scope="row">{clientProduct.product_name}</td>
                         <td scope="row">$ {clientProduct.amount}</td>
                         <td scope="row">{clientProduct.payment_recurrence}</td>
+                        <td className=" text-wrap" scope="row">
+                          {clientProduct.notes}
+                        </td>
                       </tr>
                     ))}
                   </tbody>
