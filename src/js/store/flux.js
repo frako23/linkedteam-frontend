@@ -69,7 +69,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           return true;
         } catch (error) {
           actions.setLoader(false);
-          toast.error("Hubo un error al hacer login in");
+          toast.error("Hubo un error al procesar el ingreso");
         }
       },
 
@@ -109,14 +109,18 @@ const getState = ({ getStore, getActions, setStore }) => {
           if (!response.ok) {
             let danger = await response.json();
             toast.error(danger);
+            actions.setLoader(false);
             return false;
           }
 
           const data = await response.json();
           console.log("This came from the backend", data);
+          actions.setLoader(false);
           return true;
         } catch (error) {
           console.error("There has been an error login in from the backend");
+          actions.setLoader(false);
+          toast.error("Hubo un error al procesar el registro");
         }
       },
 
