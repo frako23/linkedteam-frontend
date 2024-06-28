@@ -739,7 +739,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${store.token}`,
+            Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
             status: status,
