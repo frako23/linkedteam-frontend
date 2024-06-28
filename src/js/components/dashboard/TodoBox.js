@@ -6,9 +6,10 @@ export const TodoBox = () => {
   const { store, actions } = useContext(Context);
   useEffect(() => {
     if (store.token && store.token !== "" && store.token !== undefined) {
-      actions.getClientes();
+      actions.getTareas();
     }
   }, [store.token]);
+  console.log(store.tareas);
   return (
     <div className="todo__main__card">
       <div
@@ -18,9 +19,12 @@ export const TodoBox = () => {
         <div className="card__inner ">
           <p className="text-black">POR HACER</p>
         </div>
-        <p className="text-black font-weight-bold numero">
-          {store.clientes.filter((index) => index.status == "Prospecto").length}
-        </p>
+        <span className="text-black font-weight-bold numero">
+          {
+            store.tareas.filter((index) => index.status == "por realizar")
+              .length
+          }
+        </span>
       </div>
 
       <div
@@ -32,7 +36,7 @@ export const TodoBox = () => {
         </div>
         <span className="text-white font-weight-bold numero">
           {
-            store.clientes.filter((index) => index.status == "Contactado")
+            store.tareas.filter((index) => index.status == "en ejecución")
               .length
           }
         </span>
@@ -46,10 +50,7 @@ export const TodoBox = () => {
           <p className="text-black">REALIZADO</p>
         </div>
         <span className="text-black font-weight-bold numero">
-          {
-            store.clientes.filter((index) => index.status == "Primera Cita")
-              .length
-          }
+          {store.tareas.filter((index) => index.status == "realizado").length}
         </span>
       </div>
     </div>
