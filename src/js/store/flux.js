@@ -152,6 +152,42 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => toast.error(error.message));
       },
 
+      putUserPassword: async (password, id) => {
+        const store = getStore();
+        console.log(password);
+        const options = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({ password: password }),
+        };
+        // console.log(salesGoal);
+        // console.log(id);
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/reset_pass/${id}`,
+            options
+          );
+
+          if (!response.ok) {
+            let danger = await response.json();
+            throw new Error(danger);
+          }
+
+          const data = await response.json();
+          // console.log("This came from the backend", data);
+          toast.success(`Cambiaste correctamente el password`, {
+            // Custom Icon
+            icon: "💪",
+          });
+          return true;
+        } catch (error) {
+          console.error(error);
+        }
+      },
+
       putUserCompany: async (company, id) => {
         const store = getStore();
         const options = {

@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../../store/appContext";
 import SetRoleManager from "./setRoleManager";
 import SetManager from "./setManager";
+import Swal from "sweetalert2";
 // import UserPaymentInformation from "../payment/userPaymentInformation";
 
 export const MainChart = () => {
@@ -14,6 +15,18 @@ export const MainChart = () => {
     actions.getTotalUsuarios();
   }, []);
   console.log(store.totalUsuarios);
+
+  const changePassword = ({ id }) => {
+    Swal.fire({
+      title: "Nuevo password",
+      input: "text",
+      showLoaderOnConfirm: true,
+      preConfirm: (newPassword) => {
+        actions.putUserPassword(newPassword, id);
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    });
+  };
   return (
     <div
       style={{
@@ -29,14 +42,15 @@ export const MainChart = () => {
             <th className="text-center">ID</th>
             {/* <th className="text-center">Pagos</th> */}
             <th className="text-center">Nombre</th>
+            <th className="text-center">Resetar Password</th>
             <th className="text-center">Correo</th>
             <th className="text-center">Gerente</th>
             <th className="text-center">Asignar rol</th>
             <th className="text-center">Rol</th>
             <th className="text-center">Resetear Gerente</th>
-            <th className="text-center">Días</th>
+            {/* <th className="text-center">Días</th>
             <th className="text-center">Estatus</th>
-            <th className="text-center">Activación</th>
+            <th className="text-center">Activación</th> */}
           </tr>
         </thead>
         <tbody>
@@ -49,20 +63,30 @@ export const MainChart = () => {
                 {/* <td scope="fw-bolder single-btn">
                   <UserPaymentInformation id={usuario.id} />
                 </td> */}
-                <td className="fw-bolder text-center">
+                <td className=" text-center">
                   {usuario.name + " " + usuario.lastname}
                 </td>
-                <td className="fw-bolder text-center">{usuario.email}</td>
-                <td className="fw-bolder text-center">
+                <td scope="row" className="text-center single-btn">
+                  <button
+                    className="btn btn-light fw-bolder"
+                    onClick={() =>
+                      changePassword({
+                        id: usuario.id,
+                      })
+                    }
+                  >
+                    Resetear Contraseña
+                  </button>
+                </td>
+                <td className="text-center">{usuario.email}</td>
+                <td className="text-center">
                   {usuario.manager ?? (
                     <SetManager userId={usuario.id} userName={usuario.name} />
                   )}
                 </td>
                 <td
                   className={
-                    usuario.role == "associated"
-                      ? "single-btn"
-                      : "fw-bold text-center"
+                    usuario.role == "associated" ? "single-btn" : "text-center"
                   }
                 >
                   {usuario.role == "associated" ? (
@@ -74,10 +98,10 @@ export const MainChart = () => {
                     usuario.role
                   )}
                 </td>
-                <td className="fw-bolder text-center">{usuario.role}</td>
-                <td className="fw-bolder single-btn">
+                <td className="text-center">{usuario.role}</td>
+                <td className=" single-btn">
                   <button
-                    className="btn btn-warning"
+                    className="btn btn-warning fw-bolder"
                     onClick={() =>
                       actions.putManager({
                         name: null,
@@ -89,7 +113,8 @@ export const MainChart = () => {
                     Resetear
                   </button>
                 </td>
-                <td scope="row text-center" style={{ textAlign: "center" }}>
+
+                {/* <td scope="row text-center" style={{ textAlign: "center" }}>
                   {actions.calcularUso(usuario.created_at)}
                 </td>
                 <td className="fw-bolder text-center">{usuario.status}</td>
@@ -116,7 +141,7 @@ export const MainChart = () => {
                   >
                     Activar
                   </button>
-                </td>
+                </td> */}
               </tr>
             );
           })}
