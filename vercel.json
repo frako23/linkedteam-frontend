@@ -1,8 +1,9 @@
 {
-    "rewrites": [
+    "routes": [
         {
-            "source": "/(.*)",
-            "destination": "/template.html"
+            "src": "/[^.]+",
+            "dest": "/",
+            "status": 200
         }
     ]
 }
