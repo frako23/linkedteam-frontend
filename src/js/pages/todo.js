@@ -138,7 +138,7 @@ export function Todo() {
                                   }}
                                 >
                                   <p
-                                    className={`task ${
+                                    className={`task text-wrap ${
                                       dragOn == true ? "is-dragging" : ""
                                     } 
                                                     d-flex justify-content-between
@@ -213,7 +213,7 @@ export function Todo() {
                                   }}
                                 >
                                   <p
-                                    className={`task ${
+                                    className={`task text-wrap ${
                                       dragOn == true ? "is-dragging" : ""
                                     } 
                                                     d-flex justify-content-between
@@ -288,7 +288,7 @@ export function Todo() {
                                   }}
                                 >
                                   <p
-                                    className={`task ${
+                                    className={`task text-wrap ${
                                       dragOn == true ? "is-dragging" : ""
                                     } 
                                                     d-flex justify-content-between text-decoration-line-through
