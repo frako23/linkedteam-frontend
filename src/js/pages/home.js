@@ -165,7 +165,7 @@ export const Home = () => {
             <h6>
               Podrás cargar contenido de alto valor para a tu equipo de trabajo
             </h6>
-            <div>
+            <div style={{ marginTop: "1rem" }}>
               <Button
                 variant="primary"
                 onClick={() => {
@@ -194,7 +194,7 @@ export const Home = () => {
               Podrás guardar cada uno de tus prospectos, y usar el embudo de
               ventas para hacer un seguimiento efectivo
             </h6>
-            <div>
+            <div style={{ marginTop: "1rem" }}>
               <Button
                 variant="primary"
                 onClick={() => {
@@ -217,13 +217,103 @@ export const Home = () => {
             </div>
           </div>
           <div className="box">
+            <i className="bx bx-table icon"></i>
+            <h4>Registro de interacciones</h4>
+            <h6>
+              Puedes guardar todas las interacciones que tengas con tus
+              prospectos
+            </h6>
+            <div style={{ marginTop: "1rem" }}>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setModalShow(true);
+                  setVideoData({
+                    title: "Registro de interacciones",
+                    url: "xrOD3gi7_WA",
+                  });
+                }}
+              >
+                Ver Video
+              </Button>
+
+              <VideoModal
+                title={videoData.title}
+                url={videoData.url}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="box-container">
+          <div className="box">
+            <i className="bx bxs-dashboard icon"></i>
+            <h4>Tablero de visualización</h4>
+            <h6>
+              Tablero de resúmen, con indicadores del embudo de ventas,
+              indicadores de gestion de ventas y resumen de tareas pendientes
+            </h6>
+            <div style={{ marginTop: "1rem" }}>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setModalShow(true);
+                  setVideoData({
+                    title: "Tablero de visualización",
+                    url: "C1URivfYhDY",
+                  });
+                }}
+              >
+                Ver Video
+              </Button>
+
+              <VideoModal
+                title={videoData.title}
+                url={videoData.url}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+              />
+            </div>
+          </div>
+          <div className="box">
+            <i className="bx bx-show-alt icon"></i>
+            <h4>Visualiza la actividad de tus asociados</h4>
+            <h6>
+              Supervisa de manera eficiente a tu fuerza de ventas, ¡Aumenta la
+              productividad y el rendimiento de tu equipo hoy mismo!
+            </h6>
+            <div style={{ marginTop: "1rem" }}>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setModalShow(true);
+                  setVideoData({
+                    title: "Visualizar prospectos de tus asociados",
+                    url: "LD5cNftpKAU",
+                  });
+                }}
+              >
+                Ver Video
+              </Button>
+
+              <VideoModal
+                title={videoData.title}
+                url={videoData.url}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+              />
+            </div>
+          </div>
+          <div className="box">
             <i className="bx bx-list-ol icon"></i>
             <h4>App de tareas pendientes</h4>
             <h6>
               Podrás anotar esas tareas claves, para hacerles con el método
               Kanban
             </h6>
-            <div>
+            <div style={{ marginTop: "1rem" }}>
               <Button
                 variant="primary"
                 onClick={() => {

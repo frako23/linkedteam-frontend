@@ -236,10 +236,11 @@ section {
 }
 
 .services .box-container .box {
-  padding: 1rem 5rem;
+  padding: 1rem 1rem;
   text-align: center;
   background-color: var(--linkedTeam-font);
   cursor: pointer;
+  margin-bottom: 2rem;
 }
 
 .services .box-container .box:hover {
