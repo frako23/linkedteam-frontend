@@ -11,10 +11,17 @@ import one from "../../img/1.webp";
 import two from "../../img/2.webp";
 import three from "../../img/3.webp";
 import four from "../../img/4.webp";
+import { VideoModal } from "../components/home/VideoModal";
+import { Button } from "react-bootstrap";
 
 export const Home = () => {
   const [menuBar, setMenuBar] = useState(false);
   const { actions } = useContext(Context);
+  const [modalShow, setModalShow] = useState(false);
+  const [videoData, setVideoData] = useState({
+    title: "",
+    url: "",
+  });
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -158,6 +165,27 @@ export const Home = () => {
             <h6>
               Podrás cargar contenido de alto valor para a tu equipo de trabajo
             </h6>
+            <div>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setModalShow(true);
+                  setVideoData({
+                    title: "Plataforma de E-learning",
+                    url: "6L098JYVed8",
+                  });
+                }}
+              >
+                Ver Video
+              </Button>
+
+              <VideoModal
+                title={videoData.title}
+                url={videoData.url}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+              />
+            </div>
           </div>
           <div className="box">
             <i className="bx bxs-layout icon"></i>
@@ -166,6 +194,27 @@ export const Home = () => {
               Podrás guardar cada uno de tus prospectos, y usar el embudo de
               ventas para hacer un seguimiento efectivo
             </h6>
+            <div>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setModalShow(true);
+                  setVideoData({
+                    title: "Registro de prospectos",
+                    url: "QDPIif_bPx4",
+                  });
+                }}
+              >
+                Ver Video
+              </Button>
+
+              <VideoModal
+                title={videoData.title}
+                url={videoData.url}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+              />
+            </div>
           </div>
           <div className="box">
             <i className="bx bx-list-ol icon"></i>
@@ -174,6 +223,27 @@ export const Home = () => {
               Podrás anotar esas tareas claves, para hacerles con el método
               Kanban
             </h6>
+            <div>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  setModalShow(true);
+                  setVideoData({
+                    title: "App de Tareas Pendientes",
+                    url: "mGI-JOQL6uM",
+                  });
+                }}
+              >
+                Ver Video
+              </Button>
+
+              <VideoModal
+                title={videoData.title}
+                url={videoData.url}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+              />
+            </div>
           </div>
         </div>
       </section>
