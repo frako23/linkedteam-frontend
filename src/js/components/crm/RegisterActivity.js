@@ -50,7 +50,7 @@ export const RegisterActivity = ({ id }) => {
 
       <Modal show={show} onHide={handleClose} size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Datos del cliente</Modal.Title>
+          <Modal.Title>Datos de la interacción</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
