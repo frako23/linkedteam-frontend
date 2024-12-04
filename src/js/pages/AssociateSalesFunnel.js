@@ -67,16 +67,17 @@ export const AssociateSalesFunnel = () => {
                   Asociados
                 </Dropdown.Toggle>
 
-                {store.usersByManager.map((asociado) => (
-                  <Dropdown.Menu key={asociado.id}>
+                <Dropdown.Menu>
+                  {store.usersByManager.map((asociado) => (
                     <Dropdown.Item
+                      key={asociado.id}
                       href="#/action-1"
                       onClick={() => setAsociadoId(asociado.id)}
                     >
                       {asociado.name + " " + asociado.lastname}{" "}
                     </Dropdown.Item>
-                  </Dropdown.Menu>
-                ))}
+                  ))}
+                </Dropdown.Menu>
               </Dropdown>
             </div>
           </div>
