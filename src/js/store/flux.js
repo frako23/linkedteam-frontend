@@ -87,6 +87,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       signup: async (name, lastname, email, password) => {
+        const actions = getActions();
         const options = {
           method: "POST",
           headers: {
