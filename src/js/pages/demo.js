@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Briefcase, ShieldCheck, UserRound } from "lucide-react";
+import { Briefcase, UserRound } from "lucide-react";
 import { Context } from "@/store/appContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,19 +21,6 @@ const DOMINIO = "@corredoramedina.test";
 const CLAVE = "Demo1234!";
 
 const GRUPOS = [
-  {
-    rol: "Administrador",
-    icono: ShieldCheck,
-    descripcion:
-      "Acceso total: gestiona usuarios, roles y gerencias de toda la corredora.",
-    perfiles: [
-      {
-        usuario: "admin",
-        nombre: "Sofía Medina",
-        detalle: "Administra usuarios y equipos · cartera propia de 5 clientes",
-      },
-    ],
-  },
   {
     rol: "Gerente",
     icono: Briefcase,
