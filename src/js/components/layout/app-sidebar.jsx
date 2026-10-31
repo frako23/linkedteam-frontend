@@ -96,7 +96,7 @@ export function AppSidebar() {
   ];
 
   const apoyo = [
-    { titulo: "Donaciones", url: "/pricing", icono: HandCoins },
+    { titulo: "Suscripción", url: "/pricing", icono: HandCoins },
     { titulo: "Reportar errores", url: "/bugs", icono: Bug },
   ];
 

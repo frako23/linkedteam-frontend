@@ -152,7 +152,7 @@ Todo en tipo oración. No hay etiquetas en mayúsculas; los rótulos de métrica
 `SidebarProvider` + `Sidebar` con `variant="inset"` y `collapsible="icon"` + `SidebarInset`. El fondo exterior es `--sidebar` y el contenido vive en un panel `bg-background` con `rounded-xl` y sombra mínima, separado del borde. Encabezado del sidebar: logo en un cuadrado `size-8 rounded-lg bg-sidebar-primary text-sidebar-primary-foreground`, "LinkedTeam" en `text-sm font-semibold` y el rol del usuario (Gerente / Asesor) en `text-xs text-muted-foreground`. Grupos con `SidebarGroupLabel`:
 - **Ventas:** Tablero, Embudo, Clientes, Tareas.
 - **Formación:** Cursos disponibles, Cursos para tu equipo (solo gerentes), Videos tutoriales.
-- **Pie:** Donaciones, Reportar errores y el menú del usuario (avatar, nombre, correo; abre un `DropdownMenu` con Perfil, Tema y Cerrar sesión).
+- **Pie:** Suscripción, Reportar errores y el menú del usuario (avatar, nombre, correo; abre un `DropdownMenu` con Perfil, Tema y Cerrar sesión).
 
 Cada ítem es un `SidebarMenuButton` con ícono lucide de 16px, `isActive` según la ruta y `tooltip` con su nombre para el modo ícono. El conteo de cursos disponibles es un `SidebarMenuBadge`.
 
@@ -337,7 +337,7 @@ En oscuro las sombras casi no se ven; ahí la separación la hacen `--border` y 
 **Íconos:** solo lucide-react, con el trazo por defecto.
 - **Tamaños:** 16px (`size-4`) en botones, menús y sidebar; 14px en metadatos de tarjeta; 20px en cuadrados de ícono; 24–32px en estados vacíos.
 - **Color:** `currentColor`. Heredan el texto del contenedor; nunca se colorean por etapa (para eso está el punto).
-- **Equivalencias:** Tablero `LayoutDashboard`, Embudo `Filter`, Clientes `Users`, Tareas `ListTodo`, Cursos `GraduationCap`, Cursos para tu equipo `Presentation`, Videos `CirclePlay`, Donaciones `HandCoins`, Reportar errores `Bug`, Salir `LogOut`.
+- **Equivalencias:** Tablero `LayoutDashboard`, Embudo `Filter`, Clientes `Users`, Tareas `ListTodo`, Cursos `GraduationCap`, Cursos para tu equipo `Presentation`, Videos `CirclePlay`, Suscripción `HandCoins`, Reportar errores `Bug`, Salir `LogOut`.
 
 **Imágenes:** la app privada no lleva fotos; solo datos, íconos y avatares (iniciales en `Avatar` cuando no hay foto). La landing usa capturas reales del producto (`src/img/Landing/`) en marcos `rounded-xl border`, sin maquetas de dispositivo. Las fotos de stock del carrusel actual (`src/img/1–4.webp`) salen; si se usa una foto, va solo en el panel derecho de la pantalla de acceso. El logo es la marca de nodos (ver **Logo**): `text-foreground` sobre claro y blanco sobre oscuro (SVG con `fill="currentColor"`).
 
@@ -416,7 +416,7 @@ La migración va en una rama y se publica completa. No conviene mezclar Bootstra
 3. **Tablero (`/perfil`):** tarjetas de etapa, métricas, gráficos, tareas.
 4. **Embudo:** `kanban.js` y `kanbanAsociado.js` (y sus `sortCRM*`) a la vez; tarjeta de negocio y ficha en Sheet.
 5. **Clientes:** Data Table y ficha.
-6. **Resto de páginas privadas:** tareas, cursos, videos, donaciones, reporte de errores, administración.
+6. **Resto de páginas privadas:** tareas, cursos, videos, suscripción, reporte de errores, administración.
 7. **Acceso y landing.**
 8. **Limpieza:** quitar los CDN de `template.html`, desinstalar las librerías reemplazadas y borrar `src/styles/` salvo `globals.css`.
 

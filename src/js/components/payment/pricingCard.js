@@ -1,38 +1,63 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import pagoMovil from "../../../../public/pago-movil.jpg";
-import zelle from "../../../../public/zelle.jpg";
 import binance from "../../../../public/BINANCE.jpg";
 
 const METODOS = [
-  { titulo: "Zelle", imagen: zelle, detalle: "frako23@gmail.com" },
-  { titulo: "Pago móvil", imagen: pagoMovil },
-  { titulo: "Binance", imagen: binance },
+  { id: "pago-movil", titulo: "Pago móvil", imagen: pagoMovil },
+  { id: "binance", titulo: "Binance", imagen: binance },
+  { id: "paypal", titulo: "PayPal", detalle: "frako23@gmail.com" },
 ];
 
-export const PricingCard = () => (
-  <div className="grid gap-4 md:grid-cols-3">
-    {METODOS.map((metodo) => (
-      <Card key={metodo.titulo}>
-        <CardHeader>
-          <CardTitle>{metodo.titulo}</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col items-center gap-3">
-          <img
-            src={metodo.imagen}
-            alt={`Datos para donar por ${metodo.titulo}`}
-            className="w-full rounded-lg border object-contain"
-          />
-          {metodo.detalle && (
-            <p className="text-muted-foreground text-sm">{metodo.detalle}</p>
-          )}
-        </CardContent>
-      </Card>
-    ))}
-    <Card className="md:col-span-3">
-      <CardContent className="flex flex-col gap-1 text-center">
-        <p className="font-medium">PayPal</p>
-        <p className="text-muted-foreground text-sm">frako23@gmail.com</p>
+export const PricingCard = () => {
+  const [metodoId, setMetodoId] = useState("");
+  const metodo = METODOS.find((m) => m.id === metodoId);
+
+  return (
+    <Card className="max-w-md">
+      <CardContent>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <FieldGroup>
+            <Field>
+              <FieldLabel htmlFor="metodo-pago">Método de pago</FieldLabel>
+              <Select value={metodoId} onValueChange={setMetodoId}>
+                <SelectTrigger id="metodo-pago" className="w-full">
+                  <SelectValue placeholder="Selecciona un método" />
+                </SelectTrigger>
+                <SelectContent>
+                  {METODOS.map((m) => (
+                    <SelectItem key={m.id} value={m.id}>
+                      {m.titulo}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </Field>
+
+            {metodo?.imagen && (
+              <img
+                src={metodo.imagen}
+                alt={`Datos para pagar por ${metodo.titulo}`}
+                className="w-full rounded-lg border object-contain"
+              />
+            )}
+            {metodo?.detalle && (
+              <Field>
+                <FieldLabel>Correo de {metodo.titulo}</FieldLabel>
+                <p className="text-sm">{metodo.detalle}</p>
+              </Field>
+            )}
+          </FieldGroup>
+        </form>
       </CardContent>
     </Card>
-  </div>
-);
+  );
+};

@@ -30,7 +30,7 @@ npm run build     # build de producción → public/bundle.js (+ chunks), junto 
 - Las columnas del Kanban son strings que se guardan tal cual en `Cliente.status` del backend: `Prospecto`, `Contactado`, `Primera Cita`, `Negociación`, `Cerrado`. Renombrarlas deja huérfanos los datos existentes.
 - Excel: `crm/importFromExcel.js` (`xlsx` + `sheet_to_json`; plantilla en `public/LinkedTeam-new-template.xlsx`) y `crm/exportToExcel.js`.
 - UI: shadcn/ui (base Radix, estilo `radix-nova`) + Tailwind CSS v4 + lucide-react. Los componentes de shadcn viven en `src/js/components/ui/` (generados con `npx shadcn@latest add`), los tokens en `src/styles/globals.css` y el sistema visual completo en `DESIGN.md`. Toasts con Sonner (`import { toast } from "sonner"`), confirmaciones con `AlertDialog`, formularios en `Sheet` mediante `components/form-kit.jsx`. Alias `@` = `src/js`. Las etapas del embudo y `formatoMonto` salen de `lib/etapas.js`. Los nombres mezclan español e inglés (`getClientes`, `postTareas`, `getProducts`).
-- Contenido fijo: `src/js/data/tutorialVideosData.js` (tutoriales de YouTube hardcodeados). `/bugs` envía un formulario a Formspree. `/pricing` es la página de donaciones.
+- Contenido fijo: `src/js/data/tutorialVideosData.js` (tutoriales de YouTube hardcodeados). `/bugs` envía un formulario a Formspree. `/pricing` es la página de suscripción (formulario con método de pago).
 
 ## Desfases con el backend
 
