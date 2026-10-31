@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import "../../styles/perfil.css";
 import { Context } from "../store/appContext";
 import { AdminPannel } from "../components/admin/adminPannel";
 import { NewUserPannel } from "../components/dashboard/NewUserPannel";

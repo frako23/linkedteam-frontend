@@ -1,190 +1,118 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Context } from "../../store/appContext";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import toast from "react-hot-toast";
-import { Col, Row } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { FolderPlus } from "lucide-react";
+import { toast } from "sonner";
+import { Context } from "@/store/appContext";
+import { Button } from "@/components/ui/button";
+import { Campo, CampoArea, CampoSelect, FormSheet, Fila } from "../form-kit";
+
+const VACIO = {
+  amount: "",
+  date_of_closing: "",
+  payment_recurrence: "",
+  notes: "",
+};
 
 function CreateProductClient({ clientId }) {
-  const [show, setShow] = useState(false);
   const { store, actions } = useContext(Context);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [clienteProducto, setClienteProducto] = useState({
-    amount: "",
-    date_of_closing: "",
-    payment_recurrence: "",
-    notes: "",
-  });
-  const [productId, setProductId] = useState({
-    company: "",
-    id: 0,
-    product_description: "",
-    product_name: "",
-    product_type: "",
-    user_id: 0,
-  });
-  console.log(clientId);
-  // const id = localStorage.getItem("usuario.id");
-  const handleForm = ({ target }) => {
-    setClienteProducto({ ...clienteProducto, [target.name]: target.value });
-  };
-  const handleProductId = ({ target }) => {
-    setProductId(
-      store.productos.find((producto) => producto.product_name == target.value)
-    );
-  };
+  const [abierto, setAbierto] = useState(false);
+  const [clienteProducto, setClienteProducto] = useState(VACIO);
+  const [producto, setProducto] = useState(null);
 
   useEffect(() => {
     actions.getProducts();
   }, []);
-  console.log(store.productos);
+
+  const handleForm = ({ target }) =>
+    setClienteProducto({ ...clienteProducto, [target.name]: target.value });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(clienteProducto, store.usuario.own_agency.id);
-    actions.postClienteProductos(clienteProducto, clientId, productId.id);
-    setClienteProducto({
-      amount: "",
-      date_of_closing: "",
-      payment_recurrence: "",
-      notes: "",
-    });
-    handleClose();
-    toast.success("Registraste el producto correctamente");
+    if (!producto) return;
+    actions.postClienteProductos(clienteProducto, clientId, producto.id);
+    setClienteProducto(VACIO);
+    setAbierto(false);
+    toast.success("Producto asignado al cliente");
     actions.getProducts();
   };
-  console.log(clienteProducto, productId);
+
   return (
     <>
-      <button
-        data-toggle="tooltip"
-        title="Asignar Producto al Cliente"
-        className="btn btn-light rounded-pill ms-2 border w-25-dark fw-bold text-white"
-        style={{ background: "#695cfe" }}
-        onClick={handleShow}
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        aria-label="Asignar producto al cliente"
+        title="Asignar producto"
+        onClick={() => setAbierto(true)}
       >
-        <i className="fa-solid fa-folder-plus"></i>
-      </button>
-
-      <Modal show={show} onHide={handleClose} size="lg">
-        <Form onSubmit={handleSubmit}>
-          <Modal.Header closeButton>
-            <Modal.Title>Registra el producto para: </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
-                <Col>
-                  <Form.Label>Producto*</Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    name="product_name"
-                    value={productId.product_name}
-                    onChange={handleProductId}
-                    required
-                  >
-                    <option
-                      className="text-center"
-                      style={{ backgroundColor: "white" }}
-                      value=""
-                    ></option>
-                    {store.productos.length > 0 ? (
-                      store.productos.map((producto) => (
-                        <option
-                          key={producto.id}
-                          className="text-center"
-                          style={{ backgroundColor: "white" }}
-                          value={producto.product_name}
-                        >
-                          <span>{producto.product_name}</span>
-                        </option>
-                      ))
-                    ) : (
-                      <option
-                        className="text-center"
-                        style={{ backgroundColor: "white" }}
-                        value=""
-                      >
-                        No hay productos guardados
-                      </option>
-                    )}
-                  </Form.Select>
-                </Col>
-                <Col>
-                  <Form.Label>Fecha de cierre*</Form.Label>
-                  <Form.Control
-                    type="date"
-                    placeholder="06/05/2024"
-                    autoFocus
-                    name="date_of_closing"
-                    value={clienteProducto.date_of_closing}
-                    onChange={handleForm}
-                    required
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Label>Monto*</Form.Label>
-                  <Form.Control
-                    type="number"
-                    placeholder="5000"
-                    autoFocus
-                    name="amount"
-                    value={clienteProducto.amount}
-                    onChange={handleForm}
-                    required
-                  />
-                </Col>
-                <Col>
-                  <Form.Label>Frecuencia de pago*</Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    name="payment_recurrence"
-                    value={clienteProducto.payment_recurrence}
-                    onChange={handleForm}
-                    required
-                  >
-                    <option className="text-center" value=""></option>
-                    <option className="text-center" value="mensual">
-                      Mensual
-                    </option>
-                    <option className="text-center" value="trimestral">
-                      Trimestral
-                    </option>
-                    <option className="text-center" value="semestral">
-                      Semestral
-                    </option>
-                    <option className="text-center" value="anual">
-                      Anual
-                    </option>
-                  </Form.Select>
-                </Col>
-              </Row>
-
-              <Form.Label>Descripción</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="notes"
-                maxLength="1000"
-                value={clienteProducto.notes}
-                onChange={handleForm}
-              />
-            </Form.Group>
-            <span className="fw-bolder">* Campos requeridos</span>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Cerrar
-            </Button>
-            <Button variant="primary" type="submit">
-              Guardar
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
+        <FolderPlus />
+      </Button>
+      <FormSheet
+        open={abierto}
+        onOpenChange={setAbierto}
+        title="Asignar producto"
+        onSubmit={handleSubmit}
+      >
+        <CampoSelect
+          label="Producto"
+          name="product_name"
+          required
+          value={producto?.product_name || ""}
+          onChange={({ target }) =>
+            setProducto(
+              store.productos.find((p) => p.product_name == target.value) ||
+                null
+            )
+          }
+        >
+          <option value="">
+            {store.productos.length ? "Selecciona un producto" : "No hay productos guardados"}
+          </option>
+          {store.productos.map((p) => (
+            <option key={p.id} value={p.product_name}>
+              {p.product_name}
+            </option>
+          ))}
+        </CampoSelect>
+        <Fila>
+          <Campo
+            label="Fecha de cierre"
+            name="date_of_closing"
+            type="date"
+            required
+            value={clienteProducto.date_of_closing}
+            onChange={handleForm}
+          />
+          <Campo
+            label="Monto"
+            name="amount"
+            type="number"
+            placeholder="5000"
+            required
+            value={clienteProducto.amount}
+            onChange={handleForm}
+          />
+        </Fila>
+        <CampoSelect
+          label="Frecuencia de pago"
+          name="payment_recurrence"
+          required
+          value={clienteProducto.payment_recurrence}
+          onChange={handleForm}
+        >
+          <option value="">Selecciona una frecuencia</option>
+          <option value="mensual">Mensual</option>
+          <option value="trimestral">Trimestral</option>
+          <option value="semestral">Semestral</option>
+          <option value="anual">Anual</option>
+        </CampoSelect>
+        <CampoArea
+          label="Descripción"
+          name="notes"
+          maxLength="1000"
+          value={clienteProducto.notes}
+          onChange={handleForm}
+        />
+      </FormSheet>
     </>
   );
 }

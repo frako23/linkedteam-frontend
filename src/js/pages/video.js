@@ -1,41 +1,33 @@
-import React, { useContext } from "react";
-import { Context } from "../store/appContext";
-import ReactPlayer from "react-player";
-import "../../styles/video.css";
-
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
+import ReactPlayer from "react-player";
+import { Context } from "@/store/appContext";
+import { Badge } from "@/components/ui/badge";
 
 export const Video = () => {
   const params = useParams();
   const { store } = useContext(Context);
-  console.log(store.courses[params.theid - 1]);
+  const curso =
+    store.courses.find((c) => String(c.id) === params.theid) ??
+    store.courses[params.theid - 1];
+
+  if (!curso) {
+    return (
+      <p className="text-muted-foreground p-6 text-sm">
+        No encontramos este curso.
+      </p>
+    );
+  }
+
   return (
-    <div className="d-flex n-container">
-      <div className="contenedor">
-        <div className="contenedor-video">
-          <ReactPlayer
-            className="react-player"
-            url={store.courses[params.theid - 1].link_url}
-            width="100%"
-            height="100%"
-            controls
-          />
-        </div>
-        <div className="card text-center">
-          <div className="card-body">
-            <h5 className="card-title">
-              {store.courses[params.theid - 1].title}
-            </h5>
-            <p className="card-text">
-              {store.courses[params.theid - 1].description}
-            </p>
-          </div>
-          {store.courses[params.theid - 1].category && (
-            <div className="card-footer">
-              <b>{store.courses[params.theid - 1].category}</b>
-            </div>
-          )}
-        </div>
+    <div className="mx-auto flex max-w-4xl flex-col gap-4 p-4 lg:p-6">
+      <div className="aspect-video overflow-hidden rounded-xl border">
+        <ReactPlayer src={curso.link_url} width="100%" height="100%" controls />
+      </div>
+      <div className="flex flex-col gap-2">
+        <h1 className="text-2xl font-semibold tracking-tight">{curso.title}</h1>
+        {curso.category && <Badge variant="secondary">{curso.category}</Badge>}
+        <p className="text-muted-foreground">{curso.description}</p>
       </div>
     </div>
   );

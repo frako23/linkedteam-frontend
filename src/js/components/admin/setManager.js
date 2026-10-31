@@ -1,79 +1,77 @@
-import React, { useState, useContext } from "react";
-import { Context } from "../../store/appContext";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import { DropdownButton } from "react-bootstrap";
-import { Dropdown } from "react-bootstrap";
+import { toast } from "sonner";
+import { Context } from "@/store/appContext";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function SetManager({ userId, userName }) {
-  const [show, setShow] = useState(false);
   const { store, actions } = useContext(Context);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [newManager, setNewManager] = useState({
-    name: "",
-    id: 0,
-    userId: userId,
-  });
+  const [abierto, setAbierto] = useState(false);
+  const [gerente, setGerente] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // console.log(userRole);
-    actions.putManager(newManager);
-    handleClose();
+  const gerentes = store.totalUsuarios.filter((u) => u.role == "manager");
+
+  const guardar = () => {
+    if (!gerente) return;
+    actions.putManager({ name: gerente.name, id: gerente.id, userId });
+    toast.success(`${gerente.name} es ahora el gerente de ${userName}`);
+    setAbierto(false);
   };
-
-  const managers = store.totalUsuarios.filter(
-    (usuario) => usuario.role == "manager"
-  );
-
-  console.log(managers);
 
   return (
     <>
-      <Button variant="info" onClick={handleShow}>
-        Asignar Gerente
+      <Button variant="outline" size="sm" onClick={() => setAbierto(true)}>
+        Asignar gerente
       </Button>
-
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Asignar Gerente a {userName}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Asignar <strong>{newManager.name}</strong> como su Gerente
-          <div className="d-flex justify-content-center pt-5">
-            <DropdownButton id="dropdown-basic-button" title="Gerentes">
-              {managers.length > 0 &&
-                managers.map((usuario) => {
-                  return (
-                    <div key={usuario.id}>
-                      <Dropdown.Item
-                        onClick={() =>
-                          setNewManager({
-                            ...newManager,
-                            name: usuario.name,
-                            id: usuario.id,
-                          })
-                        }
-                      >
-                        {usuario.name}
-                      </Dropdown.Item>
-                    </div>
-                  );
-                })}
-            </DropdownButton>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cerrar
-          </Button>
-          <Button variant="primary" onClick={handleSubmit}>
-            Si, Guardar los cambios
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <Dialog open={abierto} onOpenChange={setAbierto}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Asignar gerente a {userName}</DialogTitle>
+            <DialogDescription>
+              Elige quién supervisará a este asesor.
+            </DialogDescription>
+          </DialogHeader>
+          <Select
+            onValueChange={(valor) =>
+              setGerente(gerentes.find((g) => String(g.id) === valor))
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Selecciona un gerente" />
+            </SelectTrigger>
+            <SelectContent>
+              {gerentes.map((g) => (
+                <SelectItem key={g.id} value={String(g.id)}>
+                  {g.name} {g.lastname}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setAbierto(false)}>
+              Cancelar
+            </Button>
+            <Button onClick={guardar} disabled={!gerente}>
+              Guardar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
@@ -81,6 +79,6 @@ function SetManager({ userId, userName }) {
 export default SetManager;
 
 SetManager.propTypes = {
-  userId: PropTypes.string,
+  userId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   userName: PropTypes.string,
 };

@@ -26,6 +26,9 @@ module.exports = {
           {
             loader: "css-loader", // translates CSS into CommonJS
           },
+          {
+            loader: "postcss-loader", // Tailwind v4
+          },
         ],
       }, //css only files
       {
@@ -42,7 +45,8 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ["*", ".js"],
+    extensions: [".js", ".jsx"],
+    alias: { "@": path.resolve(__dirname, "src/js") },
   },
   plugins: [
     new HtmlWebpackPlugin({

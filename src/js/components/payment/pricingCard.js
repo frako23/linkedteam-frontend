@@ -1,49 +1,38 @@
-import React from "react";
-import "../../../styles/pricing-card.css";
-import PostPayment from "./postPayment";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import pagoMovil from "../../../../public/pago-movil.jpg";
 import zelle from "../../../../public/zelle.jpg";
 import binance from "../../../../public/BINANCE.jpg";
 
-export const PricingCard = () => {
-  return (
-    <div className="pricing-body">
-      <div className="wrapper-pricing-card">
-        <div className="table-pricing-card basic">
-          <div className="head_tab fw-bold text-center">
-            <h2 style={{ fontWeight: "600" }}>ZELLE</h2>
-          </div>
-          <img src={zelle} className="donation-card" />
-          <h5 className="text-center" style={{ color: "#800080" }}>
-            frako23@gmail.com
-          </h5>
-          <div style={{ marginTop: "3rem" }}>
-            <h2
-              className="text-center"
-              style={{ fontWeight: "600", color: "#253b80" }}
-            >
-              Paypal
-            </h2>
-            <h5 className="text-center" style={{ color: "#253b80" }}>
-              frako23@gmail.com
-            </h5>
-          </div>
-        </div>
+const METODOS = [
+  { titulo: "Zelle", imagen: zelle, detalle: "frako23@gmail.com" },
+  { titulo: "Pago móvil", imagen: pagoMovil },
+  { titulo: "Binance", imagen: binance },
+];
 
-        <div className="table-pricing-card premium">
-          <div className="head_tab fw-bold text-center">
-            <h2 style={{ fontWeight: "600" }}>Pago Móvil</h2>
-          </div>
-          <img src={pagoMovil} className="donation-card" />
-        </div>
-
-        <div className="table-pricing-card ultimate">
-          <div className="head_tab fw-bold text-center">
-            <h2 style={{ fontWeight: "600" }}>BINANCE</h2>
-          </div>
-          <img src={binance} className="donation-card" />
-        </div>
-      </div>
-    </div>
-  );
-};
+export const PricingCard = () => (
+  <div className="grid gap-4 md:grid-cols-3">
+    {METODOS.map((metodo) => (
+      <Card key={metodo.titulo}>
+        <CardHeader>
+          <CardTitle>{metodo.titulo}</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col items-center gap-3">
+          <img
+            src={metodo.imagen}
+            alt={`Datos para donar por ${metodo.titulo}`}
+            className="w-full rounded-lg border object-contain"
+          />
+          {metodo.detalle && (
+            <p className="text-muted-foreground text-sm">{metodo.detalle}</p>
+          )}
+        </CardContent>
+      </Card>
+    ))}
+    <Card className="md:col-span-3">
+      <CardContent className="flex flex-col gap-1 text-center">
+        <p className="font-medium">PayPal</p>
+        <p className="text-muted-foreground text-sm">frako23@gmail.com</p>
+      </CardContent>
+    </Card>
+  </div>
+);

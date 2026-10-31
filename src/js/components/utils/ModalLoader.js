@@ -1,22 +1,18 @@
-import React, { useContext } from "react";
-import { Modal, Spinner } from "react-bootstrap";
-import { Context } from "../../store/appContext";
+import { useContext } from "react";
+import { Context } from "@/store/appContext";
+import { Spinner } from "@/components/ui/spinner";
 
+/** Velo de carga a pantalla completa mientras `store.loader` esté activo. */
 export const ModalLoader = () => {
   const { store } = useContext(Context);
+  if (!store.loader) return null;
   return (
-    <Modal
-      size="sm"
-      show={store.loader}
-      onHide={store.loader}
-      aria-labelledby="example-modal-sizes-title-sm"
+    <div
+      role="status"
+      className="bg-background/70 fixed inset-0 z-50 flex items-center justify-center gap-2 backdrop-blur-sm"
     >
-      <Modal.Header closeButton>
-        <Modal.Title id="example-modal-sizes-title-sm">
-          <Spinner animation="border" variant="primary" />
-          Cargando...
-        </Modal.Title>
-      </Modal.Header>
-    </Modal>
+      <Spinner className="size-5" />
+      <span className="text-sm font-medium">Cargando…</span>
+    </div>
   );
 };

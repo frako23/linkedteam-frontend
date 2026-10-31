@@ -1,0 +1,182 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Geist", ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --color-etapa-prospecto: var(--etapa-prospecto);
+  --color-etapa-prospecto-texto: var(--etapa-prospecto-texto);
+  --color-etapa-contactado: var(--etapa-contactado);
+  --color-etapa-contactado-texto: var(--etapa-contactado-texto);
+  --color-etapa-primera-cita: var(--etapa-primera-cita);
+  --color-etapa-primera-cita-texto: var(--etapa-primera-cita-texto);
+  --color-etapa-negociacion: var(--etapa-negociacion);
+  --color-etapa-negociacion-texto: var(--etapa-negociacion-texto);
+  --color-etapa-cerrado: var(--etapa-cerrado);
+  --color-etapa-cerrado-texto: var(--etapa-cerrado-texto);
+  --color-brand-electrico: var(--brand-electrico);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: #ffffff;
+  --foreground: #18181b;
+  --card: #ffffff;
+  --card-foreground: #18181b;
+  --popover: #ffffff;
+  --popover-foreground: #18181b;
+  --primary: #695cfe;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #6b6b76;
+  --accent: #f3f2ff;
+  --accent-foreground: #5547e8;
+  --destructive: #dc2626;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #695cfe;
+  --chart-1: var(--etapa-prospecto);
+  --chart-2: var(--etapa-contactado);
+  --chart-3: var(--etapa-primera-cita);
+  --chart-4: var(--etapa-negociacion);
+  --chart-5: var(--etapa-cerrado);
+  --sidebar: #fafafa;
+  --sidebar-foreground: #3f3f46;
+  --sidebar-primary: #695cfe;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #efeefe;
+  --sidebar-accent-foreground: #5547e8;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: #695cfe;
+
+  /* Etapas del embudo (clave = Cliente.status) */
+  --etapa-prospecto: #3b82f6;
+  --etapa-prospecto-texto: #1d4ed8;
+  --etapa-contactado: #f59e0b;
+  --etapa-contactado-texto: #b45309;
+  --etapa-primera-cita: #f43f5e;
+  --etapa-primera-cita-texto: #be123c;
+  --etapa-negociacion: #06b6d4;
+  --etapa-negociacion-texto: #0e7490;
+  --etapa-cerrado: #10b981;
+  --etapa-cerrado-texto: #047857;
+
+  /* Marca, solo landing */
+  --brand-electrico: #9340ff;
+}
+
+.dark {
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #111114;
+  --card-foreground: #fafafa;
+  --popover: #18181b;
+  --popover-foreground: #fafafa;
+  --primary: #695cfe;
+  --primary-foreground: #ffffff;
+  --secondary: #27272a;
+  --secondary-foreground: #fafafa;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --accent: #1e1b3a;
+  --accent-foreground: #c7c2ff;
+  --destructive: #ef4444;
+  --border: #27272a;
+  --input: #34343b;
+  --ring: #8b82ff;
+  --sidebar: #0c0c0f;
+  --sidebar-foreground: #d4d4d8;
+  --sidebar-primary: #695cfe;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #1e1b3a;
+  --sidebar-accent-foreground: #d4d0ff;
+  --sidebar-border: #27272a;
+  --sidebar-ring: #8b82ff;
+
+  --etapa-prospecto-texto: #93c5fd;
+  --etapa-contactado-texto: #fcd34d;
+  --etapa-primera-cita-texto: #fda4af;
+  --etapa-negociacion-texto: #67e8f9;
+  --etapa-cerrado-texto: #6ee7b7;
+}
+
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+/* Resplandor violeta detrás del héroe y de la banda de cierre */
+@utility hero-glow {
+  background-image: radial-gradient(
+    60% 50% at 50% 0%,
+    color-mix(in oklab, var(--brand-electrico) 22%, transparent),
+    transparent 70%
+  );
+}
+
+/* Cuadrícula tenue que se desvanece hacia abajo */
+@utility bg-cuadricula {
+  background-image:
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at top, black 30%, transparent 70%);
+}

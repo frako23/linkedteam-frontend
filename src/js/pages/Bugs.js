@@ -1,75 +1,66 @@
-import React, { useContext, useEffect } from "react";
-import { Context } from "../store/appContext";
-import "../../styles/dashboard.css";
+import { useContext, useEffect } from "react";
 import { useForm, ValidationError } from "@formspree/react";
-import logo from "../../../public/logoNavBar.png";
+import { CircleCheck } from "lucide-react";
+import { Context } from "@/store/appContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export const Bugs = () => {
   const { actions } = useContext(Context);
+  const [state, handleSubmit] = useForm("xjvnqkdv");
+
   useEffect(() => {
     actions.setHeader("Reportar errores");
   }, []);
 
-  const [state, handleSubmit] = useForm("xjvnqkdv");
   if (state.succeeded) {
     return (
-      <div className="bugs-response">
-        <img src={logo} style={{ height: "14rem" }} alt="Logo de LinkedTeam" />
-        <h3>¡Gracias por tu ayuda!</h3>
-        <p>
-          Valoramos tu tiempo y tu colaboración al reportar un error en la app.
-          Tu ayuda nos permite encontrar y solucionar problemas que podrían
-          pasar desapercibidos.{" "}
+      <div className="mx-auto flex max-w-xl flex-col items-center gap-3 p-6 text-center">
+        <CircleCheck className="text-etapa-cerrado size-10" />
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Gracias por tu ayuda
+        </h1>
+        <p className="text-muted-foreground">
+          Tu reporte nos permite encontrar y solucionar problemas que podrían
+          pasar desapercibidos. Gracias a tus comentarios mejoramos la app para
+          todos.
         </p>
-        <b>Gracias a tus comentarios, podemos mejorar la app para todos.</b>
       </div>
     );
   }
-  return (
-    <div className="n-container">
-      <h1 className="text-black  text-center pt-6 kanban-head-title bug-header">
-        ¿Viste algún error dentro de{" "}
-        <span style={{ color: "#695cfe" }}>LinkedTeam</span>?
-      </h1>
-      <h3 style={{ paddingBottom: "2rem" }} className="text-center">
-        Aquí puedes reportarlo
-      </h3>
 
-      <form
-        onSubmit={handleSubmit}
-        style={{ paddingLeft: "7rem", paddingRight: "3rem" }}
-      >
-        <div className="mb-3">
-          <label htmlFor="title" className="form-label">
-            <b>Titulo del error</b>
-          </label>
-          <input type="text" className="form-control" id="title" name="title" />
-          <ValidationError prefix="Text" field="title" errors={state.errors} />
+  return (
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 p-4 lg:p-6">
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">
+          ¿Viste algún error en LinkedTeam?
+        </h1>
+        <p className="text-muted-foreground text-sm">
+          Cuéntanos qué pasó y lo revisamos.
+        </p>
+      </div>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="title">Título del error</Label>
+          <Input id="title" name="title" />
+          <ValidationError prefix="Título" field="title" errors={state.errors} />
         </div>
-        <div className="mb-3">
-          <label htmlFor="message" className="form-label">
-            <b>Detalle del error</b>
-          </label>
-          <textarea
-            style={{ height: "12rem" }}
-            className="form-control"
-            id="message"
-            name="message"
-          />
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="message">Detalle del error</Label>
+          <Textarea id="message" name="message" rows={8} />
           <ValidationError
-            prefix="Message"
+            prefix="Mensaje"
             field="message"
             errors={state.errors}
           />
         </div>
-
-        <button
-          type="submit"
-          disabled={state.submitting}
-          className="btn btn-primary"
-        >
-          Enviar
-        </button>
+        <div>
+          <Button type="submit" disabled={state.submitting}>
+            Enviar reporte
+          </Button>
+        </div>
       </form>
     </div>
   );

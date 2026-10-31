@@ -1,96 +1,70 @@
-import React, { useContext, useEffect } from "react";
-import { Context } from "../store/appContext";
-import "../../styles/dashboard.css";
+import { useContext, useEffect } from "react";
+import { Context } from "@/store/appContext";
 import { PricingCard } from "../components/payment/pricingCard";
 
 export const Pricing = () => {
   const { actions } = useContext(Context);
+
   useEffect(() => {
     actions.setHeader("Donaciones");
   }, []);
+
   return (
-    <div className="n-container">
-      <div className="donation-header">
-        <h1 className="text-black  text-center pt-6 kanban-head-title">
-          Si <span style={{ color: "#695cfe" }}>LinkedTeam</span> te ha parecido
-          de utilidad
+    <div className="mx-auto flex max-w-4xl flex-col gap-6 p-4 lg:p-6">
+      <div>
+        <h1 className="text-3xl font-semibold tracking-tight text-balance">
+          Si LinkedTeam te ha parecido útil, puedes apoyar el proyecto
         </h1>
-        <h3 style={{ paddingBottom: "2rem" }} className="text-center">
-          Aquí puedes{" "}
-          <span style={{ color: "#0d571d", fontWeight: "bolder" }}>apoyar</span>{" "}
-          este proyecto
-        </h3>
+        <p className="text-muted-foreground mt-2">
+          Tus donaciones mantienen vivo y en crecimiento este CRM con plataforma
+          de formación para la industria de seguros.
+        </p>
       </div>
 
-      <div style={{ paddingLeft: "7rem", paddingRight: "3rem" }}>
-        <h5>¡Apoya el futuro de LinkedTeam!</h5>
-
+      <section className="flex max-w-2xl flex-col gap-3 text-sm leading-6">
         <p>
           En diciembre de 2022, LinkedTeam nació de una simple conversación con
-          un amigo. Esa chispa de inspiración se transformó en meses de arduo
-          trabajo, superando desafíos y celebrando logros, culminando en la
-          versión 1.0 a finales del 2023.
+          un amigo. Esa chispa se transformó en meses de trabajo, hasta llegar a
+          la versión 1.0 a finales de 2023. En mayo de 2024 lanzamos la versión
+          2.0 estable, que sigue en desarrollo constante.
         </p>
-
         <p>
-          Hoy, con orgullo, presentamos la versión 2.0 estable de LinkedTeam,
-          lanzada en mayo de 2024, y aún en constante desarrollo.
+          LinkedTeam está pensado para que las empresas de seguros optimicen sus
+          procesos, mejoren la comunicación con sus asociados y clientes, y
+          fortalezcan su presencia en el mercado.
         </p>
-
-        <p>
-          LinkedTeam es un CRM con plataforma eLearning especialmente diseñado
-          para la industria de seguros. Nuestra misión es ayudar a las empresas
-          a optimizar sus procesos, mejorar la comunicación con sus asociados y
-          clientes, y fortalecer su presencia en el mercado.
-        </p>
-
-        <h6>
-          LinkedTeam es una herramienta en constante evolución, y para
-          garantizar su continuo crecimiento y mejora, necesitamos tu apoyo.
-        </h6>
-
-        <p>Tus donaciones permitirán:</p>
-
-        <ul>
+        <h2 className="mt-2 text-lg font-semibold tracking-tight">
+          Tus donaciones permiten
+        </h2>
+        <ul className="text-muted-foreground flex list-disc flex-col gap-2 pl-5">
           <li>
-            Desarrollar nuevas funcionalidades: Estamos trabajando arduamente
-            para crear nuevas funciones que hagan de LinkedTeam una herramienta
-            aún más útil y eficaz para nuestros usuarios. Tus donaciones
-            acelerarán este proceso y nos permitirán crear las herramientas que
-            necesitas para alcanzar el éxito.
+            <strong className="text-foreground">
+              Desarrollar nuevas funcionalidades
+            </strong>{" "}
+            que hagan de LinkedTeam una herramienta más útil y eficaz.
           </li>
           <li>
-            Mejorar la estabilidad y el rendimiento: Nuestro objetivo es
-            garantizar que LinkedTeam funcione a la perfección para todos
-            nuestros usuarios. Tus donaciones nos permitirán invertir en
-            infraestructura y tecnología para mejorar la estabilidad y el
-            rendimiento de la plataforma.
+            <strong className="text-foreground">
+              Mejorar la estabilidad y el rendimiento
+            </strong>{" "}
+            invirtiendo en infraestructura y tecnología.
           </li>
           <li>
-            Ampliar nuestro equipo: A medida que LinkedTeam crece, necesitamos
-            más talento para mantener el ritmo. Tus donaciones nos permitirán
-            contratar a nuevos desarrolladores, diseñadores y expertos en
-            atención al cliente para ofrecerte el mejor servicio posible.
+            <strong className="text-foreground">Ampliar el equipo</strong> con
+            más desarrolladores, diseñadores y atención al cliente.
           </li>
         </ul>
+      </section>
 
-        <h6>
-          Con tu ayuda, podemos seguir haciendo de LinkedTeam la mejor
-          herramienta CRM y eLearning para la industria de seguros.
-        </h6>
+      <PricingCard />
 
-        <p>¡Dona hoy mismo y ayúdanos a construir el futuro de LinkedTeam!</p>
-
-        <PricingCard />
-
-        <p>&nbsp;</p>
-
-        <b>Muchas gracias por tu apoyo!</b>
-
-        <p>
-          Francisco Orozco <br></br>Desarrollador Full-Stack de LinkedTeam
-        </p>
-      </div>
+      <p className="text-sm">
+        Muchas gracias por tu apoyo.
+        <br />
+        <span className="text-muted-foreground">
+          Francisco Orozco · Desarrollador full-stack de LinkedTeam
+        </span>
+      </p>
     </div>
   );
 };

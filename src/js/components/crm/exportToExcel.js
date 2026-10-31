@@ -1,48 +1,34 @@
-import React from "react";
+import { Download } from "lucide-react";
 import { downloadExcel } from "react-export-table-to-excel";
+import { Button } from "@/components/ui/button";
+
+const header = [
+  "amount",
+  "birthdate",
+  "cellphone",
+  "created_at",
+  "email",
+  "id",
+  "name",
+  "notes",
+  "status",
+  "trust",
+  "updated_at",
+  "user_id",
+];
 
 export function ExportToExcel({ excelData }) {
-  const header = [
-    "amount",
-    "birthdate",
-    "cellphone",
-    "created_at",
-    "email",
-    "id",
-    "name",
-    "notes",
-    "status",
-    "trust",
-    "updated_at",
-    "user_id",
-  ];
-
-  const tiempoTranscurrido = Date.now();
-  const hoy = new Date(tiempoTranscurrido);
-  const fecha = hoy.toLocaleDateString();
-  // console.log(excelData, fecha);
   function handleDownloadExcel() {
     downloadExcel({
-      fileName: `LinkedTeam Data ${fecha}`,
+      fileName: `LinkedTeam Data ${new Date().toLocaleDateString()}`,
       sheet: "Respaldo de LinkedTeam",
-      tablePayload: {
-        header,
-        // accept two different data structures
-        body: excelData,
-      },
+      tablePayload: { header, body: excelData },
     });
   }
 
   return (
-    <>
-      <button
-        type="button"
-        className="btn btn-sm btn-outline-secondary"
-        onClick={() => handleDownloadExcel()}
-        style={{ height: "fit-content" }}
-      >
-        Descargar <i className="fa-solid fa-file-excel"></i>
-      </button>
-    </>
+    <Button variant="outline" size="sm" onClick={handleDownloadExcel}>
+      <Download /> Descargar Excel
+    </Button>
   );
 }

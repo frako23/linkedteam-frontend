@@ -67,7 +67,12 @@
   "babel": {
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react"
+      [
+        "@babel/preset-react",
+        {
+          "runtime": "automatic"
+        }
+      ]
     ],
     "plugins": [
       "@babel/plugin-proposal-class-properties",
@@ -80,37 +85,29 @@
     ]
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.0",
-    "@formkit/tempo": "^0.1.1",
-    "@formspree/react": "^2.5.1",
-    "@fortawesome/fontawesome-svg-core": "^6.2.1",
-    "@fortawesome/free-regular-svg-icons": "^6.2.1",
-    "@fortawesome/free-solid-svg-icons": "^6.2.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "@hello-pangea/dnd": "^16.5.0",
-    "@mui/material": "^5.15.14",
-    "@tremor/react": "^3.14.1",
-    "babel-preset-es2015": "^6.24.1",
-    "bootstrap": "^5.2.3",
-    "file-saver": "^2.0.5",
-    "multi-range-slider-react": "^2.0.5",
+    "@formspree/react": "^3.0.0",
+    "@hello-pangea/dnd": "^18.0.1",
+    "@tailwindcss/postcss": "^4.3.3",
+    "class-variance-authority": "^0.7.1",
+    "cmdk": "^1.1.1",
+    "cn": "^0.5.1",
+    "date-fns": "^4.4.0",
+    "lucide-react": "^1.66.0",
+    "postcss": "^8.5.32",
+    "postcss-loader": "^8.2.1",
     "prop-types": "^15.6.1",
-    "react": "^18.2.0",
-    "react-bootstrap": "^2.10.2",
-    "react-dom": "^18.2.0",
+    "radix-ui": "^1.8.1",
+    "react": "^19.3.1",
+    "react-day-picker": "^10.0.2",
+    "react-dom": "^19.3.1",
     "react-export-table-to-excel": "^1.0.6",
-    "react-gauge-chart": "^0.4.1",
-    "react-hot-toast": "^2.4.1",
-    "react-player": "^2.15.1",
-    "react-polyfills": "0.0.1",
+    "react-player": "^3.4.0",
     "react-router-dom": "^6.22.3",
-    "react-scroll": "^1.9.0",
-    "recharts": "^2.12.3",
-    "sheetjs-style": "^0.15.8",
-    "sweetalert2": "^11.10.7",
-    "swiper": "^11.1.0",
-    "xlsx": "^0.18.5",
-    "youtube-info-ant": "^1.5.3"
+    "recharts": "^3.8.0",
+    "shadcn": "^4.23.0",
+    "sonner": "^2.0.8",
+    "tailwindcss": "^4.3.3",
+    "tw-animate-css": "^1.4.0",
+    "xlsx": "^0.18.5"
   }
 }

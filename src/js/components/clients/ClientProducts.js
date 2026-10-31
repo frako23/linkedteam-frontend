@@ -1,66 +1,75 @@
-import React, { useContext, useEffect } from "react";
-import "../../../styles/dashboard.css";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import Row from "react-bootstrap/Row";
+import { useContext, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Context } from "../../store/appContext";
+import { Context } from "@/store/appContext";
+import { formatoMonto } from "@/lib/etapas";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export const ClientProducts = ({ show, onClose, client }) => {
   const { store, actions } = useContext(Context);
-  console.log(show, client);
   useEffect(() => {
-    actions.getAllClienteProductos(client.id);
+    if (client.id) actions.getAllClienteProductos(client.id);
   }, [client.id]);
-  console.log(store.allClienteProductos);
+
   return (
-    <>
-      <Modal show={show} onHide={onClose} size="xl">
-        <Modal.Header closeButton>
-          <Modal.Title>Productos asociados a {client.name} </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
-                <table className="table table-hover">
-                  <thead>
-                    <tr>
-                      <th style={{ width: "5rem" }}>Fecha de Inicio</th>
-                      <th style={{ width: "5rem" }}>Tipo de Seguro</th>
-                      <th style={{ width: "5rem" }}>Empresa</th>
-                      <th style={{ width: "5rem" }}>Producto</th>
-                      <th style={{ width: "5rem" }}>Monto</th>
-                      <th style={{ width: "5rem" }}>Modalidad de pago</th>
-                      <th>Notas</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {store.allClienteProductos.map((clientProduct, index) => (
-                      <tr key={index}>
-                        <td scope="row">{clientProduct.date_of_closing}</td>
-                        <td scope="row">{clientProduct.product_type}</td>
-                        <td scope="row">{clientProduct.company}</td>
-                        <td scope="row">{clientProduct.product_name}</td>
-                        <td scope="row">$ {clientProduct.amount}</td>
-                        <td scope="row">{clientProduct.payment_recurrence}</td>
-                        <td className=" text-wrap" scope="row">
-                          {clientProduct.notes}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </Row>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </>
+    <Dialog open={show} onOpenChange={(v) => !v && onClose()}>
+      <DialogContent className="sm:max-w-4xl">
+        <DialogHeader>
+          <DialogTitle>Productos de {client.name}</DialogTitle>
+          <DialogDescription>
+            Pólizas y productos asociados a este cliente.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="max-h-96 overflow-auto rounded-xl border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Inicio</TableHead>
+                <TableHead>Tipo</TableHead>
+                <TableHead>Empresa</TableHead>
+                <TableHead>Producto</TableHead>
+                <TableHead className="text-right">Monto</TableHead>
+                <TableHead>Pago</TableHead>
+                <TableHead>Notas</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {store.allClienteProductos.map((p, index) => (
+                <TableRow key={index}>
+                  <TableCell className="tabular-nums">{p.date_of_closing}</TableCell>
+                  <TableCell>{p.product_type}</TableCell>
+                  <TableCell>{p.company}</TableCell>
+                  <TableCell>{p.product_name}</TableCell>
+                  <TableCell className="text-right tabular-nums">
+                    {formatoMonto(p.amount)}
+                  </TableCell>
+                  <TableCell className="capitalize">{p.payment_recurrence}</TableCell>
+                  <TableCell className="whitespace-normal">{p.notes}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
 ClientProducts.propTypes = {
   show: PropTypes.bool,
+  onClose: PropTypes.func,
   client: PropTypes.object,
 };

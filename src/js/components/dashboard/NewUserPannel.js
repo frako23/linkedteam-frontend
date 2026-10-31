@@ -1,32 +1,31 @@
-import React, { useContext, useEffect, useState } from "react";
-import "../../../styles/newuserpannel.css";
-import { TotalSales } from "./TotalSales";
-import { Box } from "../../components/dashboard/box";
+import { useContext, useEffect, useState } from "react";
+import { toast } from "sonner";
+import { Context } from "@/store/appContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Box } from "./box";
 import { TodoBox } from "./TodoBox";
-import { ConversionRate } from "./ConversionRate";
-import { AverageSale } from "./AverageSale";
+import { TotalSales } from "./TotalSales";
 import { SalesGoal } from "./SalesGoal";
-import Swal from "sweetalert2";
-import { Context } from "../../store/appContext";
 import { SalesToGet } from "./SalesToGet";
 import { ConversionSalesRate } from "./ConversionSalesRate";
+import { ConversionRate } from "./ConversionRate";
+import { AverageSale } from "./AverageSale";
 
 export const NewUserPannel = () => {
   const { store, actions } = useContext(Context);
   const [salesGoal, setSalesGoal] = useState();
-  const addSalesGoal = () => {
-    Swal.fire({
-      title: "Coloca tu meta de ventas 💰",
-      input: "number",
-      confirmButtonText: "Registra tu meta",
-      showLoaderOnConfirm: true,
-      preConfirm: (salesGoal) => {
-        actions.putUserSalesGoal(salesGoal);
-        setSalesGoal(salesGoal);
-      },
-      allowOutsideClick: () => !Swal.isLoading(),
-    });
-  };
+  const [abierto, setAbierto] = useState(false);
+  const [valor, setValor] = useState("");
 
   useEffect(() => {
     if (store.usuario.sales_goal) {
@@ -34,36 +33,88 @@ export const NewUserPannel = () => {
     }
   }, [store.usuario.sales_goal]);
 
+  const guardarMeta = (e) => {
+    e.preventDefault();
+    if (!valor || Number(valor) <= 0) return;
+    actions.putUserSalesGoal(valor);
+    setSalesGoal(valor);
+    setAbierto(false);
+    toast.success("Meta actualizada");
+  };
+
   return (
-    <>
-      <main className="ms-5 d-container">
-        <h1 className="h4 pt-5">Resumen del embudo de ventas</h1>
+    <main className="flex flex-col gap-6 p-4 lg:p-6">
+      <section className="flex flex-col gap-3">
+        <h2 className="text-lg font-semibold tracking-tight">
+          Resumen del embudo de ventas
+        </h2>
         <Box />
-        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-5 pb-2 border-bottom">
-          <h1 className="h2">Métricas de ventas</h1>{" "}
-          <button className="btn btn-primary fw-bold" onClick={addSalesGoal}>
-            {store.usuario.sales_goal
-              ? "Actualiza tu meta"
-              : "Registra tu meta"}
-          </button>
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-lg font-semibold tracking-tight">
+            Métricas de ventas
+          </h2>
+          <Button
+            onClick={() => {
+              setValor(salesGoal ? String(salesGoal) : "");
+              setAbierto(true);
+            }}
+          >
+            {store.usuario.sales_goal ? "Actualiza tu meta" : "Registra tu meta"}
+          </Button>
         </div>
-        <div>
-          <div className="justify-content-around graphic-cards">
-            <SalesGoal salesGoal={salesGoal} />
-            <TotalSales />
-            <SalesToGet salesGoal={salesGoal} />
-            <ConversionSalesRate salesGoal={salesGoal} />
-          </div>
-          <div className="justify-content-around graphic-cards">
-            {/* <SalesGoal />
-            <TotalSales /> */}
-            <ConversionRate />
-            <AverageSale />
-          </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <SalesGoal salesGoal={salesGoal} />
+          <TotalSales />
+          <SalesToGet salesGoal={salesGoal} />
+          <ConversionSalesRate salesGoal={salesGoal} />
+          <ConversionRate />
+          <AverageSale />
         </div>
-        <h1 className="h4 pt-5">Resumen de tareas pendientes</h1>
+      </section>
+
+      <section className="flex flex-col gap-3">
+        <h2 className="text-lg font-semibold tracking-tight">
+          Resumen de tareas pendientes
+        </h2>
         <TodoBox />
-      </main>
-    </>
+      </section>
+
+      <Dialog open={abierto} onOpenChange={setAbierto}>
+        <DialogContent className="sm:max-w-sm">
+          <form onSubmit={guardarMeta} className="flex flex-col gap-4">
+            <DialogHeader>
+              <DialogTitle>Tu meta de ventas</DialogTitle>
+              <DialogDescription>
+                Define cuánto quieres vender para medir tu avance.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="meta">Monto en dólares</Label>
+              <Input
+                id="meta"
+                type="number"
+                min="1"
+                value={valor}
+                onChange={(e) => setValor(e.target.value)}
+                autoFocus
+              />
+            </div>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setAbierto(false)}
+              >
+                Cancelar
+              </Button>
+              <Button type="submit">Guardar meta</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </main>
   );
 };

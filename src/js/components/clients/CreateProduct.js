@@ -1,138 +1,97 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Context } from "../../store/appContext";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import toast from "react-hot-toast";
-import { Badge, Col, Row } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { PackagePlus } from "lucide-react";
+import { toast } from "sonner";
+import { Context } from "@/store/appContext";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Campo, CampoArea, FormSheet, Fila } from "../form-kit";
+
+const VACIO = {
+  company: "",
+  product_name: "",
+  product_type: "",
+  product_description: "",
+};
 
 function CreateProduct() {
-  const [show, setShow] = useState(false);
   const { store, actions } = useContext(Context);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [products, setProducts] = useState({
-    company: "",
-    product_name: "",
-    product_type: "",
-    product_description: "",
-  });
-  const id = localStorage.getItem("usuario.id");
-  const handleForm = ({ target }) => {
-    setProducts({ ...products, [target.name]: target.value });
-  };
+  const [abierto, setAbierto] = useState(false);
+  const [products, setProducts] = useState(VACIO);
 
   useEffect(() => {
     actions.getProducts();
   }, []);
-  console.log(store.productos);
+
+  const handleForm = ({ target }) =>
+    setProducts({ ...products, [target.name]: target.value });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(products, store.usuario.own_agency.id);
     actions.postProducts(products);
-    setProducts({
-      company: "",
-      product_name: "",
-      product_type: "",
-      product_description: "",
-    });
-    handleClose();
-    toast.success("Registraste el producto correctamente");
+    setProducts(VACIO);
+    setAbierto(false);
+    toast.success("Producto registrado");
     actions.getProducts();
   };
 
   return (
     <>
-      <button
-        className="btn btn-light ms-2 border w-25-dark fw-bold text-white"
-        style={{ background: "#695cfe" }}
-        onClick={handleShow}
+      <Button variant="outline" onClick={() => setAbierto(true)}>
+        <PackagePlus /> Nuevo producto
+      </Button>
+      <FormSheet
+        open={abierto}
+        onOpenChange={setAbierto}
+        title="Crea tu producto"
+        onSubmit={handleSubmit}
       >
-        Nuevo Producto
-      </button>
-
-      <Modal show={show} onHide={handleClose} size="lg">
-        <Form onSubmit={handleSubmit}>
-          <Modal.Header closeButton>
-            <Modal.Title>Crea tu producto</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
-                <Col>
-                  <Form.Label>Productos Cargados</Form.Label>
-                  <div className="d-flex gap-3 ">
-                    {store.productos.length > 0 ? (
-                      store.productos.map((producto) => (
-                        <Badge key={producto.id} bg="dark">
-                          <span>{producto.product_name}</span>
-                        </Badge>
-                      ))
-                    ) : (
-                      <h5>Aún no tienes productos cargados</h5>
-                    )}
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Form.Label>Empresa*</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="CICA LIFE, Best Doctor, VUMI..."
-                    autoFocus
-                    name="company"
-                    value={products.company}
-                    onChange={handleForm}
-                    required
-                  />
-                </Col>
-                <Col>
-                  <Form.Label>Nombre de la póliza*</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Fredom 20"
-                    name="product_name"
-                    value={products.product_name}
-                    onChange={handleForm}
-                    required
-                  />
-                </Col>
-                <Col>
-                  <Form.Label>Tipo de póliza*</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Seguro de Vida"
-                    name="product_type"
-                    value={products.product_type}
-                    onChange={handleForm}
-                    required
-                  />
-                </Col>
-              </Row>
-
-              <Form.Label>Descripción</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                name="product_description"
-                maxLength="1000"
-                value={products.product_description}
-                onChange={handleForm}
-              />
-            </Form.Group>
-            <span className="fw-bolder">* Campos requeridos</span>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Cerrar
-            </Button>
-            <Button variant="primary" type="submit">
-              Guardar
-            </Button>
-          </Modal.Footer>
-        </Form>
-      </Modal>
+        <div className="flex flex-col gap-2">
+          <Label>Productos cargados</Label>
+          <div className="flex flex-wrap gap-2">
+            {store.productos.length > 0 ? (
+              store.productos.map((producto) => (
+                <Badge key={producto.id} variant="secondary">
+                  {producto.product_name}
+                </Badge>
+              ))
+            ) : (
+              <p className="text-muted-foreground text-sm">
+                Aún no tienes productos cargados
+              </p>
+            )}
+          </div>
+        </div>
+        <Campo
+          label="Empresa"
+          name="company"
+          required
+          value={products.company}
+          onChange={handleForm}
+        />
+        <Fila>
+          <Campo
+            label="Nombre de la póliza"
+            name="product_name"
+            required
+            value={products.product_name}
+            onChange={handleForm}
+          />
+          <Campo
+            label="Tipo de póliza"
+            name="product_type"
+            required
+            value={products.product_type}
+            onChange={handleForm}
+          />
+        </Fila>
+        <CampoArea
+          label="Descripción"
+          name="product_description"
+          value={products.product_description}
+          onChange={handleForm}
+        />
+      </FormSheet>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 const getState = ({ getStore, getActions, setStore }) => {
   return {
@@ -146,6 +146,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             localStorage.setItem("usuario.id", body.id);
             localStorage.setItem("usuario.name", body.name);
             localStorage.setItem("usuario.lastname", body.lastname);
+            localStorage.setItem("usuario.email", body.email);
             localStorage.setItem("usuario.role", body.role);
             setStore({ usuario: body });
             toast.success(`Bienvenid@ a LinkedTeam ${body.name}`);

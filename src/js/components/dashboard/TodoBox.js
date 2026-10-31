@@ -1,6 +1,12 @@
-import React, { useContext, useEffect } from "react";
-import { Context } from "../../store/appContext";
-import "../../../styles/perfil.css";
+import { useContext, useEffect } from "react";
+import { Context } from "@/store/appContext";
+import { Card, CardContent, CardDescription } from "@/components/ui/card";
+
+const ESTADOS = [
+  { status: "por realizar", label: "Por hacer" },
+  { status: "en ejecución", label: "En proceso" },
+  { status: "realizado", label: "Realizadas" },
+];
 
 export const TodoBox = () => {
   const { store, actions } = useContext(Context);
@@ -9,50 +15,18 @@ export const TodoBox = () => {
       actions.getTareas();
     }
   }, [store.token]);
-  console.log(store.tareas);
   return (
-    <div className="todo__main__card">
-      <div
-        className="new__card__profile"
-        style={{ backgroundColor: "#FFFF00" }}
-      >
-        <div className="card__inner ">
-          <p className="text-black">POR HACER</p>
-        </div>
-        <span className="text-black font-weight-bold numero">
-          {
-            store.tareas.filter((index) => index.status == "por realizar")
-              .length
-          }
-        </span>
-      </div>
-
-      <div
-        className="new__card__profile"
-        style={{ backgroundColor: "#0000FF" }}
-      >
-        <div className="card__inner">
-          <p className="text-white">EN PROCESO</p>
-        </div>
-        <span className="text-white font-weight-bold numero">
-          {
-            store.tareas.filter((index) => index.status == "en ejecución")
-              .length
-          }
-        </span>
-      </div>
-
-      <div
-        className="new__card__profile"
-        style={{ backgroundColor: "#00FF00" }}
-      >
-        <div className="card__inner">
-          <p className="text-black">REALIZADO</p>
-        </div>
-        <span className="text-black font-weight-bold numero">
-          {store.tareas.filter((index) => index.status == "realizado").length}
-        </span>
-      </div>
+    <div className="grid gap-4 sm:grid-cols-3">
+      {ESTADOS.map((estado) => (
+        <Card key={estado.status} className="gap-2 py-5">
+          <CardContent className="flex flex-col gap-1 px-5">
+            <CardDescription>{estado.label}</CardDescription>
+            <p className="text-3xl font-semibold tracking-tight tabular-nums">
+              {store.tareas.filter((t) => t.status == estado.status).length}
+            </p>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 };

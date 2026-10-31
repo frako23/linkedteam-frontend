@@ -1,176 +1,130 @@
-import React, { useContext, useState } from "react";
-import { Context } from "../../store/appContext";
+import { useContext, useState } from "react";
 import * as XLSX from "xlsx";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import { ModalLoader } from "../utils/ModalLoader";
+import { FileDown, Upload } from "lucide-react";
+import { toast } from "sonner";
+import { Context } from "@/store/appContext";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+const COLUMNAS = [
+  ["name", "Nombre"],
+  ["birthdate", "Nacimiento"],
+  ["email", "Email"],
+  ["cellphone", "Celular"],
+  ["amount", "Monto"],
+  ["status", "Etapa"],
+  ["trust", "Confianza"],
+  ["notes", "Notas"],
+];
 
 export const ImportFromExcel = () => {
-  const { store, actions } = useContext(Context);
+  const { actions } = useContext(Context);
   const [data, setData] = useState([]);
-  const handleClose = () => {
-    setShow(false);
+  const [abierto, setAbierto] = useState(false);
+
+  const cerrar = () => {
+    setAbierto(false);
     setData([]);
   };
-  const handleShow = () => setShow(true);
-  const [show, setShow] = useState(false);
 
-  // function excelSerialDateToJSDate(serialDate) {
-  //   const excelStartDate = new Date(Date.UTC(2039, 12, 2));
-  //   const utc_days = Math.floor(
-  //     serialDate - excelStartDate.getTime() / 86400000
-  //   );
-  //   const utc_value = utc_days * 86400;
-  //   return new Date(utc_value * 1000);
-  // }
   const handleFileUpload = (e) => {
+    const archivo = e.target.files[0];
+    if (!archivo) return;
     const reader = new FileReader();
-    reader.readAsBinaryString(e.target.files[0]);
-    reader.onload = (e) => {
-      const data = e.target.result;
-      const workbook = XLSX.read(data, { type: "binary", cellDates: true });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      const parsedData = XLSX.utils.sheet_to_json(sheet);
-      // let parsedData = XLSX.utils.sheet_to_json(sheet);
-
-      // Convertir las fechas del formato de Excel al formato de JavaScript
-      // parsedData = parsedData.map((item) => {
-      //   if (item.birthdate_) {
-      //     // Verifica que la propiedad 'birthdate_' exista
-      //     console.log(item.birthdate_); // Debería mostrar el valor original en formato de Excel
-      //     item.birthdate = excelSerialDateToJSDate(Number(item.birthdate_)); // Convierte y asigna a 'birthdate'
-      //     console.log(item.birthdate); // Debería mostrar la fecha convertida
-      //   }
-      //   return item;
-      // });
-      // console.log(parsedData);
-      setData(parsedData);
+    reader.readAsBinaryString(archivo);
+    reader.onload = (evento) => {
+      const workbook = XLSX.read(evento.target.result, {
+        type: "binary",
+        cellDates: true,
+      });
+      const hoja = workbook.Sheets[workbook.SheetNames[0]];
+      setData(XLSX.utils.sheet_to_json(hoja));
     };
   };
 
-  const uploadData = (data) => {
-    for (let i = 0; i < data.length; i++) {
-      actions.postClientes(data[i]);
-    }
+  const cargar = () => {
+    data.forEach((fila) => actions.postClientes(fila));
+    toast.success(`${data.length} clientes importados`);
+    cerrar();
   };
-
-  // const dataCopy = data.forEach((obj) => {
-  //   delete obj.__rowNum__;
-  // });
 
   return (
     <>
-      <button
-        className="btn btn-sm btn-outline-secondary"
-        onClick={handleShow}
-        style={{ height: "fit-content" }}
-      >
-        Importar <i className="fa-solid fa-file-excel"></i>
-      </button>
-      <ModalLoader />
-      <Modal show={show} onHide={handleClose} size="xl">
-        <Form>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              Importar Data <i className="fa-solid fa-file-excel"></i>
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body style={{ display: "inline-grid", width: "100%" }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: "2rem",
-              }}
-            >
-              <input
-                type="file"
-                accept=".xlsx, .xls"
-                onChange={handleFileUpload}
-              />
-              <a
-                href="https://github.com/frako23/linkedteam-frontend/raw/main/public/LinkedTeam-template.xlsx"
-                download="LinkedTeam-template"
-                className="btn btn-primary"
-              >
-                Descargar plantilla
+      <Button variant="outline" size="sm" onClick={() => setAbierto(true)}>
+        <Upload /> Importar Excel
+      </Button>
+      <Dialog open={abierto} onOpenChange={(v) => !v && cerrar()}>
+        <DialogContent className="sm:max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Importar clientes desde Excel</DialogTitle>
+            <DialogDescription>
+              Usa la plantilla de LinkedTeam para que las columnas coincidan.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-wrap items-center gap-3">
+            <Input
+              type="file"
+              accept=".xlsx, .xls"
+              onChange={handleFileUpload}
+              className="max-w-xs"
+              aria-label="Archivo de Excel"
+            />
+            <Button asChild variant="outline" size="sm">
+              <a href="/LinkedTeam-new-template.xlsx" download>
+                <FileDown /> Descargar plantilla
               </a>
-            </div>
-            {console.log(data)}
-            {data.length > 0 && (
-              <div style={{ overflowX: "auto" }}>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th style={{ color: "black" }}>Nombre y Apellido</th>
-                      <th style={{ color: "black" }}>Fecha de Nacimiento</th>
-                      <th style={{ color: "black" }}>Email</th>
-                      <th style={{ color: "black" }}>Celular</th>
-                      <th style={{ color: "black" }}>Monto</th>
-                      <th style={{ color: "black" }}>Etiqueta</th>
-                      <th style={{ color: "black" }}>Estatus</th>
-                      <th style={{ color: "black" }}>Nivel de Confianza</th>
-                      <th style={{ color: "black" }}>Notas</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.map((row, index) => (
-                      <tr key={index}>
-                        <td key={index} style={{ color: "black" }}>
-                          {row.name}
-                        </td>
-                        <td key={index} style={{ color: "black" }}>
-                          {row.birthdate}
-                        </td>
-                        <td key={index} style={{ color: "black" }}>
-                          {row.email}
-                        </td>
-                        <td key={index} style={{ color: "black" }}>
-                          {row.cellphone}
-                        </td>
-                        <td key={index} style={{ color: "black" }}>
-                          {row.amount}
-                        </td>
-                        <td key={index} style={{ color: "black" }}>
-                          {row.status}
-                        </td>
-                        <td key={index} style={{ color: "black" }}>
-                          {row.trust}
-                        </td>
-                        <td key={index} style={{ color: "black" }}>
-                          {row.tag}
-                        </td>
-                        <td key={index} style={{ color: "black" }}>
-                          {row.notes}
-                        </td>
-                      </tr>
+            </Button>
+          </div>
+          {data.length > 0 && (
+            <div className="max-h-80 overflow-auto rounded-xl border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    {COLUMNAS.map(([, titulo]) => (
+                      <TableHead key={titulo}>{titulo}</TableHead>
                     ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Cerrar
-              </Button>
-              <Button
-                variant="success"
-                onClick={() => {
-                  actions.setLoader(true);
-                  uploadData(data);
-                  handleClose();
-                  actions.setLoader(false);
-                }}
-              >
-                {" "}
-                Cargar la data <i className="fa-solid fa-file-excel"></i>
-              </Button>
-            </Modal.Footer>
-          </Modal.Body>
-        </Form>
-      </Modal>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {data.map((fila, index) => (
+                    <TableRow key={index}>
+                      {COLUMNAS.map(([clave]) => (
+                        <TableCell key={clave}>
+                          {String(fila[clave] ?? "")}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={cerrar}>
+              Cancelar
+            </Button>
+            <Button onClick={cargar} disabled={data.length === 0}>
+              Cargar {data.length || ""} clientes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

@@ -1,18 +1,15 @@
-import React, { useContext, useState } from "react";
-import { Context } from "../../store/appContext";
-import "../../../styles/dashboard.css";
-import { useParams } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
+import { Pencil } from "lucide-react";
+import { toast } from "sonner";
+import { Context } from "@/store/appContext";
+import { ETAPAS } from "@/lib/etapas";
+import { Button } from "@/components/ui/button";
+import { Campo, CampoArea, CampoSelect, FormSheet, Fila } from "../form-kit";
 
 export const ModifyClient = ({ prospecto }) => {
   const { actions } = useContext(Context);
-  // console.log(prospecto);
-  const [show, setShow] = useState(false);
+  const [abierto, setAbierto] = useState(false);
   const [cliente, setCliente] = useState({
     name: prospecto.name,
     birthdate: prospecto.birthdate,
@@ -24,202 +21,105 @@ export const ModifyClient = ({ prospecto }) => {
     status: prospecto.status,
     notes: prospecto.notes,
   });
-  const [edit, setEdit] = useState(false);
-  const params = useParams();
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  console.log(edit);
+
+  const handleForm = ({ target }) =>
+    setCliente({ ...cliente, [target.name]: target.value });
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(cliente);
     actions.putClientes(cliente, prospecto.id);
-    setCliente({
-      name: "",
-      birthdate: "",
-      email: "",
-      cellphone: "",
-      amount: "",
-      trust: "",
-      tag: "",
-      status: "",
-      notes: "",
-    });
-    handleClose();
-  };
-
-  const handleForm = ({ target }) => {
-    setCliente({ [target.name]: target.value });
+    setAbierto(false);
+    toast.success("Negocio actualizado");
   };
 
   return (
     <>
-      <button
-        type="button"
-        className="btn btn-primary"
-        data-bs-toggle="tooltip"
-        data-bs-placement="top"
-        title="Detalle"
-        onClick={handleShow}
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        aria-label={`Editar a ${prospecto.name}`}
+        title="Editar"
+        onClick={() => setAbierto(true)}
       >
-        <i className="bx bxs-detail fs-5"></i>
-      </button>
-
-      <Modal show={show} onHide={handleClose} size="xl">
-        <Modal.Header closeButton>
-          <Modal.Title>{cliente.name}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="form-check form-switch float-end">
-            <i className="bx bx-edit-alt fs-5"></i>
-            <input
-              className="form-check-input"
-              type="checkbox"
-              id="flexSwitchCheckDefault"
-              onClick={() => setEdit(!edit)}
-            />
-          </div>
-
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
-                <Col>
-                  <Form.Label>Nombre y Apellido</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    placeholder="Nombre del cliente"
-                    onChange={handleForm}
-                    value={cliente.name}
-                    disabled={edit ? false : true}
-                  />
-                </Col>
-                <Col>
-                  <Form.Label>Celular</Form.Label>
-                  <Form.Control
-                    type="tel"
-                    name="cellphone"
-                    placeholder="04XX-XXXXXXX"
-                    onChange={handleForm}
-                    value={cliente.cellphone}
-                    disabled={edit ? false : true}
-                  />
-                </Col>
-                <Col>
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="email"
-                    pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
-                    placeholder="nombre@correo.com"
-                    onChange={handleForm}
-                    value={cliente.email}
-                    disabled={edit ? false : true}
-                  />
-                </Col>
-                <Col>
-                  <Form.Label>Fecha de Nacimiento</Form.Label>
-                  <Form.Control
-                    type="date"
-                    name="birthdate"
-                    onChange={handleForm}
-                    value={cliente.birthdate}
-                    disabled={edit ? false : true}
-                  />
-                </Col>
-              </Row>
-            </Form.Group>
-            {/* ------------------ SECCIÓN PARA AGREGAR CELULAR E EMAIL ------------------ */}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Row>
-                <Col>
-                  <Form.Label>Monto</Form.Label>
-                  <Form.Control
-                    type="number"
-                    placeholder="5000"
-                    name="amount"
-                    value={cliente.amount}
-                    onChange={handleForm}
-                    disabled={edit ? false : true}
-                  />
-                </Col>
-                <Col>
-                  <Form.Label>Etiqueta:</Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    name="status"
-                    value={cliente.tag}
-                    onChange={handleForm}
-                    disabled={edit ? false : true}
-                  >
-                    <option value=""></option>
-                    <option value="Prospecto">Prospecto</option>
-                    <option value="Contactado">Contactado</option>
-                    <option value="Primera Cita">Primera Cita</option>
-                    <option value="Negociación">Negociación</option>
-                    <option value="Cerrado">Cerrado</option>
-                  </Form.Select>
-                </Col>
-                <Col>
-                  <Form.Label>Estatus:</Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    name="status"
-                    value={cliente.status}
-                    onChange={handleForm}
-                    disabled={edit ? false : true}
-                  >
-                    <option value=""></option>
-                    <option value="Prospecto">Prospecto</option>
-                    <option value="Contactado">Contactado</option>
-                    <option value="Primera Cita">Primera Cita</option>
-                    <option value="Negociación">Negociación</option>
-                    <option value="Cerrado">Cerrado</option>
-                  </Form.Select>
-                </Col>
-                <Col>
-                  <Form.Label>Nivel de confianza:</Form.Label>
-                  <Form.Select
-                    aria-label="Default select example"
-                    name="trust"
-                    value={cliente.trust}
-                    onChange={handleForm}
-                    disabled={edit ? false : true}
-                  >
-                    <option value=""></option>
-                    <option value="Alta">Alta</option>
-                    <option value="Media">Media</option>
-                    <option value="Baja">Baja</option>
-                  </Form.Select>
-                </Col>
-              </Row>
-            </Form.Group>
-            {/* ----------------------- SECCIÓN PARA AGREGAR NOTAS ----------------------- */}
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label>Notas</Form.Label>
-              <Form.Control
-                as="textarea"
-                name="notes"
-                rows={3}
-                placeholder="Breve descripción ¿hijos? ¿espos@?"
-                value={cliente.notes}
-                onChange={handleForm}
-                disabled={edit ? false : true}
-              />
-            </Form.Group>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Cerrar
-              </Button>
-              <Button variant="primary" type="submit">
-                Guardar
-              </Button>
-            </Modal.Footer>
-          </Form>
-        </Modal.Body>
-      </Modal>
+        <Pencil />
+      </Button>
+      <FormSheet
+        open={abierto}
+        onOpenChange={setAbierto}
+        title={prospecto.name}
+        description="Edita los datos del negocio."
+        onSubmit={handleSubmit}
+      >
+        <Campo
+          label="Nombre y apellido"
+          name="name"
+          value={cliente.name}
+          onChange={handleForm}
+        />
+        <Fila>
+          <Campo
+            label="Celular"
+            name="cellphone"
+            type="tel"
+            value={cliente.cellphone}
+            onChange={handleForm}
+          />
+          <Campo
+            label="Email"
+            name="email"
+            type="email"
+            value={cliente.email}
+            onChange={handleForm}
+          />
+        </Fila>
+        <Fila>
+          <Campo
+            label="Fecha de nacimiento"
+            name="birthdate"
+            type="date"
+            value={cliente.birthdate}
+            onChange={handleForm}
+          />
+          <Campo
+            label="Monto"
+            name="amount"
+            type="number"
+            value={cliente.amount}
+            onChange={handleForm}
+          />
+        </Fila>
+        <Fila>
+          <CampoSelect
+            label="Etapa"
+            name="status"
+            value={cliente.status}
+            onChange={handleForm}
+          >
+            {ETAPAS.map((e) => (
+              <option key={e.status} value={e.status}>
+                {e.status}
+              </option>
+            ))}
+          </CampoSelect>
+          <CampoSelect
+            label="Nivel de confianza"
+            name="trust"
+            value={cliente.trust}
+            onChange={handleForm}
+          >
+            <option value="Alta">Alta</option>
+            <option value="Media">Media</option>
+            <option value="Baja">Baja</option>
+          </CampoSelect>
+        </Fila>
+        <CampoArea
+          label="Notas"
+          name="notes"
+          placeholder="Breve descripción: ¿hijos? ¿pareja?"
+          value={cliente.notes}
+          onChange={handleForm}
+        />
+      </FormSheet>
     </>
   );
 };

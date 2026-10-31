@@ -1,6 +1,7 @@
-import React, { useContext, useEffect } from "react";
-import { Context } from "../../store/appContext";
-import "../../../styles/perfil.css";
+import { useContext, useEffect } from "react";
+import { Context } from "@/store/appContext";
+import { ETAPAS, formatoMonto } from "@/lib/etapas";
+import { Card, CardContent, CardDescription } from "@/components/ui/card";
 
 export const Box = () => {
   const { store, actions } = useContext(Context);
@@ -9,109 +10,49 @@ export const Box = () => {
       actions.getClientes();
     }
   }, [store.token]);
+
+  const resumen = ETAPAS.map((etapa) => {
+    const negocios = store.clientes.filter((c) => c.status === etapa.status);
+    return {
+      ...etapa,
+      cantidad: negocios.length,
+      monto: negocios.reduce((acum, c) => acum + parseInt(c.amount || 0), 0),
+    };
+  });
+  const total = store.clientes.length;
+
   return (
-    <div className="main__card">
-      <div className="card__profile">
-        <div className="d-flex justify-content-between w-100">
-          <div className="card__inner ">
-            <p className="text-black">PROSPECTOS</p>
-          </div>
-          <p className="text-black font-weight-bold numero">
-            {
-              store.clientes.filter((index) => index.status == "Prospecto")
-                .length
-            }
-          </p>
-        </div>
-        <span>
-          {" "}
-          $
-          {store.clientes
-            .filter((cliente) => cliente.status === "Prospecto")
-            .reduce((acum, index) => acum + parseInt(index.amount), 0)}
-        </span>
+    <div className="flex flex-col gap-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        {resumen.map((etapa) => (
+          <Card key={etapa.status} className="gap-2 py-5">
+            <CardContent className="flex flex-col gap-1 px-5">
+              <CardDescription className="flex items-center gap-2">
+                <span className={`size-2 rounded-full ${etapa.dot}`} />
+                {etapa.label}
+              </CardDescription>
+              <p className="text-3xl font-semibold tracking-tight tabular-nums">
+                {etapa.cantidad}
+              </p>
+              <p className="text-muted-foreground text-sm tabular-nums">
+                {formatoMonto(etapa.monto)}
+              </p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
-
-      <div className="card__profile">
-        <div className="d-flex justify-content-between w-100">
-          <div className="card__inner">
-            <p className="text-black">CONTACTADOS</p>
-          </div>
-          <p className="text-black font-weight-bold numero">
-            {
-              store.clientes.filter((index) => index.status == "Contactado")
-                .length
-            }
-          </p>
+      {total > 0 && (
+        <div className="bg-muted flex h-2 overflow-hidden rounded-full">
+          {resumen.map((etapa) => (
+            <div
+              key={etapa.status}
+              className={etapa.dot}
+              style={{ width: `${(etapa.cantidad / total) * 100}%` }}
+              title={`${etapa.label}: ${etapa.cantidad}`}
+            />
+          ))}
         </div>
-        <span>
-          {" "}
-          $
-          {store.clientes
-            .filter((cliente) => cliente.status === "Contactado")
-            .reduce((acum, index) => acum + parseInt(index.amount), 0)}
-        </span>
-      </div>
-
-      <div className="card__profile">
-        <div className="d-flex justify-content-between w-100">
-          <div className="card__inner">
-            <p className="text-black">PRIMERA CITA</p>
-          </div>
-          <span className="text-black font-weight-bold numero">
-            {
-              store.clientes.filter((index) => index.status == "Primera Cita")
-                .length
-            }
-          </span>
-        </div>
-        <span>
-          {" "}
-          $
-          {store.clientes
-            .filter((cliente) => cliente.status === "Primera Cita")
-            .reduce((acum, index) => acum + parseInt(index.amount), 0)}
-        </span>
-      </div>
-
-      <div className="card__profile">
-        <div className="d-flex justify-content-between w-100">
-          <div className="card__inner">
-            <p className="text-black">NEGOCIACIÓN</p>
-          </div>
-          <span className="text-black font-weight-bold numero">
-            {
-              store.clientes.filter((index) => index.status == "Negociación")
-                .length
-            }
-          </span>
-        </div>
-        <span>
-          {" "}
-          $
-          {store.clientes
-            .filter((cliente) => cliente.status === "Negociación")
-            .reduce((acum, index) => acum + parseInt(index.amount), 0)}
-        </span>
-      </div>
-
-      <div className="card__profile">
-        <div className="d-flex justify-content-between w-100">
-          <div className="card__inner">
-            <p className="text-black">CIERRES</p>
-          </div>
-          <span className="text-black font-weight-bold numero">
-            {store.clientes.filter((index) => index.status == "Cerrado").length}
-          </span>
-        </div>
-        <span>
-          {" "}
-          $
-          {store.clientes
-            .filter((cliente) => cliente.status === "Cerrado")
-            .reduce((acum, index) => acum + parseInt(index.amount), 0)}
-        </span>
-      </div>
+      )}
     </div>
   );
 };

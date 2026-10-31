@@ -1,28 +1,16 @@
-import React, { useContext } from "react";
-import { Context } from "../../store/appContext";
+import { useContext } from "react";
+import { Context } from "@/store/appContext";
+import { MetricCard } from "./metric-card";
 
 export const ConversionRate = () => {
   const { store } = useContext(Context);
-  const clientesCerrados = store.clientes.filter(
-    (index) => index.status == "Cerrado"
-  );
+  const cerrados = store.clientes.filter((c) => c.status == "Cerrado").length;
+  const total = store.clientes.length;
   return (
-    <div className="d-flex my-2">
-      <div className="card flex-fill border-0">
-        <div className="card-body py-4">
-          <div className="d-flex align-items-start">
-            <div className="d-flex justify-content-between w-100">
-              <span className="mb-2">% de Conversión</span>
-              <h4 className="mb-2">
-                {Math.floor(
-                  (clientesCerrados?.length / store.clientes?.length) * 100
-                )}
-                %
-              </h4>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <MetricCard
+      titulo="Conversión"
+      valor={total ? `${Math.floor((cerrados / total) * 100)} %` : "—"}
+      detalle={`${cerrados} de ${total} negocios cerrados`}
+    />
   );
 };

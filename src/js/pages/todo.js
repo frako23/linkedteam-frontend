@@ -1,27 +1,27 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { Context } from "../store/appContext";
-import "../../styles/todo.css";
-
-import toast from "react-hot-toast";
+import { Plus, Trash2 } from "lucide-react";
+import { toast } from "sonner";
+import { Context } from "@/store/appContext";
+import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Pricing } from "./pricing";
+
+const CARRILES = [
+  { status: "por realizar", titulo: "Por hacer" },
+  { status: "en ejecución", titulo: "En proceso" },
+  { status: "realizado", titulo: "Realizadas" },
+];
 
 export function Todo() {
   const [task, setTask] = useState("");
   const { store, actions } = useContext(Context);
-  const [dragOn, setDragOn] = useState(false);
-
-  const notify = () => toast.error("No puedes crear tareas vacias");
 
   useEffect(() => {
     actions.setHeader("Tareas pendientes");
   }, []);
-
-  // useEffect(() => {
-  //   if (store.usuario.status === "inactive") {
-  //     navigate("/pricing");
-  //   }
-  // }, [store.usuario.status]);
 
   useEffect(() => {
     if (store.token && store.token !== "" && store.token !== undefined) {
@@ -29,303 +29,116 @@ export function Todo() {
     }
   }, [store.token]);
 
-  let status = "por realizar";
-
-  const onDragEnd = (result) => {
-    // console.log(result);
-    if (!result.destination) return;
-    const { source, destination, draggableId } = result;
-    // console.log(source, destination, draggableId);
-    if (source.droppableId !== destination.droppableId) {
-      const sourceColIndex = store.tareas.findIndex(
-        (e) => e.id === Number(draggableId)
-      );
-      // console.log(sourceColIndex);
-      const newList = [...store.tareas];
-      // console.log(newList);
-      newList[sourceColIndex].status = destination.droppableId;
-      // console.log(newList[sourceColIndex].status, newList[sourceColIndex].id);
-      actions.updateTaskStatus(newList);
-      // console.log(store.tareas);
-      actions.putTarea({
-        status: newList[sourceColIndex].status,
-        id: newList[sourceColIndex].id,
-      });
-    }
+  const onDragEnd = ({ source, destination, draggableId }) => {
+    if (!destination || source.droppableId === destination.droppableId) return;
+    const lista = [...store.tareas];
+    const indice = lista.findIndex((t) => t.id === Number(draggableId));
+    lista[indice].status = destination.droppableId;
+    actions.updateTaskStatus(lista);
+    actions.putTarea({ status: lista[indice].status, id: lista[indice].id });
   };
-  // let { theid } = useParams();
+
+  const agregar = (e) => {
+    e.preventDefault();
+    if (task.trim() === "") {
+      toast.error("No puedes crear tareas vacías");
+      return;
+    }
+    actions.postTareas({ task, status: "por realizar" });
+    setTask("");
+  };
+
+  if (store.usuario.status === "inactive") return <Pricing />;
 
   return (
-    <>
-      {/* pagina */}
-      {store.usuario.status === "inactive" ? (
-        <Pricing />
-      ) : (
-        <div>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <main
-              className="clients"
-              style={{
-                paddingLeft: "5rem",
-              }}
-            >
-              <div className="board">
-                <form
-                  id="todo-form"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (task === "") {
-                      notify();
-                    } else {
-                      actions.postTareas({
-                        task: task,
-                        status: status,
-                      });
-                      setTask("");
-                      // console.log("entro aqui");
-                    }
-                  }}
-                >
-                  <input
-                    type="text"
-                    placeholder="Nueva tarea..."
-                    value={task}
-                    style={{ fontWeight: "bold" }}
-                    onChange={(e) => setTask(e.target.value)}
-                  />
-                  <button type="submit">Agregar tarea +</button>
-                </form>
-                <div className="lanes">
-                  <Droppable droppableId="por realizar">
-                    {(droppableProvided) => (
-                      <div
-                        className="swim-lane gap-2"
-                        {...droppableProvided.droppableProps}
-                        ref={droppableProvided.innerRef}
-                      >
-                        <h3 className="heading">
-                          POR HACER{" "}
-                          <span
-                            style={{ background: "black" }}
-                            className="badge"
-                          >
-                            {
-                              store.tareas.filter(
-                                (tarea) => tarea.status === "por realizar"
-                              ).length
-                            }
-                          </span>{" "}
-                        </h3>
-                        {store.tareas
-                          .filter(
-                            (tareasFiltradas) =>
-                              tareasFiltradas.status === "por realizar"
-                          )
-                          .map((task, index) => (
-                            <Draggable
-                              key={task.id}
-                              draggableId={String(task.id)}
-                              index={index}
-                            >
-                              {(draggableProvided, snapshot) => (
-                                <div
-                                  ref={draggableProvided.innerRef}
-                                  {...draggableProvided.draggableProps}
-                                  {...draggableProvided.dragHandleProps}
-                                  style={{
-                                    ...draggableProvided.draggableProps.style,
-                                    opacity: snapshot.isDragging ? "0.5" : "1",
-                                  }}
-                                >
-                                  <p
-                                    className={`task text-wrap ${
-                                      dragOn == true ? "is-dragging" : ""
-                                    } 
-                                                    d-flex justify-content-between
-                                                    `}
-                                    key={index}
-                                    onDragStart={() => setDragOn(true)}
-                                    onDragEnd={() => setDragOn(false)}
-                                    onDragOver={(e) => {
-                                      e.preventDefault();
-                                    }}
-                                    draggable="true"
-                                  >
-                                    {task.task}
+    <div className="flex flex-col gap-4 p-4 lg:p-6">
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Tareas pendientes
+        </h1>
+        <p className="text-muted-foreground text-sm">
+          Mueve cada tarea entre columnas según su avance.
+        </p>
+      </div>
 
-                                    <button
-                                      className="todo-button"
-                                      onClick={() =>
-                                        actions.deleteTarea(task.id)
-                                      }
-                                    >
-                                      <i className="bx bx-trash fs-5"></i>
-                                    </button>
-                                  </p>
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                        {droppableProvided.placeholder}
-                      </div>
+      <form onSubmit={agregar} className="flex max-w-xl gap-2">
+        <Input
+          placeholder="Nueva tarea..."
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          aria-label="Nueva tarea"
+        />
+        <Button type="submit">
+          <Plus /> Agregar
+        </Button>
+      </form>
+
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className="grid gap-4 md:grid-cols-3">
+          {CARRILES.map((carril) => {
+            const tareas = store.tareas.filter((t) => t.status === carril.status);
+            return (
+              <Droppable droppableId={carril.status} key={carril.status}>
+                {(provided, snapshotCol) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className={cn(
+                      "bg-muted/50 flex min-h-48 flex-col gap-2 rounded-xl p-2 transition-colors",
+                      snapshotCol.isDraggingOver &&
+                        "bg-accent ring-primary/30 ring-1"
                     )}
-                  </Droppable>
-
-                  <Droppable droppableId="en ejecución">
-                    {(droppableProvided) => (
-                      <div
-                        className="swim-lane gap-2"
-                        {...droppableProvided.droppableProps}
-                        ref={droppableProvided.innerRef}
+                  >
+                    <div className="flex items-center gap-2 px-2 py-1.5">
+                      <span className="text-sm font-medium">{carril.titulo}</span>
+                      <Badge variant="secondary" className="tabular-nums">
+                        {tareas.length}
+                      </Badge>
+                    </div>
+                    {tareas.map((tarea, index) => (
+                      <Draggable
+                        key={tarea.id}
+                        draggableId={String(tarea.id)}
+                        index={index}
                       >
-                        <h3 className="heading">
-                          EN PROCESO{" "}
-                          <span
-                            style={{ background: "black" }}
-                            className="badge"
+                        {(dp, snapshot) => (
+                          <div
+                            ref={dp.innerRef}
+                            {...dp.draggableProps}
+                            {...dp.dragHandleProps}
                           >
-                            {
-                              store.tareas.filter(
-                                (tarea) => tarea.status === "en ejecución"
-                              ).length
-                            }
-                          </span>
-                        </h3>
-                        {store.tareas
-                          .filter(
-                            (tareasFiltradas) =>
-                              tareasFiltradas.status === "en ejecución"
-                          )
-                          .map((task, index) => (
-                            <Draggable
-                              key={task.id}
-                              draggableId={String(task.id)}
-                              index={index}
-                            >
-                              {(draggableProvided, snapshot) => (
-                                <div
-                                  ref={draggableProvided.innerRef}
-                                  {...draggableProvided.draggableProps}
-                                  {...draggableProvided.dragHandleProps}
-                                  style={{
-                                    ...draggableProvided.draggableProps.style,
-                                    opacity: snapshot.isDragging ? "0.5" : "1",
-                                  }}
-                                >
-                                  <p
-                                    className={`task text-wrap ${
-                                      dragOn == true ? "is-dragging" : ""
-                                    } 
-                                                    d-flex justify-content-between
-                                                    `}
-                                    key={index}
-                                    onDragStart={() => setDragOn(true)}
-                                    onDragEnd={() => setDragOn(false)}
-                                    onDragOver={(e) => {
-                                      e.preventDefault();
-                                    }}
-                                    draggable="true"
-                                  >
-                                    {task.task}
-
-                                    <button
-                                      className="todo-button"
-                                      onClick={() => {
-                                        actions.deleteTarea(task.id);
-                                      }}
-                                    >
-                                      <i className="bx bx-trash fs-5"></i>
-                                    </button>
-                                  </p>
-                                </div>
+                            <div
+                              className={cn(
+                                "bg-card flex cursor-grab items-start justify-between gap-2 rounded-lg border p-3 text-sm shadow-xs",
+                                snapshot.isDragging &&
+                                  "ring-primary/30 shadow-lg ring-2",
+                                carril.status === "realizado" &&
+                                  "text-muted-foreground line-through"
                               )}
-                            </Draggable>
-                          ))}
-                        {droppableProvided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-
-                  <Droppable droppableId="realizado">
-                    {(droppableProvided) => (
-                      <div
-                        className="swim-lane gap-2"
-                        {...droppableProvided.droppableProps}
-                        ref={droppableProvided.innerRef}
-                      >
-                        <h3 className="heading">
-                          REALIZADO{" "}
-                          <span
-                            style={{ background: "black" }}
-                            className="badge"
-                          >
-                            {
-                              store.tareas.filter(
-                                (tarea) => tarea.status === "realizado"
-                              ).length
-                            }
-                          </span>{" "}
-                        </h3>
-                        {store.tareas
-                          .filter(
-                            (tareasFiltradas) =>
-                              tareasFiltradas.status === "realizado"
-                          )
-                          .map((task, index) => (
-                            <Draggable
-                              key={task.id}
-                              draggableId={String(task.id)}
-                              index={index}
                             >
-                              {(draggableProvided, snapshot) => (
-                                <div
-                                  ref={draggableProvided.innerRef}
-                                  {...draggableProvided.draggableProps}
-                                  {...draggableProvided.dragHandleProps}
-                                  style={{
-                                    ...draggableProvided.draggableProps.style,
-                                    opacity: snapshot.isDragging ? "0.5" : "1",
-                                  }}
-                                >
-                                  <p
-                                    className={`task text-wrap ${
-                                      dragOn == true ? "is-dragging" : ""
-                                    } 
-                                                    d-flex justify-content-between text-decoration-line-through
-                                                    `}
-                                    key={index}
-                                    onDragStart={() => setDragOn(true)}
-                                    onDragEnd={() => setDragOn(false)}
-                                    onDragOver={(e) => {
-                                      e.preventDefault();
-                                    }}
-                                    draggable="true"
-                                  >
-                                    {task.task}
-
-                                    <button
-                                      className="todo-button"
-                                      onClick={() => {
-                                        actions.deleteTarea(task.id);
-                                      }}
-                                    >
-                                      <i className="bx bx-trash fs-5"></i>
-                                    </button>
-                                  </p>
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                        {droppableProvided.placeholder}
-                      </div>
-                    )}
-                  </Droppable>
-                </div>
-              </div>
-            </main>
-          </DragDropContext>
+                              <span className="break-words">{tarea.task}</span>
+                              <Button
+                                variant="ghost"
+                                size="icon-sm"
+                                aria-label="Eliminar tarea"
+                                className="hover:text-destructive shrink-0"
+                                onClick={() => actions.deleteTarea(tarea.id)}
+                              >
+                                <Trash2 />
+                              </Button>
+                            </div>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            );
+          })}
         </div>
-      )}
-    </>
+      </DragDropContext>
+    </div>
   );
 }

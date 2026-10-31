@@ -1,92 +1,61 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Context } from "../store/appContext";
-import "../../styles/dashboard.css";
+import { useContext, useEffect, useState } from "react";
+import { Context } from "@/store/appContext";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { KanbanAsociado } from "../components/crm/kanbanAsociado";
-import Dropdown from "react-bootstrap/Dropdown";
 import { ExportToExcel } from "../components/crm/exportToExcel";
 import { Pricing } from "./pricing";
 import SortCRM from "../components/crm/sortCRM";
 
 export const AssociateSalesFunnel = () => {
   const { store, actions } = useContext(Context);
-  const [selected, setSelected] = useState("");
   const [asociadoId, setAsociadoId] = useState("");
   const id = localStorage.getItem("usuario.id");
+
   useEffect(() => {
     actions.setHeader("CRM Asociados");
-  }, []);
-  let notClosedArray = store.userClients.filter(
-    (index) => index.status != "Cerrado"
-  );
-
-  // console.log(notClosedArray);
-
-  let amountSum = notClosedArray.reduce(
-    (acum, index) => acum + parseInt(index.amount),
-    0
-  );
-
-  // console.log(amountSum);
-
-  let closedArray = store.userClients.filter(
-    (index) => index.status == "Cerrado"
-  );
-
-  // console.log(closedArray);
-
-  let amountSumClosedSales = closedArray.reduce(
-    (acum, index) => acum + parseInt(index.amount),
-    0
-  );
-
-  // console.log(amountSumClosedSales);
-
-  useEffect(() => {
     actions.getUsersByManager(id);
   }, []);
 
-  // console.log(store.usuario.own_agency);
-  console.log(id);
-  console.log(store.usersByManager);
+  if (store.usuario.status === "inactive") return <Pricing />;
 
   return (
-    <>
-      {store.usuario.status === "inactive" ? (
-        <Pricing />
-      ) : (
-        <div className=" ps-5 clients">
-          <div className="ms-2 d-flex justify-content-between pt-2">
-            <div className="btn-group me-2 ms-5">
-              <ExportToExcel excelData={store.clientes} />
-              <Dropdown>
-                <Dropdown.Toggle
-                  className="btn btn-sm btn-outline-secondary"
-                  id="dropdown-basic"
-                  variant="outline-secondary"
-                >
-                  Asociados
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  {store.usersByManager.map((asociado) => (
-                    <Dropdown.Item
-                      key={asociado.id}
-                      href="#/action-1"
-                      onClick={() => setAsociadoId(asociado.id)}
-                    >
-                      {asociado.name + " " + asociado.lastname}{" "}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
-            </div>
-          </div>
-          <div className="form-outline mb-4 mx-5">
-            <SortCRM />
-          </div>
-          <KanbanAsociado asociadoId={asociadoId} />
+    <div className="flex flex-col gap-4 p-4 lg:p-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Embudo de asesores
+          </h1>
+          <p className="text-muted-foreground text-sm">
+            Elige a un asesor para ver sus negocios y su actividad.
+          </p>
         </div>
-      )}
-    </>
+        <div className="flex flex-wrap items-center gap-2">
+          <ExportToExcel excelData={store.clientes} />
+          <Select
+            value={asociadoId ? String(asociadoId) : ""}
+            onValueChange={(valor) => setAsociadoId(Number(valor))}
+          >
+            <SelectTrigger className="w-56">
+              <SelectValue placeholder="Selecciona un asesor" />
+            </SelectTrigger>
+            <SelectContent>
+              {store.usersByManager.map((asociado) => (
+                <SelectItem key={asociado.id} value={String(asociado.id)}>
+                  {asociado.name} {asociado.lastname}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+      <SortCRM id={asociadoId} />
+      <KanbanAsociado asociadoId={asociadoId} />
+    </div>
   );
 };
