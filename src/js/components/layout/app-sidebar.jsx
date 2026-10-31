@@ -42,7 +42,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import logo from "../../../img/logoNavBar.png";
+import { Logo } from "@/components/logo";
 
 const iniciales = (nombre = "", apellido = "") =>
   `${nombre[0] || ""}${apellido[0] || ""}`.toUpperCase() || "LT";
@@ -139,8 +139,8 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link to="/perfil">
-                <div className="bg-sidebar-primary flex aspect-square size-8 items-center justify-center overflow-hidden rounded-lg">
-                  <img src={logo} alt="" className="size-6 object-contain" />
+                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                  <Logo className="size-5" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">LinkedTeam</span>

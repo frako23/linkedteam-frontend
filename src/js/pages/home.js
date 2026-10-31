@@ -32,7 +32,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { VideoModal } from "../components/home/VideoModal";
-import logo from "../../img/logoNavBar.png";
+import { Logo } from "@/components/logo";
 
 const CAPACIDADES = [
   {
@@ -173,7 +173,7 @@ export const Home = () => {
       <header className="bg-background/80 sticky top-0 z-50 border-b backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           <Link to="/" className="flex items-center gap-2 font-semibold">
-            <img src={logo} alt="" className="size-8 object-contain" />
+            <Logo className="size-6" />
             LinkedTeam
           </Link>
           <nav className="text-muted-foreground hover:[&>a]:text-foreground hidden items-center gap-6 text-sm md:flex [&>a]:transition-colors">

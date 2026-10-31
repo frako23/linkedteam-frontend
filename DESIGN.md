@@ -339,7 +339,25 @@ En oscuro las sombras casi no se ven; ahí la separación la hacen `--border` y 
 - **Color:** `currentColor`. Heredan el texto del contenedor; nunca se colorean por etapa (para eso está el punto).
 - **Equivalencias:** Tablero `LayoutDashboard`, Embudo `Filter`, Clientes `Users`, Tareas `ListTodo`, Cursos `GraduationCap`, Cursos para tu equipo `Presentation`, Videos `CirclePlay`, Donaciones `HandCoins`, Reportar errores `Bug`, Salir `LogOut`.
 
-**Imágenes:** la app privada no lleva fotos; solo datos, íconos y avatares (iniciales en `Avatar` cuando no hay foto). La landing usa capturas reales del producto (`src/img/Landing/`) en marcos `rounded-xl border`, sin maquetas de dispositivo. Las fotos de stock del carrusel actual (`src/img/1–4.webp`) salen; si se usa una foto, va solo en el panel derecho de la pantalla de acceso. El logo es un pictograma de línea: `text-foreground` sobre claro y blanco sobre oscuro (SVG con `fill="currentColor"`).
+**Imágenes:** la app privada no lleva fotos; solo datos, íconos y avatares (iniciales en `Avatar` cuando no hay foto). La landing usa capturas reales del producto (`src/img/Landing/`) en marcos `rounded-xl border`, sin maquetas de dispositivo. Las fotos de stock del carrusel actual (`src/img/1–4.webp`) salen; si se usa una foto, va solo en el panel derecho de la pantalla de acceso. El logo es la marca de nodos (ver **Logo**): `text-foreground` sobre claro y blanco sobre oscuro (SVG con `fill="currentColor"`).
+
+## Logo
+
+Tres nodos unidos por un trazo forman una L: la inicial de LinkedTeam y un equipo enlazado (gerente, asesor y cliente). Los nodos son los mismos puntos con que la interfaz marca las etapas. La marca es de una sola tinta: hereda `currentColor` y nunca lleva colores de etapa.
+
+| Pieza | Dónde | Uso |
+|-------|-------|-----|
+| Marca | `<Logo />` en `src/js/components/logo.jsx`; `public/brand/linkedteam-mark.svg` | Dentro de la app, siempre el componente; el tamaño va en `className` (`size-5`, `size-6`) |
+| Ícono de app | `public/brand/linkedteam-icon.svg` y `linkedteam-icon-512.png` | Cuadro violeta `#695cfe` con la marca en blanco: avatar en redes y accesos directos. El PNG va sin esquinas redondeadas porque cada plataforma aplica su máscara |
+| Logotipo | `public/brand/linkedteam-logo.svg` (fondo claro) y `linkedteam-logo-dark.svg` (fondo oscuro) | Marca + "LinkedTeam" en Geist SemiBold vectorizado, para documentos, correos y presentaciones fuera de la app |
+| Favicon | `favicon.ico` (16, 32 y 48px) y `public/apple-touch-icon.png` (180px) | `HtmlWebpackPlugin` inyecta el `.ico`. Las versiones de 16 y 32px están ajustadas a píxel |
+
+- **Sidebar:** `Logo` `size-5` dentro del cuadro `size-8 rounded-lg bg-sidebar-primary text-sidebar-primary-foreground`. Dentro de la app, es el único lugar donde la marca va sobre violeta.
+- **Landing y acceso:** `Logo` `size-6` en el color del texto y "LinkedTeam" en `font-semibold`, separados con `gap-2`.
+- **Construcción:** retícula de 24, nodos de radio 3 y trazo de 2.5. La L se desplaza 0.75 hacia arriba y a la derecha para verse centrada. En el logotipo, la línea base del texto cae en el eje del pie de la L.
+- **Tamaño mínimo:** 16px la marca y 20px de alto el logotipo. Por debajo, usa el ícono de app.
+- **Área de respeto:** el diámetro de un nodo alrededor del logotipo y del ícono.
+- **No:** recolorear la marca ni sus nodos, separar los nodos del trazo, rotar o reflejar la L, ni añadirle sombras, contornos o degradados.
 
 ## Layout
 
@@ -376,6 +394,7 @@ La landing (`/`) es una sola columna `max-w-6xl`: encabezado sticky con blur, h�
 | Recharts 2 directo | Chart de shadcn (Recharts 3) |
 | `ModalLoader` | Spinner / Skeleton |
 | Imágenes de estado vacío (`nohayvideos.jpg`) | Componente Empty |
+| Logo de la portátil con gráfico (`4geeks.ico`, `logoNavBar.png`) | Marca de nodos: `Logo`, `favicon.ico` y `public/brand/` |
 | `@mui/material`, `@emotion/*`, `@tremor/react` (instalados, sin imports) | Desinstalar |
 | Chart.js 2.9.4 por CDN (sin uso en `src`) | Quitar de `template.html` |
 | `src/styles/*.css` | Clases de Tailwind en los componentes; los archivos se borran a medida que su pantalla migra |

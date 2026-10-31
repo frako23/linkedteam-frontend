@@ -6,7 +6,7 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import logo from "../../../img/logoNavBar.png";
+import { Logo } from "@/components/logo";
 
 /** Dos columnas: formulario a la izquierda, mensaje de marca a la derecha. */
 export function AuthLayout({ titulo, descripcion, children, pie }) {
@@ -14,7 +14,7 @@ export function AuthLayout({ titulo, descripcion, children, pie }) {
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-6 p-6 md:p-10">
         <Link to="/" className="flex items-center gap-2 font-semibold">
-          <img src={logo} alt="" className="size-8 object-contain" />
+          <Logo className="size-6" />
           LinkedTeam
         </Link>
         <div className="flex flex-1 items-center justify-center">
