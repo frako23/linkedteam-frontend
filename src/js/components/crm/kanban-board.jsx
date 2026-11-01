@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { CalendarDays, MessageSquare, Phone, Trash2 } from "lucide-react";
-import { toast } from "sonner";
+import { CalendarDays, Clock, MessageSquare, Phone, Trash2 } from "lucide-react";
 import { Context } from "@/store/appContext";
 import { ETAPAS, formatoMonto } from "@/lib/etapas";
 import { cn } from "@/lib/utils";
@@ -119,12 +118,28 @@ export function KanbanBoard({
                                   )}
                                 >
                                   <div className="flex items-start justify-between gap-2">
-                                    <span className="font-medium">
-                                      {cliente.name}
+                                    <span className="flex min-w-0 flex-col items-start gap-1">
+                                      <span className="font-medium">
+                                        {cliente.name}
+                                      </span>
+                                      {cliente.pendiente ? (
+                                        <Badge
+                                          variant="secondary"
+                                          onClick={() =>
+                                            cliente.estado === "rechazado" &&
+                                            actions.abrirPendientes(true)
+                                          }
+                                        >
+                                          <Clock className="size-3" />
+                                          {cliente.estado === "rechazado"
+                                            ? "No se pudo enviar"
+                                            : "Pendiente"}
+                                        </Badge>
+                                      ) : null}
                                     </span>
                                     <div className="flex shrink-0 items-center gap-1">
                                       {acciones?.(cliente)}
-                                      {onEliminar && (
+                                      {onEliminar && cliente.id > 0 && (
                                         <Button
                                           variant="ghost"
                                           size="icon-sm"
@@ -211,7 +226,6 @@ export function KanbanBoard({
               variant="destructive"
               onClick={() => {
                 onEliminar(porEliminar);
-                toast.success(`${porEliminar.name} fue eliminado`);
                 setPorEliminar(null);
               }}
             >

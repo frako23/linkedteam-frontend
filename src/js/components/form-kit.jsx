@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Sheet,
@@ -20,6 +21,8 @@ export function FormSheet({
   description,
   onSubmit,
   submitLabel = "Guardar",
+  guardando = false,
+  soloLectura = false,
   children,
   className,
 }) {
@@ -33,16 +36,26 @@ export function FormSheet({
               <SheetDescription>{description}</SheetDescription>
             ) : null}
           </SheetHeader>
-          <div className="flex flex-1 flex-col gap-4 px-4 py-2">{children}</div>
+          <fieldset
+            disabled={soloLectura}
+            className="flex min-w-0 flex-1 flex-col gap-4 border-0 px-4 py-2"
+          >
+            {children}
+          </fieldset>
           <SheetFooter className="flex-row justify-end gap-2">
             <Button
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancelar
+              {soloLectura ? "Cerrar" : "Cancelar"}
             </Button>
-            <Button type="submit">{submitLabel}</Button>
+            {soloLectura ? null : (
+              <Button type="submit" disabled={guardando}>
+                {guardando ? <Spinner /> : null}
+                {submitLabel}
+              </Button>
+            )}
           </SheetFooter>
         </form>
       </SheetContent>

@@ -7,8 +7,9 @@ import { ETAPAS } from "@/lib/etapas";
 import { Button } from "@/components/ui/button";
 import { Campo, CampoArea, CampoSelect, FormSheet, Fila } from "../form-kit";
 
-export const ModifyClient = ({ prospecto }) => {
-  const { actions } = useContext(Context);
+export const ModifyClient = ({ prospecto, soloLectura = false }) => {
+  const { store, actions } = useContext(Context);
+  const sinEdicion = soloLectura || store.conexion === false;
   const [abierto, setAbierto] = useState(false);
   const [cliente, setCliente] = useState({
     name: prospecto.name,
@@ -47,7 +48,12 @@ export const ModifyClient = ({ prospecto }) => {
         open={abierto}
         onOpenChange={setAbierto}
         title={prospecto.name}
-        description="Edita los datos del negocio."
+        description={
+          sinEdicion
+            ? "Sin conexión: puedes ver los datos, pero para editarlos necesitas internet."
+            : "Edita los datos del negocio."
+        }
+        soloLectura={sinEdicion}
         onSubmit={handleSubmit}
       >
         <Campo
@@ -126,4 +132,5 @@ export const ModifyClient = ({ prospecto }) => {
 
 ModifyClient.propTypes = {
   prospecto: PropTypes.object,
+  soloLectura: PropTypes.bool,
 };

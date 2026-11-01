@@ -77,3 +77,5 @@ database.database
 database.db
 diagram.png
 __pycache__/
+# service worker generado por el build
+public/sw.js

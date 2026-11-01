@@ -1,6 +1,8 @@
 import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Users } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import { es } from "date-fns/locale";
 import { Context } from "@/store/appContext";
 import { Button } from "@/components/ui/button";
 import { Nuevonegocio } from "../components/crm/nuevoNegocio";
@@ -41,7 +43,14 @@ export const SalesFunnel = () => {
             Embudo de ventas
           </h1>
           <p className="text-muted-foreground text-sm">
-            Arrastra cada negocio a su etapa para mantener el embudo al día.
+            {store.conexion === false
+              ? store.ultimaActualizacion
+                ? `Sin conexión. Datos actualizados ${formatDistanceToNow(
+                    new Date(store.ultimaActualizacion),
+                    { addSuffix: true, locale: es }
+                  )}.`
+                : "Sin conexión."
+              : "Arrastra cada negocio a su etapa para mantener el embudo al día."}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">

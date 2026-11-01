@@ -13,6 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 
 export function ActivityDialog({ open, onClose, actividad = [] }) {
@@ -45,11 +47,21 @@ export function ActivityDialog({ open, onClose, actividad = [] }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {actividad.map((act, index) => (
-                  <TableRow key={index}>
+                {actividad.map((act) => (
+                  <TableRow key={act.id}>
                     <TableCell className="tabular-nums">{act.date}</TableCell>
                     <TableCell className="capitalize">
-                      {act.contact_type}
+                      <span className="flex flex-wrap items-center gap-1.5">
+                        {act.contact_type}
+                        {act.pendiente ? (
+                          <Badge variant="secondary" className="normal-case">
+                            <Clock className="size-3" />
+                            {act.estado === "rechazado"
+                              ? "No se pudo enviar"
+                              : "Pendiente"}
+                          </Badge>
+                        ) : null}
+                      </span>
                     </TableCell>
                     <TableCell className="whitespace-normal">
                       {act.comment}

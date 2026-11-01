@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { ClipboardPen } from "lucide-react";
 import { toast } from "sonner";
@@ -6,28 +6,48 @@ import { Context } from "@/store/appContext";
 import { Button } from "@/components/ui/button";
 import { Campo, CampoArea, CampoSelect, FormSheet } from "../form-kit";
 
-const VACIO = { date: "", contact_type: "", comment: "" };
+// Fecha de hoy en la zona del usuario, como YYYY-MM-DD.
+const hoy = () => new Date().toLocaleDateString("en-CA");
+const vacio = () => ({ date: hoy(), contact_type: "", comment: "" });
 
 export const RegisterActivity = ({ id }) => {
-  const { store, actions } = useContext(Context);
-  const [activity, setActivity] = useState(VACIO);
+  const { actions } = useContext(Context);
+  const [activity, setActivity] = useState(vacio);
   const [abierto, setAbierto] = useState(false);
-
-  useEffect(() => {
-    if (store.token && store.token !== "" && store.token !== undefined) {
-      actions.getClientActivity(id);
-    }
-  }, [store.token]);
+  const [guardando, setGuardando] = useState(false);
 
   const handleActivity = ({ target }) =>
     setActivity({ ...activity, [target.name]: target.value });
 
-  const handleSubmit = (e) => {
+  const abrir = () => {
+    setActivity(vacio());
+    setAbierto(true);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    actions.postClientActivity(activity, id);
-    setActivity(VACIO);
+    if (guardando) return;
+    setGuardando(true);
+    const r = await actions.encolarCambio("interaccion", id, activity);
+    setGuardando(false);
+
+    if (r.estado === "enviado") {
+      toast.success("Actividad registrada");
+    } else if (r.estado === "guardado") {
+      toast.success("Interacción guardada", {
+        description: "Se enviará cuando vuelvas a tener conexión.",
+      });
+    } else if (r.estado === "rechazado") {
+      toast.error("No se pudo guardar", { description: r.motivo });
+    } else if (r.estado === "invalido") {
+      toast.error(r.motivo);
+      return;
+    } else {
+      // Sin espacio en el teléfono: el formulario sigue abierto con lo escrito.
+      return;
+    }
+    setActivity(vacio());
     setAbierto(false);
-    toast.success("Actividad registrada");
   };
 
   return (
@@ -37,7 +57,7 @@ export const RegisterActivity = ({ id }) => {
         size="icon-sm"
         aria-label="Registrar actividad"
         title="Registrar actividad"
-        onClick={() => setAbierto(true)}
+        onClick={abrir}
       >
         <ClipboardPen />
       </Button>
@@ -47,11 +67,13 @@ export const RegisterActivity = ({ id }) => {
         title="Registrar actividad"
         description="Anota la llamada, el mensaje o la cita."
         onSubmit={handleSubmit}
+        guardando={guardando}
       >
         <Campo
           label="Fecha"
           name="date"
           type="date"
+          required
           value={activity.date}
           onChange={handleActivity}
           autoFocus
@@ -71,6 +93,7 @@ export const RegisterActivity = ({ id }) => {
         <CampoArea
           label="Comentarios"
           name="comment"
+          required
           placeholder="El cliente..."
           value={activity.comment}
           onChange={handleActivity}

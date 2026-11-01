@@ -1,9 +1,91 @@
 import { toast } from "sonner";
+import { leerToken } from "@/lib/sesion";
+import {
+  leerCache,
+  guardarCache,
+  leerPendientes,
+  actualizarPendientes,
+  borrarCache,
+  borrarDatosUsuario,
+  pedirPersistencia,
+} from "@/lib/almacen-local";
+import {
+  crearCambio,
+  clasificarRespuesta,
+  textoMotivo,
+  siguienteParaEnviar,
+  marcarEstado,
+  quitar,
+  reiniciarEnviando,
+  validarInteraccion,
+  validarNegocio,
+  validarEtapa,
+  agregarCambio,
+  reemplazarIdTemporal,
+  resolverDependencias,
+  aplicarPendientes,
+} from "@/lib/pendientes";
+
+const TIEMPO_ENVIO = 5000;
+const CARTERA_VACIA = { clientes: [], actividades: [] };
+const SIN_TELEFONO = {
+  clientes: [],
+  clientActivity: [],
+  pendientes: [],
+  ultimaActualizacion: null,
+  sesionVencida: false,
+};
+
+// El token vencido sigue sirviendo para saber de quién es el espacio de datos.
+const idUsuario = () => leerToken(localStorage.getItem("token"))?.userId || null;
+const esperar = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+let disparadoresListos = false;
+let avisoSesionMostrado = false;
 
 const getState = ({ getStore, getActions, setStore }) => {
+  // Los datos que ve el usuario son la cartera del servidor más los pendientes.
+  const recalcular = () => {
+    const { cartera, pendientes } = getStore();
+    const vista = aplicarPendientes(cartera, pendientes);
+    setStore({ clientes: vista.clientes, clientActivity: vista.actividades });
+  };
+
+  // Cambia la lista de pendientes guardada en el teléfono y la refleja en pantalla.
+  const cambiarPendientes = async (fn) => {
+    const userId = idUsuario();
+    if (!userId) return { ok: false, valor: null };
+    const r = await actualizarPendientes(userId, (lista) =>
+      resolverDependencias(fn(lista))
+    );
+    if (r.ok) {
+      setStore({ pendientes: r.valor });
+      recalcular();
+    }
+    return r;
+  };
+
+  const guardarCartera = (parcial) => {
+    const cartera = { ...getStore().cartera, ...parcial };
+    setStore({ cartera });
+    const userId = idUsuario();
+    if (userId) {
+      guardarCache(userId, {
+        clientes: cartera.clientes,
+        actividades: cartera.actividades,
+      });
+    }
+  };
+
   return {
     store: {
       token: null,
+      cartera: CARTERA_VACIA,
+      conexion: typeof navigator !== "undefined" ? navigator.onLine : true,
+      pendientes: [],
+      ultimaActualizacion: null,
+      sincronizando: false,
+      sesionVencida: false,
+      listaPendientesAbierta: false,
       message: null,
       notification: undefined,
       usuario: [],
@@ -37,6 +119,325 @@ const getState = ({ getStore, getActions, setStore }) => {
       allClienteProductos: [],
     },
     actions: {
+      // ---------------- Trabajo sin conexión (specs/001-pwa-offline-sync) ----------------
+      setConexion: (valor) => {
+        if (getStore().conexion !== valor) setStore({ conexion: valor });
+      },
+
+      abrirPendientes: (abierta) => setStore({ listaPendientesAbierta: abierta }),
+
+      // Carga la cartera y los pendientes guardados en el teléfono y registra
+      // los disparadores del envío. Se llama al abrir la app y al iniciar sesión.
+      iniciarSinConexion: async () => {
+        const actions = getActions();
+        if (!disparadoresListos && typeof window !== "undefined") {
+          disparadoresListos = true;
+          window.addEventListener("online", () => {
+            actions.setConexion(true);
+            actions.sincronizar();
+          });
+          window.addEventListener("offline", () => actions.setConexion(false));
+          document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === "visible") actions.sincronizar();
+          });
+          setInterval(() => {
+            const { pendientes } = getStore();
+            if (
+              document.visibilityState === "visible" &&
+              pendientes.some((c) => c.estado === "pendiente")
+            ) {
+              actions.sincronizar();
+            }
+          }, 30000);
+        }
+
+        const userId = idUsuario();
+        if (!userId) return;
+        const cache = await leerCache(userId);
+        const guardados = await leerPendientes(userId);
+        const pendientes = resolverDependencias(
+          reiniciarEnviando(guardados.valor)
+        );
+        if (guardados.ok) await actualizarPendientes(userId, () => pendientes);
+
+        // Si el servidor ya respondió antes, esos datos son más nuevos.
+        if (!getStore().ultimaActualizacion) {
+          setStore({
+            cartera: {
+              clientes: cache.valor.clientes,
+              actividades: cache.valor.actividades,
+            },
+            ultimaActualizacion: cache.valor.actualizadoEn,
+          });
+        }
+        setStore({ pendientes });
+        recalcular();
+        actions.sincronizar();
+      },
+
+      // Una petición de la cola. Nunca muestra avisos: eso lo decide quien llama.
+      enviarCambio: async (cambio) => {
+        const store = getStore();
+        const base = process.env.BACKEND_URL;
+        let url;
+        let method = "POST";
+        let cuerpo;
+        if (cambio.tipo === "interaccion") {
+          url = `${base}/client_activity/${cambio.clienteId}`;
+          cuerpo = { ...cambio.datos, offline_id: cambio.id };
+        } else if (cambio.tipo === "negocio") {
+          url = `${base}/clientes`;
+          cuerpo = { ...cambio.datos, offline_id: cambio.id };
+        } else {
+          url = `${base}/cliente/${cambio.clienteId}`;
+          method = "PUT";
+          cuerpo = { status: cambio.datos.status, changed_at: cambio.creadoEn };
+        }
+        const controlador = new AbortController();
+        const reloj = setTimeout(() => controlador.abort(), TIEMPO_ENVIO);
+        try {
+          const response = await fetch(url, {
+            method,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,
+            },
+            body: JSON.stringify(cuerpo),
+            signal: controlador.signal,
+          });
+          let respuesta = null;
+          try {
+            respuesta = await response.json();
+          } catch (error) {
+            respuesta = null;
+          }
+          return { status: response.status, cuerpo: respuesta };
+        } catch (error) {
+          return {
+            status: 0,
+            cuerpo: null,
+            causa: error.name === "AbortError" ? "tiempo" : "red",
+          };
+        } finally {
+          clearTimeout(reloj);
+        }
+      },
+
+      // Envía la cola en orden. Un solo envío a la vez (también entre pestañas).
+      sincronizar: async () => {
+        const actions = getActions();
+        const inicial = getStore();
+        if (!inicial.token || inicial.sesionVencida || inicial.sincronizando) {
+          return {};
+        }
+        if (!idUsuario()) return {};
+
+        const correr = async () => {
+          setStore({ sincronizando: true });
+          const resultados = {};
+          let enviados = 0;
+          let rechazados = 0;
+          let hayClientes = false;
+          let hayActividades = false;
+          try {
+            for (;;) {
+              const cambio = siguienteParaEnviar(getStore().pendientes);
+              if (!cambio) break;
+              await cambiarPendientes((l) => marcarEstado(l, cambio.id, "enviando"));
+              const { status, cuerpo, causa } = await actions.enviarCambio(cambio);
+              if (status > 0) actions.setConexion(true);
+              const clase = clasificarRespuesta(status, cambio.tipo);
+              resultados[cambio.id] = clase;
+
+              if (clase === "enviado") {
+                const cartera = getStore().cartera;
+                if (cambio.tipo === "interaccion") {
+                  hayActividades = true;
+                  guardarCartera({
+                    actividades: [
+                      ...cartera.actividades.filter((a) => a.id !== cuerpo.id),
+                      cuerpo,
+                    ],
+                  });
+                  await cambiarPendientes((l) => quitar(l, cambio.id));
+                } else if (cambio.tipo === "negocio") {
+                  hayClientes = true;
+                  guardarCartera({
+                    clientes: [
+                      ...cartera.clientes.filter((c) => c.id !== cuerpo.id),
+                      cuerpo,
+                    ],
+                  });
+                  await cambiarPendientes((l) =>
+                    reemplazarIdTemporal(
+                      quitar(l, cambio.id),
+                      cambio.clienteId,
+                      cuerpo.id
+                    )
+                  );
+                } else {
+                  hayClientes = true;
+                  guardarCartera({
+                    clientes: cartera.clientes.map((c) =>
+                      c.id === cuerpo.id ? cuerpo : c
+                    ),
+                  });
+                  await cambiarPendientes((l) => quitar(l, cambio.id));
+                }
+                if (cambio.avisar) enviados += 1;
+              } else if (clase === "superado") {
+                // Otro cambio de etapa más reciente ganó: se conserva el del servidor.
+                hayClientes = true;
+                if (cuerpo?.cliente) {
+                  guardarCartera({
+                    clientes: getStore().cartera.clientes.map((c) =>
+                      c.id === cuerpo.cliente.id ? cuerpo.cliente : c
+                    ),
+                  });
+                }
+                await cambiarPendientes((l) => quitar(l, cambio.id));
+                if (cuerpo?.msg) toast.info(cuerpo.msg);
+              } else if (clase === "rechazado") {
+                await cambiarPendientes((l) =>
+                  marcarEstado(l, cambio.id, "rechazado", textoMotivo(status, cuerpo))
+                );
+                if (cambio.avisar) rechazados += 1;
+              } else if (clase === "sesion") {
+                await cambiarPendientes((l) => marcarEstado(l, cambio.id, "pendiente"));
+                setStore({ sesionVencida: true });
+                if (!avisoSesionMostrado) {
+                  avisoSesionMostrado = true;
+                  toast.warning("Tu sesión venció", {
+                    description: "Inicia sesión para enviar tus cambios pendientes.",
+                    action: {
+                      label: "Iniciar sesión",
+                      onClick: () => window.location.assign("/login"),
+                    },
+                  });
+                }
+                break;
+              } else {
+                await cambiarPendientes((l) => marcarEstado(l, cambio.id, "pendiente"));
+                // Una conexión lenta no es una conexión caída.
+                if (causa === "red") actions.setConexion(false);
+                break;
+              }
+            }
+          } finally {
+            setStore({ sincronizando: false });
+          }
+
+          if (enviados > 0) {
+            toast.success(
+              enviados === 1 ? "Se envió 1 cambio" : `Se enviaron ${enviados} cambios`
+            );
+          }
+          if (rechazados > 0) {
+            toast.error(
+              rechazados === 1
+                ? "No se pudo enviar 1 cambio"
+                : `No se pudieron enviar ${rechazados} cambios`,
+              {
+                description: "Revísalo en Cambios pendientes.",
+                action: { label: "Ver", onClick: () => actions.abrirPendientes(true) },
+              }
+            );
+          }
+          if (hayActividades) actions.getClientActivity();
+          if (hayClientes) actions.getClientes();
+          return resultados;
+        };
+
+        if (typeof navigator !== "undefined" && navigator.locks) {
+          return navigator.locks.request(
+            "linkedteam-sincronizar",
+            { ifAvailable: true },
+            (lock) => (lock ? correr() : {})
+          );
+        }
+        return correr();
+      },
+
+      // Guarda el cambio en el teléfono, lo muestra al instante y trata de enviarlo.
+      // Devuelve { estado: enviado | guardado | rechazado | invalido | sin-espacio }.
+      encolarCambio: async (tipo, clienteId, datos) => {
+        const actions = getActions();
+        const motivo =
+          tipo === "interaccion"
+            ? validarInteraccion(datos)
+            : tipo === "negocio"
+            ? validarNegocio(datos)
+            : validarEtapa(datos);
+        if (motivo) return { estado: "invalido", motivo };
+        if (!idUsuario()) {
+          return { estado: "invalido", motivo: "Inicia sesión para continuar." };
+        }
+
+        const cambio = crearCambio({ tipo, clienteId, datos });
+        const r = await cambiarPendientes((l) => agregarCambio(l, cambio));
+        if (!r.ok) {
+          toast.error("No se pudo guardar en tu teléfono", {
+            description: "Libera espacio e inténtalo de nuevo.",
+          });
+          return { estado: "sin-espacio" };
+        }
+        // Un movimiento de etapa puede haberse fusionado con otro cambio.
+        const seguido =
+          r.valor.find((c) => c.id === cambio.id) ||
+          r.valor.find(
+            (c) =>
+              c.clienteId === clienteId &&
+              (c.tipo === "negocio" || c.tipo === "etapa") &&
+              c.estado === "pendiente"
+          );
+        const id = seguido?.id;
+
+        actions.sincronizar();
+        const limite = Date.now() + TIEMPO_ENVIO;
+        for (;;) {
+          const actual = getStore().pendientes.find((c) => c.id === id);
+          if (!actual) return { estado: "enviado" };
+          if (actual.estado === "rechazado") {
+            return { estado: "rechazado", motivo: actual.motivo };
+          }
+          if (!getStore().conexion || Date.now() >= limite) break;
+          await esperar(100);
+        }
+        await cambiarPendientes((l) =>
+          l.map((c) => (c.id === id ? { ...c, avisar: true } : c))
+        );
+        return { estado: "guardado" };
+      },
+
+      // Quita un cambio que no se pudo enviar. Si es un negocio, también sus dependientes.
+      descartarPendiente: async (id) => {
+        await cambiarPendientes((l) => {
+          const cambio = l.find((c) => c.id === id);
+          if (!cambio) return l;
+          return l.filter(
+            (c) =>
+              c.id !== id &&
+              !(
+                cambio.tipo === "negocio" &&
+                c.tipo !== "negocio" &&
+                c.clienteId === cambio.clienteId
+              )
+          );
+        });
+      },
+
+      // Un negocio rechazado se corrige y vuelve a la cola con sus dependientes.
+      corregirPendiente: async (id, datos) => {
+        await cambiarPendientes((l) =>
+          l.map((c) =>
+            c.id === id
+              ? { ...c, datos, estado: "pendiente", motivo: null, avisar: true }
+              : c
+          )
+        );
+        getActions().sincronizar();
+      },
+
       // Use getActions to call a function within a fuction
       login: async (email, password) => {
         const actions = getActions();
@@ -61,11 +462,20 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await resp.json();
           // console.log("Esto vino del backend", data);
+          // Otra persona en este teléfono: no hereda la cartera de la anterior.
+          const nuevo = leerToken(data.access_token)?.userId;
+          const anterior = Number(localStorage.getItem("usuario.id"));
+          if (anterior && nuevo && anterior !== nuevo) {
+            await borrarCache(anterior);
+            setStore({ cartera: CARTERA_VACIA, ...SIN_TELEFONO });
+          }
+          avisoSesionMostrado = false;
           localStorage.setItem("token", data.access_token);
           actions.setLoader(false);
-          console.log(data);
-          setStore({ token: data.access_token });
+          setStore({ token: data.access_token, sesionVencida: false });
           actions.getUsuario();
+          pedirPersistencia();
+          actions.iniciarSinConexion();
           return true;
         } catch (error) {
           actions.setLoader(false);
@@ -563,24 +973,28 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      getClientes: () => {
+      getClientes: async () => {
         const store = getStore();
-        const opts = {
-          headers: {
-            Authorization: `Bearer ${store.token} `,
-          },
-        };
-        const apiURL = `${process.env.BACKEND_URL}/clientes`;
-
-        fetch(apiURL, opts)
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            }
-            throw new Error("Ha ocurrido un error");
-          })
-          .then((body) => setStore({ clientes: body }))
-          .catch((error) => toast.error(error.message));
+        const actions = getActions();
+        const opts = { headers: { Authorization: `Bearer ${store.token}` } };
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/clientes`,
+            opts
+          );
+          actions.setConexion(true);
+          if (!response.ok) {
+            toast.error("No se pudieron cargar tus negocios.");
+            return;
+          }
+          const body = await response.json();
+          setStore({ ultimaActualizacion: new Date().toISOString() });
+          guardarCartera({ clientes: body });
+          recalcular();
+        } catch (error) {
+          // Sin red se conservan los datos guardados y no se avisa.
+          if (error instanceof TypeError) actions.setConexion(false);
+        }
       },
 
       putCliente: async ({ status, cliente_id }) => {
@@ -690,10 +1104,10 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       logout: () => {
-        const store = getStore();
+        const userId = idUsuario();
         localStorage.removeItem("token");
-        // console.log("Se han borrado todos los tokens", store.token);
-        setStore({ token: null });
+        if (userId) borrarDatosUsuario(userId);
+        setStore({ token: null, cartera: CARTERA_VACIA, ...SIN_TELEFONO });
       },
 
       setNotification: (mensaje) => {
@@ -961,60 +1375,24 @@ const getState = ({ getStore, getActions, setStore }) => {
           .catch((error) => console.log(error));
       },
 
-      // obtener y agregar registros de actividad a clientes
-      postClientActivity: async (activity, client_id) => {
+      getClientActivity: async () => {
         const store = getStore();
         const actions = getActions();
-        const options = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${store.token}`,
-          },
-          body: JSON.stringify(activity),
-        };
+        const opts = { headers: { Authorization: `Bearer ${store.token}` } };
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/client_activity/${client_id}`,
-            options
+            `${process.env.BACKEND_URL}/client_activity`,
+            opts
           );
-
-          if (!response.ok) {
-            let danger = await response.json();
-            throw new Error(danger);
-          }
-
-          const data = await response.json();
-          actions.getClientActivity(client_id);
-          // console.log("This came from the backend", data);
-          return true;
+          actions.setConexion(true);
+          if (!response.ok) return;
+          const body = await response.json();
+          setStore({ ultimaActualizacion: new Date().toISOString() });
+          guardarCartera({ actividades: body });
+          recalcular();
         } catch (error) {
-          console.error(
-            "Ha habido un error al registrar la actividad del cliente, problemas con el backend",
-            error
-          );
+          if (error instanceof TypeError) actions.setConexion(false);
         }
-      },
-
-      getClientActivity: () => {
-        // console.log(client_id);
-        const store = getStore();
-        const opts = {
-          headers: {
-            Authorization: `Bearer ${store.token} `,
-          },
-        };
-        const apiURL = `${process.env.BACKEND_URL}/client_activity`;
-
-        fetch(apiURL, opts)
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            }
-            throw new Error("Ha ocurrido un error");
-          })
-          .then((body) => setStore({ clientActivity: body }))
-          .catch((error) => console.log(error));
       },
 
       // obtener la actividad de cliente para manager

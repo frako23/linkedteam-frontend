@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { Context } from "@/store/appContext";
+import { tokenVigente } from "@/lib/sesion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,13 +17,17 @@ export const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (store.token && store.token != "" && store.token != undefined) {
+    if (tokenVigente(store.token) && !store.sesionVencida) {
       navigate("/perfil");
     }
-  }, [store.token]);
+  }, [store.token, store.sesionVencida]);
 
   const ingresar = (e) => {
     e.preventDefault();
+    if (store.conexion === false) {
+      toast.error("Sin conexión. Necesitas internet para iniciar sesión.");
+      return;
+    }
     actions.setLoader(true);
     actions.login(email, password);
   };
@@ -42,6 +48,11 @@ export const Login = () => {
       }
     >
       <form onSubmit={ingresar} className="flex flex-col gap-4">
+        {store.conexion === false ? (
+          <p className="text-destructive text-sm">
+            Sin conexión. Necesitas internet para iniciar sesión.
+          </p>
+        ) : null}
         <div className="flex flex-col gap-2">
           <Label htmlFor="email">Correo</Label>
           <Input

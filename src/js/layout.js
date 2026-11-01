@@ -21,6 +21,8 @@ import { Clients } from "./pages/Clients";
 import { Toaster } from "./components/ui/sonner";
 import { AssociateSalesFunnel } from "./pages/AssociateSalesFunnel";
 import { Bugs } from "./pages/Bugs";
+import { InicioApp } from "./pages/inicioApp";
+import { RequiereConexion } from "./components/offline/requiere-conexion";
 
 //create your first component
 const Layout = () => {
@@ -37,23 +39,54 @@ const Layout = () => {
             <Routes>
               <Route element={<Home />} path="/" />
               <Route element={<SalesFunnel />} path="/salesFunnel" />
-              <Route element={<Clients />} path="/clients" />
               <Route
-                element={<AssociateSalesFunnel />}
+                element={<RequiereConexion><Clients /></RequiereConexion>}
+                path="/clients"
+              />
+              <Route
+                element={<RequiereConexion><AssociateSalesFunnel /></RequiereConexion>}
                 path="/associatesalesfunnel"
               />
+              <Route element={<InicioApp />} path="/app" />
               <Route element={<SignUp />} path="/signup" />
               <Route element={<Login />} path="/login" />
               <Route element={<Demo />} path="/demo" />
-              <Route element={<Courses />} path="/courses" />
-              <Route element={<TutorialVideos />} path="/tutorialVideos" />
-              <Route element={<OwnAgencyCourses />} path="/ownAgencyCourses" />
-              <Route element={<Pricing />} path="/pricing" />
-              <Route element={<Todo />} path="/todo" />
-              <Route element={<Perfil />} path="/perfil" />
-              <Route element={<Video />} path="/video/:theid" />
-              <Route element={<VideoTutorial />} path="/videoTutorial/:theid" />
-              <Route element={<Bugs />} path="/bugs" />
+              <Route
+                element={<RequiereConexion><Courses /></RequiereConexion>}
+                path="/courses"
+              />
+              <Route
+                element={<RequiereConexion><TutorialVideos /></RequiereConexion>}
+                path="/tutorialVideos"
+              />
+              <Route
+                element={<RequiereConexion><OwnAgencyCourses /></RequiereConexion>}
+                path="/ownAgencyCourses"
+              />
+              <Route
+                element={<RequiereConexion><Pricing /></RequiereConexion>}
+                path="/pricing"
+              />
+              <Route
+                element={<RequiereConexion><Todo /></RequiereConexion>}
+                path="/todo"
+              />
+              <Route
+                element={<RequiereConexion><Perfil /></RequiereConexion>}
+                path="/perfil"
+              />
+              <Route
+                element={<RequiereConexion><Video /></RequiereConexion>}
+                path="/video/:theid"
+              />
+              <Route
+                element={<RequiereConexion><VideoTutorial /></RequiereConexion>}
+                path="/videoTutorial/:theid"
+              />
+              <Route
+                element={<RequiereConexion><Bugs /></RequiereConexion>}
+                path="/bugs"
+              />
               <Route element={<h1>Not found!</h1>} />
             </Routes>
           </AppShell>

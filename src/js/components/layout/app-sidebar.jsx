@@ -1,4 +1,5 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import { toast } from "sonner";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Bug,
@@ -43,6 +44,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Logo } from "@/components/logo";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const iniciales = (nombre = "", apellido = "") =>
   `${nombre[0] || ""}${apellido[0] || ""}`.toUpperCase() || "LT";
@@ -127,9 +138,25 @@ export function AppSidebar() {
     </SidebarGroup>
   );
 
-  const cerrarSesion = () => {
+  const [confirmarSalida, setConfirmarSalida] = useState(false);
+
+  const salir = () => {
     actions.logout();
     navigate("/");
+  };
+
+  // Antes de salir se intenta enviar lo pendiente; si algo queda, se pide confirmar.
+  const cerrarSesion = async () => {
+    if (store.pendientes.length > 0 && store.conexion !== false) {
+      const aviso = toast.loading("Enviando tus cambios…");
+      await actions.sincronizar();
+      toast.dismiss(aviso);
+    }
+    if (store.pendientes.length > 0) {
+      setConfirmarSalida(true);
+      return;
+    }
+    salir();
   };
 
   return (
@@ -217,6 +244,24 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarFooter>
       <SidebarRail />
+      <AlertDialog open={confirmarSalida} onOpenChange={setConfirmarSalida}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>¿Cerrar sesión sin enviar tus cambios?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Tienes {store.pendientes.length}{" "}
+              {store.pendientes.length === 1 ? "cambio" : "cambios"} sin enviar. Si
+              cierras sesión, se borrarán de este teléfono.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction variant="destructive" onClick={salir}>
+              Cerrar sesión
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Sidebar>
   );
 }

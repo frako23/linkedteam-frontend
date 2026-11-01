@@ -15,8 +15,11 @@ import {
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { EstadoConexion } from "@/components/offline/estado-conexion";
+import { InstalarApp } from "@/components/offline/instalar-app";
+import { ListaPendientes } from "@/components/offline/lista-pendientes";
 
-const RUTAS_PUBLICAS = ["/", "/login", "/signup", "/demo"];
+const RUTAS_PUBLICAS = ["/", "/login", "/signup", "/demo", "/app"];
 
 export function AppShell({ children }) {
   const { store } = useContext(Context);
@@ -32,15 +35,20 @@ export function AppShell({ children }) {
           <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
+            <Breadcrumb className="min-w-0">
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{store.header || "LinkedTeam"}</BreadcrumbPage>
+                  <BreadcrumbPage className="truncate">
+                    {store.header || "LinkedTeam"}
+                  </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
+            <EstadoConexion />
           </header>
+          <InstalarApp />
           <div className="min-w-0 flex-1">{children}</div>
+          <ListaPendientes />
         </SidebarInset>
       </SidebarProvider>
     </TooltipProvider>

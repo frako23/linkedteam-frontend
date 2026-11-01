@@ -244,6 +244,17 @@ Una frase corta en tipo oración, sin emojis y sin "¡Éxito!".
 
 Componente `Empty`: ícono lucide en `EmptyMedia variant="icon"`, título, una línea de descripción y como máximo una acción ("Crea tu primer negocio"). Reemplaza a las imágenes `nohayvideos.jpg` y similares. Carga: `Skeleton` con la forma final (tarjetas, filas de tabla, carriles); `Spinner` solo dentro de botones y de diálogos ocupados (reemplaza a `ModalLoader`).
 
+### Trabajo sin conexión
+
+Todo con componentes existentes; sin colores propios. Los textos exactos y los estados están en `specs/001-pwa-offline-sync/contracts/ui.md`.
+
+- **Indicador de conexión** (`components/offline/estado-conexion.jsx`): al final del encabezado de página (`ml-auto`), un `Button variant="ghost" size="sm"` con `WifiOff` y "Sin conexión", `Spinner` y "Enviando…" o `CloudUpload` con un `Badge variant="secondary"` "3 pendientes". Con conexión y sin pendientes no se muestra. El breadcrumb se trunca antes que el indicador.
+- **Lista de cambios pendientes** (`lista-pendientes.jsx`): `Sheet` desde la derecha, `sm:max-w-md`. Cada cambio es una fila `rounded-lg border p-3` con ícono, título, hora relativa en `text-xs text-muted-foreground` y un `Badge` de estado (`secondary` para pendiente y enviando, `outline` para "No se pudo enviar" y "En espera"). El motivo de un rechazo va debajo en `text-sm text-destructive`. "Corregir" es `outline` y "Descartar" es `ghost` con `AlertDialog` destructivo.
+- **Insignia "Pendiente"**: `Badge variant="secondary"` con `Clock` de 12 px, junto al nombre en la tarjeta de negocio y junto al tipo en el historial de interacciones. Un rechazo dice "No se pudo enviar".
+- **Sección que necesita conexión** (`requiere-conexion.jsx`): `Empty` con `WifiOff`, título "Esta sección necesita conexión" y una sola acción "Ir a mi embudo" (`default`).
+- **Invitación a instalar** (`instalar-app.jsx`): tarjeta `rounded-xl border bg-card p-3` sobre el contenido, solo en teléfono. La acción es `secondary` para no competir con la de la página; la X es `ghost icon-sm` con `aria-label="Ahora no"`.
+- **Formularios sin conexión**: `FormSheet` acepta `guardando` (botón deshabilitado con `Spinner`) y `soloLectura` (campos deshabilitados y sin botón de guardar).
+
 ### Selector de tema
 **Rol:** claro, oscuro o sistema.
 

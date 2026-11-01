@@ -11,8 +11,11 @@ SPA en React 18 de LinkedTeam: CRM + plataforma e-learning para equipos de venta
 ```bash
 npm install
 npm run start     # webpack-dev-server en :3000, con HMR y historyApiFallback
-npm run build     # build de producción → public/bundle.js (+ chunks), junto a los assets estáticos de public/
+npm run build     # build de producción → public/bundle.js (+ chunks) y public/sw.js, junto a los assets estáticos de public/
+npm test          # node --test sobre lib/pendientes.js (la cola sin conexión); requiere Node ≥ 22
 ```
+
+- El service worker (`public/sw.js`, generado por Workbox en `webpack.prod.js`) solo existe en el build de producción; `npm run start` no lo registra. `public/sw.js` y los chunks que genera el build no se versionan: no los incluyas en un commit. Para probar sin conexión: `npm run build` y servir `public/` con respaldo de SPA (`npx serve -s public -l 4173`).
 
 - Node ≥ 20 (`engines`).
 - No hay tests ni script de lint. La configuración de ESLint (`eslint.config.mjs` y `.eslintrc`) es inválida (`allowImportExportEverywhere` no es una regla, `indent: "on"` no es una severidad), así que `npx eslint` falla hasta corregirla.
@@ -30,7 +33,15 @@ npm run build     # build de producción → public/bundle.js (+ chunks), junto 
 - Las columnas del Kanban son strings que se guardan tal cual en `Cliente.status` del backend: `Prospecto`, `Contactado`, `Primera Cita`, `Negociación`, `Cerrado`. Renombrarlas deja huérfanos los datos existentes.
 - Excel: `crm/importFromExcel.js` (`xlsx` + `sheet_to_json`; plantilla en `public/LinkedTeam-new-template.xlsx`) y `crm/exportToExcel.js`.
 - UI: shadcn/ui (base Radix, estilo `radix-nova`) + Tailwind CSS v4 + lucide-react. Los componentes de shadcn viven en `src/js/components/ui/` (generados con `npx shadcn@latest add`), los tokens en `src/styles/globals.css` y el sistema visual completo en `DESIGN.md`. Toasts con Sonner (`import { toast } from "sonner"`), confirmaciones con `AlertDialog`, formularios en `Sheet` mediante `components/form-kit.jsx`. Alias `@` = `src/js`. Las etapas del embudo y `formatoMonto` salen de `lib/etapas.js`. Los nombres mezclan español e inglés (`getClientes`, `postTareas`, `getProducts`).
+- **Trabajo sin conexión (PWA)**: solo el embudo propio (`/salesFunnel`) funciona sin red; el resto de rutas privadas va envuelto en `components/offline/requiere-conexion.jsx`. Registrar una interacción, crear un negocio y mover de etapa pasan **siempre** por la cola: `actions.encolarCambio(tipo, clienteId, datos)` guarda el cambio en IndexedDB (`lib/almacen-local.js`, claves `cache:<userId>` y `pendientes:<userId>`), lo muestra al instante y `actions.sincronizar()` lo envía en orden (al encolar, al abrir la app, en `online`, al volver a primer plano y cada 30 s) a los mismos endpoints de siempre con `offline_id` / `changed_at`. La lógica pura de la cola vive en `lib/pendientes.js` (con pruebas en `tests/`). `store.cartera` guarda lo que dijo el servidor y `store.clientes` / `store.clientActivity` son `cartera` + pendientes (`aplicarPendientes`); los negocios creados sin conexión tienen id negativo hasta enviarse. `store.conexion` combina `navigator.onLine` con el resultado de las peticiones. `logout` borra del teléfono la cartera y los pendientes del usuario. La app instalada abre en `/app` (`pages/inicioApp.js`); `lib/pwa.js` registra el service worker y gestiona la invitación a instalar. Detalle y decisiones en `specs/001-pwa-offline-sync/`.
 - Contenido fijo: `src/js/data/tutorialVideosData.js` (tutoriales de YouTube hardcodeados). `/bugs` envía un formulario a Formspree. `/pricing` es la página de suscripción (formulario con método de pago).
+
+## Problemas conocidos de la PWA
+
+- **HTTPS en producción**: el service worker y la instalación solo funcionan en HTTPS (o `localhost`), y una página HTTPS no puede llamar a una API HTTP. Hasta que `BACKEND_URL` de producción sea HTTPS (hoy `http://159.198.66.169:5000/api`), la PWA no funciona en los teléfonos.
+- **iPhone sin instalar**: Safari borra los datos de un sitio que no se abre en 7 días. Una app agregada a la pantalla de inicio no los pierde, y por eso se invita a instalar. Un asesor que no la instale y deje 7 días sin abrir podría perder cambios pendientes.
+- **Chunks del build**: webpack genera chunks de librerías (por ejemplo `react-player`) con ids numéricos sin hash, y el service worker usa `skipWaiting`. Una pestaña abierta durante un despliegue puede pedir un chunk que ya cambió; se corrige al recargar.
+- Las páginas privadas siguen sin redirigir al login sin sesión; solo la app instalada lo hace al arrancar desde `/app`.
 
 ## Desfases con el backend
 

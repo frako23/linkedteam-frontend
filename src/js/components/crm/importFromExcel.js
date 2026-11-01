@@ -34,7 +34,7 @@ const COLUMNAS = [
 ];
 
 export const ImportFromExcel = () => {
-  const { actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
   const [data, setData] = useState([]);
   const [abierto, setAbierto] = useState(false);
 
@@ -66,7 +66,17 @@ export const ImportFromExcel = () => {
 
   return (
     <>
-      <Button variant="outline" size="sm" onClick={() => setAbierto(true)}>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => {
+          if (store.conexion === false) {
+            toast.info("Necesitas conexión para importar desde Excel");
+            return;
+          }
+          setAbierto(true);
+        }}
+      >
         <Upload /> Importar Excel
       </Button>
       <Dialog open={abierto} onOpenChange={(v) => !v && cerrar()}>

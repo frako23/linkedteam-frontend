@@ -18,9 +18,14 @@ import "../styles/globals.css";
 
 //import your own components
 import Layout from "./layout";
+import { capturarInstalacion, registrarServiceWorker } from "./lib/pwa";
 
 const container = document.querySelector("#app");
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 
 //render your react application
 root.render(<Layout />);
+
+// PWA: el aviso de instalación puede llegar antes de que React monte.
+capturarInstalacion();
+registrarServiceWorker();
